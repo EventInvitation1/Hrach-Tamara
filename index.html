@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Wedding Invitation</title>
+    <title>Հրաչ & Թամարա — Save the Date</title>
     
-    <!-- Include Google Font that supports ultra-thin light weights for Armenian characters -->
+    <!-- Elegant cursive handwritten Google font supporting Armenian -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Armenian:wght@100;200;300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Marck+Script&display=swap" rel="stylesheet">
 
     <style>
-        /* Base Setup & Mobile-first resets */
+        /* ---------------------------------------------------------------------
+           1. CORE RESETS & GLOBAL STYLES
+        --------------------------------------------------------------------- */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -22,162 +24,233 @@
             width: 100%;
             height: 100%;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #F4F1EA; 
-            overflow: hidden; /* Disables scrollbars on the initial landing state */
+            background-color: #EAE7DC; /* Elegant, minimalist sage/beige aesthetic */
+            color: #4A443A;
+            overflow-x: hidden;
         }
 
-        /* -----------------------------------------
-           LANDING SCREEN STYLING (The Intro Overlay)
-        -------------------------------------------- */
-        #landing-screen {
+        /* Lock scrollbar on initial load until the invitation is fully opened */
+        body.lock-scroll {
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* Universal hardware acceleration to keep images sharp during scales/transforms */
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            image-rendering: -webkit-optimize-contrast;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+        }
+
+        /* ---------------------------------------------------------------------
+           2. STATE 1: INITIAL INTRO LAYER
+        --------------------------------------------------------------------- */
+        #intro-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #F4F1EA; 
+            background-color: #EAE7DC;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between; /* Pushes text up and spaces out items gracefully */
-            z-index: 9999;
-            transition: opacity 1s ease, visibility 1s ease; /* Smooth 1-second transition */
-            padding: 80px 20px 40px 20px; /* Generous top padding to place text near the top bar */
+            justify-content: space-between;
+            padding: 70px 20px 40px 20px;
+            z-index: 100;
+            pointer-events: auto;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
         }
 
-        /* 1. TEXT ADJUSTMENTS: High, delicate, ultra-thin, and ethereal */
+        /* Bolder medium handwriting font weight (around 400) for clean legibility */
         .instruction-text {
-            font-family: 'Noto Serif Armenian', Georgia, serif;
-            font-weight: 100; /* Ultra-light weight */
-            font-style: italic; /* Mimics a delicate handwritten script */
-            font-size: 1.5rem;
-            color: #655E53;
+            font-family: 'Marck Script', cursive, sans-serif;
+            font-weight: 400;
+            font-size: 1.8rem;
+            color: #554F43;
             text-align: center;
             user-select: none;
-            letter-spacing: 1.5px;
-            opacity: 0.85;
-            margin-bottom: auto; /* Pushes the layout beneath it downward, creating separation */
+            letter-spacing: 0.5px;
+            margin-bottom: auto;
+            transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* 2. ENVELOPE STYLING & ENTRY ANIMATION */
-        .envelope-wrapper {
+        /* Closed Envelope Container */
+        .envelope-closed-wrapper {
             cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             width: 100%;
-            max-width: 280px; 
-            margin-bottom: auto; /* Centers the final resting position perfectly */
-            
-            /* Subtle, slow entry animation. Smoothly moves up and stops immediately. */
-            animation: elegantSlideIn 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-            -webkit-tap-highlight-color: transparent; 
+            max-width: 300px;
+            margin-bottom: auto;
+            -webkit-tap-highlight-color: transparent;
+            /* Smooth minimal entry slide up to absolute center */
+            animation: envelopeSlideIn 1.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
-        .envelope-img {
+        .envelope-closed-wrapper img {
             width: 100%;
-            height: auto;
             filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.06));
-            transition: transform 0.3s ease;
+            transition: transform 0.2s ease;
         }
 
-        /* Subtle scale feedback when user clicks down */
-        .envelope-wrapper:active .envelope-img {
-            transform: scale(0.98);
+        .envelope-closed-wrapper:active img {
+            transform: scale(0.97);
         }
 
-        /* -----------------------------------------
-           ANIMATIONS & UTILITIES
-        -------------------------------------------- */
-        @keyframes elegantSlideIn {
+        @keyframes envelopeSlideIn {
             0% {
-                /* Starts slightly below the absolute center */
                 transform: translateY(40px);
                 opacity: 0;
             }
             100% {
-                /* Moves smoothly to its centered home position and locks in place statically */
                 transform: translateY(0);
                 opacity: 1;
             }
         }
 
-        /* Class added via JavaScript to trigger the smooth fade out */
-        .fade-out {
+        /* ---------------------------------------------------------------------
+           3. STATE 2: THE "OPEN AND ZOOM" TRANSITION
+        --------------------------------------------------------------------- */
+        /* Active trigger when clicked */
+        .stage-transition #intro-overlay {
+            pointer-events: none;
             opacity: 0;
             visibility: hidden;
-            pointer-events: none;
         }
 
-        /* -----------------------------------------
-           MAIN INVITATION CONTENT STYLING
-        -------------------------------------------- */
-        #main-content {
+        /* Opened Envelope Setup */
+        #opened-envelope-container {
+            position: absolute;
+            top: 20px; /* Positioned high up near where the original text was */
+            left: 50%;
+            transform: translateX(-50%);
             width: 100%;
-            min-height: 100%;
+            max-width: 320px;
+            display: flex;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 90;
+        }
+
+        /* Triggered zoom-up animation when State 2 initializes */
+        .stage-transition #opened-envelope-container {
+            visibility: visible;
+            animation: openAndZoom 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        #opened-envelope-container img {
+            width: 100%;
+            filter: drop-shadow(0 6px 15px rgba(0, 0, 0, 0.04));
+        }
+
+        @keyframes openAndZoom {
+            0% {
+                /* Starts slightly smaller and below its final high top layout position */
+                transform: translate(-50%, 30px) scale(0.85);
+                opacity: 0;
+            }
+            100% {
+                /* Settles smoothly at the top layout position */
+                transform: translate(-50%, 0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* ---------------------------------------------------------------------
+           4. STATE 3: REVEALING THE CONTENT
+        --------------------------------------------------------------------- */
+        #main-invitation-content {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 340px 20px 60px 20px; /* Top padding leaves space for static open envelope */
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-            text-align: center;
-            color: #4A443A;
+            gap: 25px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        .invitation-card {
-            background: #ffffff;
-            padding: 40px 20px;
-            border-radius: 4px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            max-width: 400px;
+        /* Fade-in class added after open animation settles */
+        .reveal-content #main-invitation-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Content Layout Styling Components */
+        .content-card {
             width: 100%;
+            background: #ffffff;
+            border-radius: 6px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            overflow: hidden;
+            padding: 10px;
         }
 
-        .invitation-card h1 {
-            font-weight: 300;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
+        .accent-sticker-wrapper {
+            max-width: 70px;
+            margin: 10px 0;
         }
     </style>
 </head>
-<body>
+<body class="lock-scroll">
 
-    <!-- 1. LANDING SCREEN OVERLAY -->
-    <div id="landing-screen">
-        <!-- Elevated, thin calligraphic instruction text -->
+    <!-- STATE 1: INITIAL SCREEN -->
+    <div id="intro-overlay">
         <h2 class="instruction-text">Սեղմեք՝ բացելու համար</h2>
         
-        <!-- Interactive Envelope Element with static finish -->
-        <div class="envelope-wrapper" id="envelopeBtn" role="button" aria-label="Open Invitation">
-            <!-- Ensure this matches your exact file name (e.g., front.jpg) -->
-            <img src="front.png" alt="Wedding Envelope" class="envelope-img">
+        <div class="envelope-closed-wrapper" id="envelopeBtn" role="button" aria-label="Բացել հրավիրատոմսը">
+            <img src="front.png" alt="Closed Envelope">
         </div>
     </div>
 
+    <!-- STATE 2: OPEN & ZOOM CONTAINER -->
+    <div id="opened-envelope-container">
+        <img src="opened2.png" alt="Open Envelope">
+    </div>
 
-    <!-- 2. MAIN INVITATION CONTENT (Revealed later) -->
-    <main id="main-content">
-        <div class="invitation-card">
-            <h1>ՀՐԱՉ & ԹԱՄԱՐԱ</h1>
-            <p>Welcome to our main wedding invitation content!</p>
+    <!-- STATE 3: INVITATION MAIN INNER CONTENT -->
+    <main id="main-invitation-content">
+        
+        <!-- Optional Accents: Sticker Graphic -->
+        <div class="accent-sticker-wrapper">
+            <img src="sticker.png" alt="Floral Initials Monogram">
         </div>
+
+        <!-- Typography Block: Save the date Asset -->
+        <div class="content-card">
+            <img src="Save-the-date.png" alt="Hrach & Tamara - Save the Date Invitation Details">
+        </div>
+
+        <!-- Image Gallery Block: Horizontal Photo Asset -->
+        <div class="content-card">
+            <img src="horizontal.jpeg" alt="Hrach and Tamara Profile Picture">
+        </div>
+
     </main>
 
-    <!-- 3. INTERACTION SCRIPT -->
+    <!-- 5. INTERACTION & ANIMATION LOGIC -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const envelopeBtn = document.getElementById('envelopeBtn');
-            const landingScreen = document.getElementById('landing-screen');
+            const body = document.body;
 
             envelopeBtn.addEventListener('click', () => {
-                // Smooth fade-out interaction on click
-                landingScreen.classList.add('fade-out');
+                // Step 1: Trigger fade out of State 1 & zoom up of State 2
+                body.classList.add('stage-transition');
                 
-                // Restore regular scrolling flow once the intro screen disappears completely
+                // Step 2: Once open transition wraps up, smoothly fade in State 3 elements below it
                 setTimeout(() => {
-                    document.body.style.overflow = 'auto';
-                    document.documentElement.style.overflow = 'auto';
-                }, 1000);
+                    body.classList.add('reveal-content');
+                    
+                    // Unlocks viewport scrolling interaction for the wedding details
+                    body.classList.remove('lock-scroll');
+                }, 900); // Matches the sweet spot of the openAndZoom transition timing curve
             });
         });
     </script>
