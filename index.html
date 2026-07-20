@@ -31,7 +31,7 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: #EAE7DC; 
             color: #4A443A;
-            overflow: hidden; /* Kept hidden during active viewport layering animations */
+            overflow: hidden;
         }
 
         body.lock-scroll {
@@ -40,8 +40,9 @@
         }
 
         img {
-            max-width: 100%;
-            height: auto;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             display: block;
             image-rendering: -webkit-optimize-contrast;
             transform: translateZ(0);
@@ -64,46 +65,46 @@
             justify-content: center;
             z-index: 100;
             pointer-events: auto;
-            transition: opacity 0.35s ease, visibility 0.35s ease;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
         }
 
         .instruction-text {
             position: absolute;
-            top: 10vh; 
+            top: 12vh; 
             left: 50%;
             transform: translateX(-50%);
             font-family: 'UR Dzeragir', cursive, sans-serif;
-            font-size: 1.45rem; /* Adjusted smaller to cleanly fit standard mobile viewports in 1 line */
+            font-size: 1.5rem; 
             font-weight: 500;
             color: #554F43;
             text-align: center;
-            width: 95%;
-            white-space: nowrap; /* Forces text to remain on a single line without wrapping */
+            width: 90%;
+            white-space: nowrap; 
             user-select: none;
             letter-spacing: 0.5px;
         }
 
         .envelope-closed-wrapper {
             cursor: pointer;
-            width: 46%;
-            max-width: 190px; /* Small delicate profile on mobile devices */
+            width: 45%;
+            max-width: 180px;
+            aspect-ratio: 5 / 3.5;
             -webkit-tap-highlight-color: transparent;
             animation: envelopeSlideIn 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
         .envelope-closed-wrapper img {
-            width: 100%;
-            filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.06));
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.06));
             transition: transform 0.2s ease;
         }
 
         .envelope-closed-wrapper:active img {
-            transform: scale(0.97);
+            transform: scale(0.96);
         }
 
         @keyframes envelopeSlideIn {
             0% {
-                transform: translateY(10vh);
+                transform: translateY(8vh);
                 opacity: 0;
             }
             100% {
@@ -125,22 +126,22 @@
             position: absolute;
             top: 6vh;
             left: 50%;
-            transform: translateX(-50%) scale(0.85);
-            width: 40%;
-            max-width: 160px; /* Matches the delicate scale of the first envelope */
+            transform: translateX(-50%) scale(1);
+            width: 38%;
+            max-width: 150px;
+            aspect-ratio: 5 / 4.8;
             display: none;
             justify-content: center;
-            z-index: 2;
+            z-index: 1;
         }
 
         .stage-transition #opened-envelope-container {
             display: flex;
-            animation: openAndZoom 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation: openAndZoom 0.7s cubic-bezier(0.34, 1.3, 0.64, 1) forwards;
         }
 
         #opened-envelope-container img {
-            width: 100%;
-            filter: drop-shadow(0 6px 15px rgba(0, 0, 0, 0.04));
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.04));
         }
 
         @keyframes openAndZoom {
@@ -149,31 +150,36 @@
                 opacity: 0;
             }
             100% {
-                transform: translateX(-50%) scale(0.85);
+                transform: translateX(-50%) scale(1);
                 opacity: 1;
             }
         }
 
         /* ---------------------------------------------------------------------
-           4. STATE 3: LAYERED CASCADING REVEAL (Relative Absolute Bounds)
+           4. STATE 3: LAYERED CASCADING REVEAL (Proportional & Anchored)
         --------------------------------------------------------------------- */
         #main-invitation-content {
             position: relative;
             width: 100vw;
             height: 100vh;
-            max-width: 480px;
+            max-width: 450px;
             margin: 0 auto;
-            display: block;
+            overflow: hidden;
         }
 
-        /* --- STEP A: Save the Date Asset --- */
+        /* --- STEP A: Save the Date Main Card --- */
         .save-the-date-card {
             position: absolute;
-            top: 14vh;
-            right: 6%;
-            width: 52%;
-            z-index: 3;
+            top: 15vh;
+            right: 8%;
+            width: 54%;
+            aspect-ratio: 4 / 5;
+            z-index: 2;
             opacity: 0;
+            background: #ffffff;
+            box-shadow: 2px 8px 24px rgba(0, 0, 0, 0.04);
+            border-radius: 2px;
+            padding: 4px;
         }
         .reveal-content .save-the-date-card {
             animation: cascadeIn 0.7s cubic-bezier(0.215, 0.610, 0.355, 1) 0.0s forwards;
@@ -182,70 +188,74 @@
         /* --- STEP B: Continuous Rotating Vinyl Disc --- */
         .vinyl-accent-wrapper {
             position: absolute;
-            top: 22vh;
-            left: 6%;
+            top: 24vh;
+            left: 8%;
+            width: 32%;
+            aspect-ratio: 1 / 1; /* Protects pure circular structural alignment */
+            border-radius: 50%;
+            z-index: 2;
+            opacity: 0;
+            background: #2b2b2b; /* Fallback elegant dark disc color if asset breaks */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+        .reveal-content .vinyl-accent-wrapper {
+            animation: cascadeIn 0.7s cubic-bezier(0.215, 0.610, 0.355, 1) 0.4s forwards,
+                       continuousRotation 16s linear 1.1s infinite;
+        }
+
+        /* --- STEP C: Vertical Photo (Polaroid) --- */
+        .polaroid-vertical {
+            position: absolute;
+            top: 48vh;
+            left: 8%;
             width: 40%;
+            aspect-ratio: 3 / 3.8; /* True physical vertical photo layout ratio */
+            background: #ffffff;
+            padding: 6px 6px 18px 6px; 
+            box-shadow: 4px 10px 20px rgba(0, 0, 0, 0.07);
             z-index: 3;
             opacity: 0;
         }
-        .reveal-content .vinyl-accent-wrapper {
-            animation: cascadeIn 0.7s cubic-bezier(0.215, 0.610, 0.355, 1) 0.5s forwards,
-                       continuousRotation 12s linear 1.2s infinite;
+        .reveal-content .polaroid-vertical {
+            animation: cascadeInPolaroidLeft 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.12) 0.8s forwards;
         }
 
-        /* --- STEP C: Vertical Polaroid Framework --- */
-        .polaroid-vertical {
+        /* --- STEP D: Horizontal Photo (Polaroid) --- */
+        .polaroid-horizontal {
             position: absolute;
-            top: 46vh;
-            left: 8%;
+            top: 52vh;
+            right: 8%;
             width: 46%;
+            aspect-ratio: 4 / 3.6; /* Balanced widescreen display ratio */
             background: #ffffff;
-            padding: 8px 8px 24px 8px; /* Bottom weighted Polaroid margin */
-            box-shadow: 3px 6px 18px rgba(0, 0, 0, 0.1);
-            transform: rotate(-5deg);
+            padding: 6px 6px 16px 6px;
+            box-shadow: -4px 10px 22px rgba(0, 0, 0, 0.07);
             z-index: 4;
             opacity: 0;
         }
-        .reveal-content .polaroid-vertical {
-            animation: cascadeInPolaroidLeft 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.15) 1.0s forwards;
+        .reveal-content .polaroid-horizontal {
+            animation: cascadeInPolaroidRight 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.12) 1.2s forwards;
         }
 
-        /* --- STEP D: Center Seal Sticker --- */
+        /* --- STEP D: Center Seal Sticker (Delicate Fine Overlay) --- */
         .accent-sticker-wrapper {
             position: absolute;
-            top: 42vh;
+            top: 44vh;
             left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            width: 22%;
-            z-index: 6; /* Placed completely on top as graphic dead-center layout seal */
+            width: 75px; /* Size optimized to accent, not aggressively bury details */
+            aspect-ratio: 1 / 1;
+            z-index: 5; 
             opacity: 0;
         }
         .reveal-content .accent-sticker-wrapper {
-            animation: stickerPop 0.6s cubic-bezier(0.34, 1.7, 0.64, 1) 1.5s forwards;
+            animation: stickerPop 0.6s cubic-bezier(0.34, 1.5, 0.64, 1) 1.2s forwards;
         }
 
-        /* --- STEP D: Horizontal Polaroid Framework --- */
-        .polaroid-horizontal {
-            position: absolute;
-            top: 50vh;
-            right: 6%;
-            width: 52%;
-            background: #ffffff;
-            padding: 8px 8px 20px 8px;
-            box-shadow: -3px 6px 20px rgba(0, 0, 0, 0.1);
-            transform: rotate(5deg);
-            z-index: 5;
-            opacity: 0;
-        }
-        .reveal-content .polaroid-horizontal {
-            animation: cascadeInPolaroidRight 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.15) 1.5s forwards;
-        }
-
-        /* --- Global Keyframe Engines --- */
+        /* --- Global Structural Keyframes --- */
         @keyframes cascadeIn {
             0% {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(25px);
             }
             100% {
                 opacity: 1;
@@ -256,18 +266,18 @@
         @keyframes cascadeInPolaroidLeft {
             0% {
                 opacity: 0;
-                transform: translateY(40px) rotate(0deg);
+                transform: translateY(35px) rotate(0deg);
             }
             100% {
                 opacity: 1;
-                transform: translateY(0) rotate(-5deg);
+                transform: translateY(0) rotate(-6deg);
             }
         }
 
         @keyframes cascadeInPolaroidRight {
             0% {
                 opacity: 0;
-                transform: translateY(40px) rotate(0deg);
+                transform: translateY(35px) rotate(0deg);
             }
             100% {
                 opacity: 1;
@@ -278,7 +288,7 @@
         @keyframes stickerPop {
             0% {
                 opacity: 0;
-                transform: translate(-50%, -50%) scale(0.4);
+                transform: translate(-50%, -50%) scale(0.5);
             }
             100% {
                 opacity: 1;
@@ -287,8 +297,8 @@
         }
 
         @keyframes continuousRotation {
-            0% { transform: translateZ(0) rotate(0deg); }
-            100% { transform: translateZ(0) rotate(360deg); }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -311,29 +321,29 @@
     <!-- STATE 3: INVITATION MAIN INNER CONTENT -->
     <main id="main-invitation-content">
         
-        <!-- STEP A: Save the Date Asset (Overlapping right side of open envelope) -->
+        <!-- STEP A: Save the Date Asset -->
         <div class="save-the-date-card">
             <img src="Save-the-date.png" alt="Hrach & Tamara - Save the Date Invitation Details">
         </div>
 
-        <!-- STEP B: Rotating Decorative Vinyl (Left side accent) -->
+        <!-- STEP B: Rotating Decorative Vinyl -->
         <div class="vinyl-accent-wrapper">
             <img src="vinyl.png" alt="Rotating Decorative Vinyl">
         </div>
 
-        <!-- STEP C: Vertical Photo (Polaroid style frame rotated left at bottom edge of vinyl) -->
+        <!-- STEP C: Vertical Photo (Polaroid Style) -->
         <div class="polaroid-vertical">
             <img src="vertical.jpeg" alt="Couple Moment Vertical">
         </div>
-
-        <!-- STEP D: Center Seal Sticker (Dead center visual anchor) -->
-        <div class="accent-sticker-wrapper">
-            <img src="sticker.png" alt="Floral Initials Monogram">
-        </div>
         
-        <!-- STEP D: Horizontal Photo (Polaroid style frame rotated right below Save the Date area) -->
+        <!-- STEP D: Horizontal Photo (Polaroid Style) -->
         <div class="polaroid-horizontal">
             <img src="horizontal.jpeg" alt="Hrach and Tamara Profile Picture">
+        </div>
+
+        <!-- STEP D: Center Seal Sticker (Fades over the intersection beautifully) -->
+        <div class="accent-sticker-wrapper">
+            <img src="sticker.png" alt="Floral Initials Monogram">
         </div>
 
     </main>
@@ -345,13 +355,11 @@
             const body = document.body;
 
             envelopeBtn.addEventListener('click', () => {
-                // Instantly transitions state panels and displays opened envelope
                 body.classList.add('stage-transition');
                 
-                // Staggered cascade trigger after opened envelope animation settles
                 setTimeout(() => {
                     body.classList.add('reveal-content');
-                }, 400); 
+                }, 350); 
             });
         });
     </script>
