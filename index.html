@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Digital Wedding Invitation</title>
     
-    <!-- Include Google Font that supports Armenian Cursive script beautifully -->
+    <!-- Include Google Font that supports ultra-thin light weights for Armenian characters -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Marck+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Armenian:wght@100;200;300&display=swap" rel="stylesheet">
 
     <style>
         /* Base Setup & Mobile-first resets */
@@ -22,7 +22,7 @@
             width: 100%;
             height: 100%;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #F4F1EA; /* Elegant, warm off-white/beige background */
+            background-color: #F4F1EA; 
             overflow: hidden; /* Disables scrollbars on the initial landing state */
         }
 
@@ -39,59 +39,66 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between; /* Pushes text up and spaces out items gracefully */
             z-index: 9999;
             transition: opacity 1s ease, visibility 1s ease; /* Smooth 1-second transition */
-            padding: 20px;
+            padding: 80px 20px 40px 20px; /* Generous top padding to place text near the top bar */
         }
 
-        /* The Armenian Cursive Text */
+        /* 1. TEXT ADJUSTMENTS: High, delicate, ultra-thin, and ethereal */
         .instruction-text {
-            font-family: "Noto Serif Armenian", Georgia, serif;
-            font-style: italic; /* Creates an elegant, formal slant */
-            font-size: 1.6rem;
+            font-family: 'Noto Serif Armenian', Georgia, serif;
+            font-weight: 100; /* Ultra-light weight */
+            font-style: italic; /* Mimics a delicate handwritten script */
+            font-size: 1.5rem;
             color: #655E53;
+            text-align: center;
+            user-select: none;
+            letter-spacing: 1.5px;
+            opacity: 0.85;
+            margin-bottom: auto; /* Pushes the layout beneath it downward, creating separation */
         }
 
-        /* Interactive Envelope Container */
+        /* 2. ENVELOPE STYLING & ENTRY ANIMATION */
         .envelope-wrapper {
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
             width: 100%;
-            max-width: 280px; /* Perfectly sized for mobile viewports */
+            max-width: 280px; 
+            margin-bottom: auto; /* Centers the final resting position perfectly */
             
-            /* Apply the gentle floating animation */
-            animation: floatAnimation 3s ease-in-out infinite;
-            -webkit-tap-highlight-color: transparent; /* Removes blue tap flash on mobile devices */
+            /* Subtle, slow entry animation. Smoothly moves up and stops immediately. */
+            animation: elegantSlideIn 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            -webkit-tap-highlight-color: transparent; 
         }
 
         .envelope-img {
             width: 100%;
             height: auto;
-            /* Soft, sophisticated drop shadow matching physical paper cards */
-            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.08));
+            filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.06));
             transition: transform 0.3s ease;
         }
 
-        /* Subtle scale feedback when user presses down on the envelope */
+        /* Subtle scale feedback when user clicks down */
         .envelope-wrapper:active .envelope-img {
-            transform: scale(0.97);
+            transform: scale(0.98);
         }
 
         /* -----------------------------------------
            ANIMATIONS & UTILITIES
         -------------------------------------------- */
-        @keyframes floatAnimation {
+        @keyframes elegantSlideIn {
             0% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-10px); /* Gentle upward drift */
+                /* Starts slightly below the absolute center */
+                transform: translateY(40px);
+                opacity: 0;
             }
             100% {
-                transform: translateY(0px);
+                /* Moves smoothly to its centered home position and locks in place statically */
+                transform: translateY(0);
+                opacity: 1;
             }
         }
 
@@ -115,7 +122,6 @@
             padding: 40px 20px;
             text-align: center;
             color: #4A443A;
-            /* Main invitation container allows scrolling after the entrance overlay departs */
         }
 
         .invitation-card {
@@ -138,25 +144,22 @@
 
     <!-- 1. LANDING SCREEN OVERLAY -->
     <div id="landing-screen">
-        <!-- Elegant Armenian Cursive Text -->
+        <!-- Elevated, thin calligraphic instruction text -->
         <h2 class="instruction-text">Սեղմեք՝ բացելու համար</h2>
         
-        <!-- Interactive Envelope Element -->
+        <!-- Interactive Envelope Element with static finish -->
         <div class="envelope-wrapper" id="envelopeBtn" role="button" aria-label="Open Invitation">
-            <!-- Ensure your image filename exactly matches 'front.jpg' as established previously -->
-            <img src="front.png" alt="Wedding Envelope" class="envelope-img">
+            <!-- Ensure this matches your exact file name (e.g., front.jpg) -->
+            <img src="front.jpg" alt="Wedding Envelope" class="envelope-img">
         </div>
     </div>
 
 
-    <!-- 2. MAIN INVITATION CONTENT (Hidden underneath initially) -->
+    <!-- 2. MAIN INVITATION CONTENT (Revealed later) -->
     <main id="main-content">
         <div class="invitation-card">
             <h1>ՀՐԱՉ & ԹԱՄԱՐԱ</h1>
             <p>Welcome to our main wedding invitation content!</p>
-            <p style="margin-top: 15px; font-size: 0.9rem; color: #8c8273;">
-                (This structure will act as the baseline layout where you can add the rest of your wedding details, countdowns, images, maps, and schedules.)
-            </p>
         </div>
     </main>
 
@@ -166,16 +169,15 @@
             const envelopeBtn = document.getElementById('envelopeBtn');
             const landingScreen = document.getElementById('landing-screen');
 
-            // Trigger action on click or tap
             envelopeBtn.addEventListener('click', () => {
-                // Apply the fade-out class (handles 1s opacity transition)
+                // Smooth fade-out interaction on click
                 landingScreen.classList.add('fade-out');
                 
-                // Allow scrolling on the main page once the overlay vanishes completely
+                // Restore regular scrolling flow once the intro screen disappears completely
                 setTimeout(() => {
                     document.body.style.overflow = 'auto';
                     document.documentElement.style.overflow = 'auto';
-                }, 1000); // Matches the 1s CSS transition duration
+                }, 1000);
             });
         });
     </script>
