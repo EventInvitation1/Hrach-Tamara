@@ -20,9 +20,12 @@
             /* Palette */
             --bg-color: #EAE7DC;
             --text-color: #554F43;
-            --shadow-subtle: rgba(0, 0, 0, 0.08);
-            --shadow-card: rgba(0, 0, 0, 0.12);
-            --shadow-polaroid: rgba(0, 0, 0, 0.15);
+            
+            /* Realistic Depth & Photorealistic Shadows */
+            --shadow-paper-layered: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 4px 10px -2px rgba(0, 0, 0, 0.08);
+            --shadow-vinyl: 0 8px 20px rgba(0, 0, 0, 0.25);
+            --filter-drop-shadow: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.18));
+            --filter-envelope-shadow: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.12));
 
             /* Rotations */
             --angle-polaroid-left: -5deg;
@@ -110,7 +113,7 @@
         }
 
         .envelope-closed-wrapper img {
-            filter: drop-shadow(0 8px 16px var(--shadow-subtle));
+            filter: var(--filter-envelope-shadow);
             transition: transform 0.2s ease;
         }
 
@@ -140,10 +143,10 @@
 
         #opened-envelope-container {
             position: absolute;
-            top: 5vh;
+            top: 4vh;
             left: 50%;
             transform: translateX(-50%);
-            width: 62%; 
+            width: 65%; 
             max-width: 280px;
             aspect-ratio: 16 / 9;
             display: none;
@@ -157,7 +160,7 @@
         }
 
         #opened-envelope-container img {
-            filter: drop-shadow(0 6px 18px var(--shadow-subtle));
+            filter: var(--filter-envelope-shadow);
         }
 
         @keyframes openAndZoom {
@@ -178,24 +181,24 @@
             position: relative;
             width: 100vw;
             height: 100vh;
-            max-width: 360px;
-            max-height: 740px;
+            max-width: 380px;
+            max-height: 760px;
             margin: 0 auto;
             padding: 20px;
             overflow: hidden;
         }
 
-        /* --- ASSET 1: SAVE THE DATE CARD --- */
+        /* --- ASSET 1: SAVE THE DATE CARD (Elevated & Tucked) --- */
         .save-the-date-card {
             position: absolute;
-            top: 28vh;
-            right: 2%;
-            width: 42%;
+            top: 22vh; /* Moved higher up to tuck into envelope pocket */
+            right: 4%;
+            width: 44%;
             aspect-ratio: 1 / 1.45;
-            z-index: 2;
+            z-index: 2; /* Layered behind central seal, vinyl, and polaroids */
             opacity: 0;
             background: #ffffff;
-            box-shadow: 0 6px 18px var(--shadow-card);
+            box-shadow: var(--shadow-paper-layered);
             border-radius: 2px;
             padding: 3px;
         }
@@ -206,14 +209,14 @@
         /* --- ASSET 2: ROTATING VINYL DISC --- */
         .vinyl-accent-wrapper {
             position: absolute;
-            top: 28vh;
-            left: 12%;
-            width: 32%;
+            top: 25vh;
+            left: 8%;
+            width: 34%;
             aspect-ratio: 1 / 1;
             border-radius: 50%;
             z-index: 3;
             opacity: 0;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
+            box-shadow: var(--shadow-vinyl);
             background: #111111;
         }
         .reveal-content .vinyl-accent-wrapper {
@@ -224,15 +227,15 @@
         /* --- ASSET 3: LEFT POLAROID PHOTO --- */
         .polaroid-vertical {
             position: absolute;
-            top: 55vh;
-            left: 8%;
+            top: 48vh; /* Touches & overlaps lower portion of vinyl disc */
+            left: 7%;
             width: 44%;
             aspect-ratio: 3 / 3.9;
             background: #ffffff;
             padding: 6px 6px 20px 6px; 
-            box-shadow: 2px 8px 20px var(--shadow-polaroid);
+            box-shadow: var(--shadow-paper-layered);
             transform: rotate(var(--angle-polaroid-left));
-            z-index: 4;
+            z-index: 5;
             opacity: 0;
         }
         .reveal-content .polaroid-vertical {
@@ -242,58 +245,61 @@
         /* --- ASSET 4: RIGHT POLAROID PHOTO --- */
         .polaroid-horizontal {
             position: absolute;
-            top: 62vh;
-            right: 8%;
+            top: 58vh;
+            right: 6%;
             width: 48%;
             aspect-ratio: 4 / 3.2;
             background: #ffffff;
             padding: 6px 6px 16px 6px;
-            box-shadow: -2px 8px 22px var(--shadow-polaroid);
+            box-shadow: var(--shadow-paper-layered);
             transform: rotate(var(--angle-polaroid-right));
-            z-index: 5;
+            z-index: 6; /* Overlaps bottom-right corner of Left Polaroid */
             opacity: 0;
         }
         .reveal-content .polaroid-horizontal {
             animation: cascadeInPolaroidRight 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.12) 0.8s forwards;
         }
 
-        /* --- ASSET 5: CENTRAL OVAL STICKER --- */
+        /* --- ASSET 5: CENTRAL OVAL STICKER (Scaled & Repositioned) --- */
         .accent-sticker-wrapper {
             position: absolute;
-            top: 40vh;
-            left: 36%;
-            width: 37%;
+            top: 38vh;
+            left: 32%;
+            width: 28%; /* Scaled down ~25% to prevent blocking text on Save the Date card */
+            max-width: 105px;
             aspect-ratio: 1 / 1.35;
-            z-index: 10;
+            z-index: 10; /* Anchor point connecting vinyl, card, and left polaroid */
             opacity: 0;
-            filter: drop-shadow(0 5px 12px rgba(0, 0, 0, 0.16));
+            filter: var(--filter-drop-shadow);
         }
         .reveal-content .accent-sticker-wrapper {
             animation: stickerPop 0.6s cubic-bezier(0.34, 1.5, 0.64, 1) 1.0s forwards;
         }
 
-        /* --- FLORAL ACCENT STYLES --- */
+        /* --- FLORAL ACCENT STYLES & POSITIONING --- */
         .flower-accent {
             position: absolute;
             pointer-events: none;
             opacity: 0;
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+            filter: var(--filter-drop-shadow);
         }
 
+        /* Flower 1: Card Top-Right Accent */
         .card-flower {
-            top: -12px;
-            right: -12px;
-            width: 38%;
+            top: -14px;
+            right: -14px;
+            width: 42%;
             height: auto;
-            z-index: 12;
+            z-index: 12; /* Sits cleanly over card border */
         }
 
+        /* Flower 2: Vinyl / Left Polaroid Botanical Pin */
         .vinyl-flower {
             top: 42vh;
-            left: 10%;
-            width: 14%;
+            left: 5%;
+            width: 22%;
             height: auto;
-            z-index: 11;
+            z-index: 11; /* Nestles at vinyl & left polaroid junction */
         }
 
         .reveal-content .flower-accent {
@@ -394,7 +400,7 @@
             <img src="vinyl.png" alt="Rotating Decorative Vinyl">
         </div>
 
-        <!-- STEP 3: Vinyl Floral Pin -->
+        <!-- STEP 3: Vinyl Botanical Pin -->
         <img src="flower.png" alt="Floral Accent Vinyl Pin" class="flower-accent vinyl-flower">
 
         <!-- STEP 4: Vertical Photo (Left Polaroid) -->
