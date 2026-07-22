@@ -7,7 +7,7 @@
     
     <style>
         /* ---------------------------------------------------------------------
-           0. CUSTOM HANDWRITING FONT LOADING
+           0. FONTS & ROOT CSS VARIABLES
         --------------------------------------------------------------------- */
         @font-face {
             font-family: 'UR Dzeragir';
@@ -16,8 +16,21 @@
             font-style: normal;
         }
 
+        :root {
+            /* Palette */
+            --bg-color: #EAE7DC;
+            --text-color: #554F43;
+            --shadow-subtle: rgba(0, 0, 0, 0.08);
+            --shadow-card: rgba(0, 0, 0, 0.12);
+            --shadow-polaroid: rgba(0, 0, 0, 0.15);
+
+            /* Rotations */
+            --angle-polaroid-left: -5deg;
+            --angle-polaroid-right: 4deg;
+        }
+
         /* ---------------------------------------------------------------------
-           1. CORE RESETS & GLOBAL STYLES
+           1. CORE RESETS & RESPONSIVE CONTAINMENT
         --------------------------------------------------------------------- */
         * {
             box-sizing: border-box;
@@ -29,9 +42,12 @@
             width: 100%;
             height: 100%;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #EAE7DC; 
-            color: #4A443A;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         body.lock-scroll {
@@ -50,7 +66,7 @@
         }
 
         /* ---------------------------------------------------------------------
-           2. STATE 1: INITIAL INTRO LAYER
+           2. STATE 1: INITIAL INTRO OVERLAY
         --------------------------------------------------------------------- */
         #intro-overlay {
             position: fixed;
@@ -58,7 +74,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #EAE7DC;
+            background-color: var(--bg-color);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -70,13 +86,13 @@
 
         .instruction-text {
             position: absolute;
-            top: 10vh; 
+            top: 8vh; 
             left: 50%;
             transform: translateX(-50%);
             font-family: 'UR Dzeragir', cursive, sans-serif;
-            font-size: 1.4rem; 
+            font-size: 1.35rem; 
             font-weight: 500;
-            color: #554F43;
+            color: var(--text-color);
             text-align: center;
             width: 90%;
             white-space: nowrap; 
@@ -86,15 +102,15 @@
 
         .envelope-closed-wrapper {
             cursor: pointer;
-            width: 48%;
-            max-width: 190px;
+            width: 42%;
+            max-width: 160px; /* Scaled down ~15% for delicate entrance */
             aspect-ratio: 5 / 3.6;
             -webkit-tap-highlight-color: transparent;
             animation: envelopeSlideIn 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
         .envelope-closed-wrapper img {
-            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.08));
+            filter: drop-shadow(0 8px 16px var(--shadow-subtle));
             transition: transform 0.2s ease;
         }
 
@@ -104,7 +120,7 @@
 
         @keyframes envelopeSlideIn {
             0% {
-                transform: translateY(8vh);
+                transform: translateY(6vh);
                 opacity: 0;
             }
             100% {
@@ -114,7 +130,7 @@
         }
 
         /* ---------------------------------------------------------------------
-           3. STATE 2: THE "OPEN AND ZOOM" TRANSITION
+           3. STATE 2: OPENED ENVELOPE (Anchor Backdrop)
         --------------------------------------------------------------------- */
         .stage-transition #intro-overlay {
             pointer-events: none;
@@ -122,17 +138,16 @@
             visibility: hidden;
         }
 
-        /* Large Centered Background Envelope */
         #opened-envelope-container {
             position: absolute;
-            top: 3vh;
+            top: 4vh;
             left: 50%;
             transform: translateX(-50%);
-            width: 78%;
-            max-width: 330px;
+            width: 68%; /* Scaled down ~15% to leave generous outer margins */
+            max-width: 280px;
             display: none;
             justify-content: center;
-            z-index: 1; /* Lowest z-index to act as structural backdrop */
+            z-index: 1; /* Structural backdrop layer */
         }
 
         .stage-transition #opened-envelope-container {
@@ -141,12 +156,12 @@
         }
 
         #opened-envelope-container img {
-            filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.08));
+            filter: drop-shadow(0 6px 18px var(--shadow-subtle));
         }
 
         @keyframes openAndZoom {
             0% {
-                transform: translateX(-50%) scale(0.7);
+                transform: translateX(-50%) scale(0.75);
                 opacity: 0;
             }
             100% {
@@ -156,28 +171,30 @@
         }
 
         /* ---------------------------------------------------------------------
-           4. STATE 3: DESIRED REFERENCE MATCHING LAYOUT (State 2 Picture)
+           4. GLOBAL STAGE WRAPPER (Generous Whitespace & Aspect Scaling)
         --------------------------------------------------------------------- */
         #main-invitation-content {
             position: relative;
             width: 100vw;
             height: 100vh;
-            max-width: 430px;
+            max-width: 360px; /* Scaled viewport wrapper gives ~15-20% breathing room */
+            max-height: 740px;
             margin: 0 auto;
+            padding: 20px;
             overflow: hidden;
         }
 
-        /* --- 1. SAVE THE DATE CARD (Right side, tucked into envelope) --- */
+        /* --- ASSET 1: SAVE THE DATE CARD --- */
         .save-the-date-card {
             position: absolute;
-            top: 26vh;
-            right: 8%;
-            width: 44%;
+            top: 24vh;
+            right: 10%;
+            width: 42%; /* Narrower width */
             aspect-ratio: 1 / 1.45;
             z-index: 2;
             opacity: 0;
             background: #ffffff;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 6px 18px var(--shadow-card);
             border-radius: 2px;
             padding: 3px;
         }
@@ -185,34 +202,35 @@
             animation: cascadeIn 0.7s cubic-bezier(0.215, 0.610, 0.355, 1) 0.1s forwards;
         }
 
-        /* --- 2. ROTATING VINYL DISC (Left side, under sticker, above left polaroid) --- */
+        /* --- ASSET 2: ROTATING VINYL DISC --- */
         .vinyl-accent-wrapper {
             position: absolute;
-            top: 25vh;
-            left: 10%;
-            width: 36%;
+            top: 24vh;
+            left: 12%;
+            width: 34%; /* Scaled down to tuck neatly under envelope flap */
             aspect-ratio: 1 / 1;
             border-radius: 50%;
             z-index: 3;
             opacity: 0;
-            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
+            background: #111111; /* Clean fallback while asset renders */
         }
         .reveal-content .vinyl-accent-wrapper {
             animation: cascadeIn 0.7s cubic-bezier(0.215, 0.610, 0.355, 1) 0.3s forwards,
                        continuousRotation 16s linear 1.0s infinite;
         }
 
-        /* --- 3. LEFT POLAROID PHOTO (Angled left, tucked under vinyl) --- */
+        /* --- ASSET 3: LEFT POLAROID PHOTO --- */
         .polaroid-vertical {
             position: absolute;
-            top: 45vh;
-            left: 6%;
-            width: 46%;
+            top: 43vh;
+            left: 8%;
+            width: 44%; /* Scaled down to prevent covering bottom viewport */
             aspect-ratio: 3 / 3.9;
             background: #ffffff;
-            padding: 7px 7px 22px 7px; 
-            box-shadow: 2px 10px 22px rgba(0, 0, 0, 0.14);
-            transform: rotate(-5deg);
+            padding: 6px 6px 20px 6px; 
+            box-shadow: 2px 8px 20px var(--shadow-polaroid);
+            transform: rotate(var(--angle-polaroid-left));
             z-index: 4;
             opacity: 0;
         }
@@ -220,44 +238,46 @@
             animation: cascadeInPolaroidLeft 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.12) 0.6s forwards;
         }
 
-        /* --- 4. RIGHT POLAROID PHOTO (Angled right, overlapping bottom left polaroid) --- */
+        /* --- ASSET 4: RIGHT POLAROID PHOTO --- */
         .polaroid-horizontal {
             position: absolute;
-            top: 53vh;
-            right: 6%;
-            width: 50%;
+            top: 50vh;
+            right: 8%;
+            width: 48%; /* Scaled down proportionally */
             aspect-ratio: 4 / 3.2;
             background: #ffffff;
-            padding: 7px 7px 18px 7px;
-            box-shadow: -2px 10px 24px rgba(0, 0, 0, 0.15);
-            transform: rotate(4deg);
-            z-index: 5; /* Positioned above left polaroid corner */
+            padding: 6px 6px 16px 6px;
+            box-shadow: -2px 8px 22px var(--shadow-polaroid);
+            transform: rotate(var(--angle-polaroid-right));
+            z-index: 5; /* Overlaps bottom corner of left polaroid */
             opacity: 0;
         }
         .reveal-content .polaroid-horizontal {
             animation: cascadeInPolaroidRight 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.12) 0.8s forwards;
         }
 
-        /* --- 5. CENTRAL OVAL STICKER (Overlays vinyl, save-the-date, and top-left of left polaroid) --- */
+        /* --- ASSET 5: CENTRAL OVAL STICKER --- */
         .accent-sticker-wrapper {
             position: absolute;
-            top: 36vh;
-            left: 35%;
-            width: 27%;
+            top: 34vh;
+            left: 36%;
+            width: 25%;
             aspect-ratio: 1 / 1.35;
-            z-index: 10; /* Highest priority layer seal */
+            z-index: 10; /* Top priority seal connecting vinyl, card, and left polaroid */
             opacity: 0;
-            filter: drop-shadow(0 6px 14px rgba(0,0,0,0.16));
+            filter: drop-shadow(0 5px 12px rgba(0, 0, 0, 0.16));
         }
         .reveal-content .accent-sticker-wrapper {
             animation: stickerPop 0.6s cubic-bezier(0.34, 1.5, 0.64, 1) 1.0s forwards;
         }
 
-        /* --- Global Structural Keyframes --- */
+        /* ---------------------------------------------------------------------
+           5. KEYFRAME ANIMATIONS
+        --------------------------------------------------------------------- */
         @keyframes cascadeIn {
             0% {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(18px);
             }
             100% {
                 opacity: 1;
@@ -268,22 +288,22 @@
         @keyframes cascadeInPolaroidLeft {
             0% {
                 opacity: 0;
-                transform: translateY(30px) rotate(0deg);
+                transform: translateY(26px) rotate(0deg);
             }
             100% {
                 opacity: 1;
-                transform: translateY(0) rotate(-5deg);
+                transform: translateY(0) rotate(var(--angle-polaroid-left));
             }
         }
 
         @keyframes cascadeInPolaroidRight {
             0% {
                 opacity: 0;
-                transform: translateY(30px) rotate(0deg);
+                transform: translateY(26px) rotate(0deg);
             }
             100% {
                 opacity: 1;
-                transform: translateY(0) rotate(4deg);
+                transform: translateY(0) rotate(var(--angle-polaroid-right));
             }
         }
 
