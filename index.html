@@ -102,7 +102,7 @@
 
         .envelope-closed-wrapper {
             cursor: pointer;
-            width: 42%;
+            width: 45%;
             max-width: 160px; /* Scaled down ~15% for delicate entrance */
             aspect-ratio: 5 / 3.6;
             -webkit-tap-highlight-color: transparent;
@@ -143,11 +143,12 @@
             top: 4vh;
             left: 50%;
             transform: translateX(-50%);
-            width: 60%; /* Scaled down ~15% to leave generous outer margins */
+            width: 65%; 
             max-width: 280px;
+            aspect-ratio: 16 / 9; /* <--- Wider ratio = shorter height (Try 16/9, 4/3, or 3/2) */
             display: none;
             justify-content: center;
-            z-index: 1; /* Structural backdrop layer */
+            z-index: 1; 
         }
 
         .stage-transition #opened-envelope-container {
