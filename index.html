@@ -103,7 +103,7 @@
         .envelope-closed-wrapper {
             cursor: pointer;
             width: 45%;
-            max-width: 160px; /* Scaled down ~15% for delicate entrance */
+            max-width: 160px;
             aspect-ratio: 5 / 3.6;
             -webkit-tap-highlight-color: transparent;
             animation: envelopeSlideIn 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
@@ -145,7 +145,7 @@
             transform: translateX(-50%);
             width: 62%; 
             max-width: 280px;
-            aspect-ratio: 16 / 9; /* <--- Wider ratio = shorter height (Try 16/9, 4/3, or 3/2) */
+            aspect-ratio: 16 / 9;
             display: none;
             justify-content: center;
             z-index: 1; 
@@ -172,13 +172,13 @@
         }
 
         /* ---------------------------------------------------------------------
-           4. GLOBAL STAGE WRAPPER (Generous Whitespace & Aspect Scaling)
+           4. GLOBAL STAGE WRAPPER
         --------------------------------------------------------------------- */
         #main-invitation-content {
             position: relative;
             width: 100vw;
             height: 100vh;
-            max-width: 360px; /* Scaled viewport wrapper gives ~15-20% breathing room */
+            max-width: 360px;
             max-height: 740px;
             margin: 0 auto;
             padding: 20px;
@@ -190,7 +190,7 @@
             position: absolute;
             top: 28vh;
             right: 2%;
-            width: 42%; /* Narrower width */
+            width: 42%;
             aspect-ratio: 1 / 1.45;
             z-index: 2;
             opacity: 0;
@@ -208,13 +208,13 @@
             position: absolute;
             top: 28vh;
             left: 12%;
-            width: 32%; /* Scaled down to tuck neatly under envelope flap */
+            width: 32%;
             aspect-ratio: 1 / 1;
             border-radius: 50%;
             z-index: 3;
             opacity: 0;
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
-            background: #111111; /* Clean fallback while asset renders */
+            background: #111111;
         }
         .reveal-content .vinyl-accent-wrapper {
             animation: cascadeIn 0.7s cubic-bezier(0.215, 0.610, 0.355, 1) 0.3s forwards,
@@ -226,7 +226,7 @@
             position: absolute;
             top: 55vh;
             left: 8%;
-            width: 44%; /* Scaled down to prevent covering bottom viewport */
+            width: 44%;
             aspect-ratio: 3 / 3.9;
             background: #ffffff;
             padding: 6px 6px 20px 6px; 
@@ -244,13 +244,13 @@
             position: absolute;
             top: 62vh;
             right: 8%;
-            width: 48%; /* Scaled down proportionally */
+            width: 48%;
             aspect-ratio: 4 / 3.2;
             background: #ffffff;
             padding: 6px 6px 16px 6px;
             box-shadow: -2px 8px 22px var(--shadow-polaroid);
             transform: rotate(var(--angle-polaroid-right));
-            z-index: 5; /* Overlaps bottom corner of left polaroid */
+            z-index: 5;
             opacity: 0;
         }
         .reveal-content .polaroid-horizontal {
@@ -264,12 +264,40 @@
             left: 36%;
             width: 37%;
             aspect-ratio: 1 / 1.35;
-            z-index: 10; /* Top priority seal connecting vinyl, card, and left polaroid */
+            z-index: 10;
             opacity: 0;
             filter: drop-shadow(0 5px 12px rgba(0, 0, 0, 0.16));
         }
         .reveal-content .accent-sticker-wrapper {
             animation: stickerPop 0.6s cubic-bezier(0.34, 1.5, 0.64, 1) 1.0s forwards;
+        }
+
+        /* --- FLORAL ACCENT STYLES --- */
+        .flower-accent {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+        }
+
+        .card-flower {
+            top: -12px;
+            right: -12px;
+            width: 38%;
+            height: auto;
+            z-index: 12;
+        }
+
+        .vinyl-flower {
+            top: 42vh;
+            left: 10%;
+            width: 14%;
+            height: auto;
+            z-index: 11;
+        }
+
+        .reveal-content .flower-accent {
+            animation: flowerPop 0.6s cubic-bezier(0.34, 1.5, 0.64, 1) 1.2s forwards;
         }
 
         /* ---------------------------------------------------------------------
@@ -319,6 +347,17 @@
             }
         }
 
+        @keyframes flowerPop {
+            0% {
+                opacity: 0;
+                transform: scale(0.6);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
         @keyframes continuousRotation {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -347,6 +386,7 @@
         <!-- STEP 1: Save the Date Card -->
         <div class="save-the-date-card">
             <img src="Save-the-date.png" alt="Hrach & Tamara - Save the Date Details">
+            <img src="flower.png" alt="Floral Accent Top Right" class="flower-accent card-flower">
         </div>
 
         <!-- STEP 2: Rotating Decorative Vinyl -->
@@ -354,17 +394,20 @@
             <img src="vinyl.png" alt="Rotating Decorative Vinyl">
         </div>
 
-        <!-- STEP 3: Vertical Photo (Left Polaroid) -->
+        <!-- STEP 3: Vinyl Floral Pin -->
+        <img src="flower.png" alt="Floral Accent Vinyl Pin" class="flower-accent vinyl-flower">
+
+        <!-- STEP 4: Vertical Photo (Left Polaroid) -->
         <div class="polaroid-vertical">
             <img src="vertical.jpeg" alt="Couple Moment Vertical">
         </div>
 
-        <!-- STEP 4: Horizontal Photo (Right Polaroid) -->
+        <!-- STEP 5: Horizontal Photo (Right Polaroid) -->
         <div class="polaroid-horizontal">
             <img src="horizontal.jpeg" alt="Hrach and Tamara Profile Picture">
         </div>
 
-        <!-- STEP 5: Central Oval Monogram Seal -->
+        <!-- STEP 6: Central Oval Monogram Seal -->
         <div class="accent-sticker-wrapper">
             <img src="sticker.png" alt="Floral Initials Monogram Seal">
         </div>
