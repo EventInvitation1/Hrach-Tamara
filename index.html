@@ -21,11 +21,11 @@
             --bg-color: #EAE7DC;
             --text-color: #554F43;
             
-            /* Depth & Photorealistic Shadows */
-            --shadow-paper-layered: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 4px 10px -2px rgba(0, 0, 0, 0.08);
-            --shadow-vinyl: 0 8px 20px rgba(0, 0, 0, 0.25);
-            --filter-drop-shadow: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.18));
-            --filter-envelope-shadow: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.12));
+            /* Depth & Photorealistic Layering Shadows */
+            --shadow-paper-layered: 0 12px 24px -6px rgba(0, 0, 0, 0.18), 0 4px 10px -2px rgba(0, 0, 0, 0.10);
+            --shadow-vinyl: 0 8px 18px rgba(0, 0, 0, 0.28);
+            --filter-drop-shadow: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.16));
+            --filter-envelope-shadow: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.14));
 
             /* Rotations */
             --angle-polaroid-left: -5deg;
@@ -77,18 +77,18 @@
             backface-visibility: hidden;
         }
 
-        /* Outer Stage Wrapper: Elevated slightly higher for balanced vertical spacing */
+        /* Outer Stage Wrapper: Scaled down by ~18% with clean whitespace margins */
         #stage-wrapper {
             position: relative;
-            width: 100vw;
-            height: 72vh;
-            max-width: 390px;
-            max-height: 640px;
+            width: 90vw;
+            height: 70vh;
+            max-width: 320px;
+            max-height: 580px;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: visible;
-            margin: -6vh auto 0 auto;
+            margin: 0 auto;
         }
 
         /* ---------------------------------------------------------------------
@@ -112,11 +112,11 @@
 
         .instruction-text {
             position: absolute;
-            top: 7vh;
+            top: 8vh;
             left: 50%;
             transform: translateX(-50%);
             font-family: 'UR Dzeragir', cursive, sans-serif;
-            font-size: 1.35rem;
+            font-size: 1.3rem;
             font-weight: 300;
             color: var(--text-color);
             text-align: center;
@@ -124,13 +124,12 @@
             white-space: nowrap;
             user-select: none;
             letter-spacing: 0.3px;
-            -webkit-font-smoothing: antialiased;
         }
 
         .envelope-closed-wrapper {
             cursor: pointer;
-            width: 50%;
-            max-width: 160px;
+            width: 45%;
+            max-width: 140px;
             aspect-ratio: 5 / 3.6;
             -webkit-tap-highlight-color: transparent;
             animation: envelopeSlideIn 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
@@ -147,7 +146,7 @@
 
         @keyframes envelopeSlideIn {
             0% {
-                transform: translateY(6vh);
+                transform: translateY(5vh);
                 opacity: 0;
             }
             100% {
@@ -157,7 +156,7 @@
         }
 
         /* ---------------------------------------------------------------------
-           3. STATE 2: OPENED ENVELOPE
+           3. STATE 2: OPENED ENVELOPE BACKDROP
         --------------------------------------------------------------------- */
         .stage-transition #intro-overlay {
             pointer-events: none;
@@ -167,11 +166,11 @@
 
         #opened-envelope-container {
             position: absolute;
-            top: 2vh;
+            top: 0vh;
             left: 50%;
             transform: translateX(-50%);
-            width: 76%;
-            max-width: 325px;
+            width: 62%;
+            max-width: 260px;
             height: auto;
             display: none;
             justify-content: center;
@@ -192,7 +191,7 @@
 
         @keyframes openAndZoom {
             0% {
-                transform: translateX(-50%) scale(0.75);
+                transform: translateX(-50%) scale(0.8);
                 opacity: 0;
             }
             100% {
@@ -202,7 +201,7 @@
         }
 
         /* ---------------------------------------------------------------------
-           4. TIGHT COLLAGE COMPOSITION
+           4. BALANCED COLLAGE COMPOSITION & ASSET LAYERING
         --------------------------------------------------------------------- */
         #main-invitation-content {
             position: relative;
@@ -211,92 +210,104 @@
             overflow: visible;
         }
 
-        /* --- ASSET 1: SAVE THE DATE CARD --- */
+        /* --- ASSET 1: SAVE THE DATE CARD (Top Right, Inside Envelope Flap) --- */
         .save-the-date-card {
             position: absolute;
-            top: 15vh;
-            right: 12%;
-            width: 44%;
-            aspect-ratio: 1 / 1.45;
-            z-index: 2;
+            top: 10vh;
+            right: 10%;
+            width: 42%;
+            aspect-ratio: 1 / 1.5;
+            z-index: 3;
             opacity: 0;
             background: #ffffff;
             box-shadow: var(--shadow-paper-layered);
             border-radius: 2px;
-            padding: 3px;
+            padding: 2px;
         }
         .reveal-content .save-the-date-card {
             animation: cascadeIn 0.7s cubic-bezier(0.215, 0.610, 0.355, 1) 0.1s forwards;
         }
 
-        /* --- ASSET 2: ROTATING VINYL DISC --- */
+        /* --- ASSET 2: ROTATING VINYL DISC (Tucked Under Left Envelope Fold) --- */
         .vinyl-accent-wrapper {
             position: absolute;
-            top: 18vh;
-            left: 15%;
-            width: 35%;
+            top: 15vh;
+            left: 12%;
+            width: 32%;
             aspect-ratio: 1 / 1;
             border-radius: 50%;
-            z-index: 3;
+            z-index: 2;
             opacity: 0;
             box-shadow: var(--shadow-vinyl);
             background: #111111;
+            overflow: hidden;
         }
+        
+        .vinyl-accent-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
         .reveal-content .vinyl-accent-wrapper {
-            animation: cascadeIn 0.7s cubic-bezier(0.215, 0.610, 0.355, 1) 0.3s forwards,
-                       continuousRotation 16s linear 1.0s infinite;
+            animation: cascadeIn 0.7s cubic-bezier(0.215, 0.610, 0.355, 1) 0.3s forwards;
         }
 
-        /* --- ASSET 3: LEFT POLAROID PHOTO --- */
-        .polaroid-vertical {
-            position: absolute;
-            top: 33vh;
-            left: 14%;
-            width: 44%;
-            aspect-ratio: 3 / 3.9;
-            background: #ffffff;
-            padding: 6px 6px 20px 6px;
-            box-shadow: var(--shadow-paper-layered);
-            transform: rotate(var(--angle-polaroid-left));
-            z-index: 4;
-            opacity: 0;
-        }
-        .reveal-content .polaroid-vertical {
-            animation: cascadeInPolaroidLeft 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.12) 0.6s forwards;
+        .reveal-content .vinyl-accent-wrapper img {
+            animation: continuousRotation 16s linear 1.0s infinite;
         }
 
-        /* --- ASSET 4: RIGHT POLAROID PHOTO --- */
-        .polaroid-horizontal {
-            position: absolute;
-            top: 40vh;
-            right: 12%;
-            width: 47%;
-            aspect-ratio: 4 / 3.2;
-            background: #ffffff;
-            padding: 6px 6px 16px 6px;
-            box-shadow: var(--shadow-paper-layered);
-            transform: rotate(var(--angle-polaroid-right));
-            z-index: 5;
-            opacity: 0;
-        }
-        .reveal-content .polaroid-horizontal {
-            animation: cascadeInPolaroidRight 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.12) 0.8s forwards;
-        }
-
-        /* --- ASSET 5: CENTRAL OVAL STICKER --- */
+        /* --- ASSET 3: CENTRAL MONOGRAM OVAL STICKER --- */
         .accent-sticker-wrapper {
             position: absolute;
-            top: 26vh;
-            left: 35%;
-            width: 30%;
-            max-width: 110px;
+            top: 24vh;
+            left: 36%;
+            width: 28%;
+            max-width: 92px;
             aspect-ratio: 1 / 1.35;
-            z-index: 10;
+            z-index: 20;
             opacity: 0;
             filter: var(--filter-drop-shadow);
         }
         .reveal-content .accent-sticker-wrapper {
-            animation: stickerPop 0.6s cubic-bezier(0.34, 1.5, 0.64, 1) 1.0s forwards;
+            animation: stickerPop 0.6s cubic-bezier(0.34, 1.5, 0.64, 1) 0.9s forwards;
+        }
+
+        /* --- ASSET 4: LEFT POLAROID PHOTO (Angled -5deg) --- */
+        .polaroid-vertical {
+            position: absolute;
+            top: 31vh;
+            left: 8%;
+            width: 42%;
+            aspect-ratio: 3 / 3.9;
+            background: #ffffff;
+            padding: 5px 5px 18px 5px;
+            box-shadow: var(--shadow-paper-layered);
+            transform: rotate(var(--angle-polaroid-left));
+            z-index: 10;
+            opacity: 0;
+        }
+        .reveal-content .polaroid-vertical {
+            animation: cascadeInPolaroidLeft 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.12) 0.5s forwards;
+        }
+
+        /* --- ASSET 5: RIGHT POLAROID PHOTO (Angled +4deg, Overlaps Left Photo Corner) --- */
+        .polaroid-horizontal {
+            position: absolute;
+            top: 38vh;
+            right: 8%;
+            width: 48%;
+            aspect-ratio: 4 / 3.2;
+            background: #ffffff;
+            padding: 5px 5px 14px 5px;
+            box-shadow: var(--shadow-paper-layered);
+            transform: rotate(var(--angle-polaroid-right));
+            z-index: 11;
+            opacity: 0;
+        }
+        .reveal-content .polaroid-horizontal {
+            animation: cascadeInPolaroidRight 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.12) 0.7s forwards;
         }
 
         /* --- FLORAL ACCENTS --- */
@@ -308,23 +319,23 @@
         }
 
         .card-flower {
-            top: -12px;
-            right: -12px;
-            width: 42%;
+            top: -10px;
+            right: -10px;
+            width: 38%;
             height: auto;
             z-index: 12;
         }
 
         .vinyl-flower {
-            top: 31vh;
+            top: 27vh;
             left: 10%;
-            width: 22%;
+            width: 20%;
             height: auto;
-            z-index: 11;
+            z-index: 15;
         }
 
         .reveal-content .flower-accent {
-            animation: flowerPop 0.6s cubic-bezier(0.34, 1.5, 0.64, 1) 1.2s forwards;
+            animation: flowerPop 0.6s cubic-bezier(0.34, 1.5, 0.64, 1) 1.1s forwards;
         }
 
         /* ---------------------------------------------------------------------
@@ -333,7 +344,7 @@
         @keyframes cascadeIn {
             0% {
                 opacity: 0;
-                transform: translateY(18px);
+                transform: translateY(16px);
             }
             100% {
                 opacity: 1;
@@ -344,7 +355,7 @@
         @keyframes cascadeInPolaroidLeft {
             0% {
                 opacity: 0;
-                transform: translateY(26px) rotate(0deg);
+                transform: translateY(22px) rotate(0deg);
             }
             100% {
                 opacity: 1;
@@ -355,7 +366,7 @@
         @keyframes cascadeInPolaroidRight {
             0% {
                 opacity: 0;
-                transform: translateY(26px) rotate(0deg);
+                transform: translateY(22px) rotate(0deg);
             }
             100% {
                 opacity: 1;
@@ -396,7 +407,7 @@
     <!-- MAIN CENTERING VIEWPORT STAGE -->
     <div id="stage-wrapper">
 
-        <!-- STATE 1: INITIAL SCREEN -->
+        <!-- STATE 1: INITIAL INTRO OVERLAY -->
         <div id="intro-overlay">
             <h2 class="instruction-text">Սեղմեք՝ բացելու համար</h2>
             
@@ -405,7 +416,7 @@
             </div>
         </div>
 
-        <!-- STATE 2: OPEN & ZOOM CONTAINER -->
+        <!-- STATE 2: OPENED ENVELOPE BACKDROP -->
         <div id="opened-envelope-container">
             <img src="opened2.png" alt="Open Envelope">
         </div>
