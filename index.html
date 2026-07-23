@@ -45,19 +45,17 @@
             width: 100%;
             height: 100%;
             min-height: 100vh;
-            height: 100dvh; /* Dynamic mobile viewport unit */
+            height: 100dvh;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            overflow: hidden; /* Prevents outer scrollbars */
+            overflow: hidden;
             
-            /* Full Viewport Flexbox Centering */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
 
-            /* Delicate, thin font rendering adjustments */
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeLegibility;
@@ -79,18 +77,18 @@
             backface-visibility: hidden;
         }
 
-        /* Outer Stage Wrapper: Negative margin shifts entire composition ~4vh higher */
+        /* Outer Stage Wrapper: Elevated slightly higher for balanced vertical spacing */
         #stage-wrapper {
             position: relative;
             width: 100vw;
-            height: 74vh;
+            height: 72vh;
             max-width: 390px;
             max-height: 640px;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: visible; /* Prevents envelope flap or polaroid clipping */
-            margin: -4vh auto 0 auto;
+            overflow: visible;
+            margin: -6vh auto 0 auto;
         }
 
         /* ---------------------------------------------------------------------
@@ -114,16 +112,16 @@
 
         .instruction-text {
             position: absolute;
-            top: 8vh; 
+            top: 7vh;
             left: 50%;
             transform: translateX(-50%);
             font-family: 'UR Dzeragir', cursive, sans-serif;
-            font-size: 1.35rem; 
-            font-weight: 300; /* Thinner weight for elegant handwriting */
+            font-size: 1.35rem;
+            font-weight: 300;
             color: var(--text-color);
             text-align: center;
             width: 90%;
-            white-space: nowrap; 
+            white-space: nowrap;
             user-select: none;
             letter-spacing: 0.3px;
             -webkit-font-smoothing: antialiased;
@@ -159,7 +157,7 @@
         }
 
         /* ---------------------------------------------------------------------
-           3. STATE 2: OPENED ENVELOPE (Full Top Flap Visible & Enlarged 12%)
+           3. STATE 2: OPENED ENVELOPE
         --------------------------------------------------------------------- */
         .stage-transition #intro-overlay {
             pointer-events: none;
@@ -169,15 +167,15 @@
 
         #opened-envelope-container {
             position: absolute;
-            top: 1vh;
+            top: 2vh;
             left: 50%;
             transform: translateX(-50%);
-            width: 73%; /* Scaled up by ~12% */
-            max-width: 315px;
+            width: 76%;
+            max-width: 325px;
             height: auto;
             display: none;
             justify-content: center;
-            z-index: 1; 
+            z-index: 1;
         }
 
         .stage-transition #opened-envelope-container {
@@ -204,7 +202,7 @@
         }
 
         /* ---------------------------------------------------------------------
-           4. GLOBAL STAGE WRAPPER
+           4. TIGHT COLLAGE COMPOSITION
         --------------------------------------------------------------------- */
         #main-invitation-content {
             position: relative;
@@ -216,8 +214,8 @@
         /* --- ASSET 1: SAVE THE DATE CARD --- */
         .save-the-date-card {
             position: absolute;
-            top: 17vh; /* Tightened position */
-            right: 8%; /* Shifted inward */
+            top: 15vh;
+            right: 12%;
             width: 44%;
             aspect-ratio: 1 / 1.45;
             z-index: 2;
@@ -234,9 +232,9 @@
         /* --- ASSET 2: ROTATING VINYL DISC --- */
         .vinyl-accent-wrapper {
             position: absolute;
-            top: 20vh; /* Tightened position */
-            left: 12%; /* Shifted inward */
-            width: 34%;
+            top: 18vh;
+            left: 15%;
+            width: 35%;
             aspect-ratio: 1 / 1;
             border-radius: 50%;
             z-index: 3;
@@ -252,15 +250,15 @@
         /* --- ASSET 3: LEFT POLAROID PHOTO --- */
         .polaroid-vertical {
             position: absolute;
-            top: 40vh; /* Pulled up 5vh towards center */
-            left: 11%; /* Shifted inward */
+            top: 33vh;
+            left: 14%;
             width: 44%;
             aspect-ratio: 3 / 3.9;
             background: #ffffff;
-            padding: 6px 6px 20px 6px; 
+            padding: 6px 6px 20px 6px;
             box-shadow: var(--shadow-paper-layered);
             transform: rotate(var(--angle-polaroid-left));
-            z-index: 5;
+            z-index: 4;
             opacity: 0;
         }
         .reveal-content .polaroid-vertical {
@@ -270,15 +268,15 @@
         /* --- ASSET 4: RIGHT POLAROID PHOTO --- */
         .polaroid-horizontal {
             position: absolute;
-            top: 47vh; /* Pulled up 6vh towards center */
-            right: 10%; /* Shifted inward */
-            width: 48%;
+            top: 40vh;
+            right: 12%;
+            width: 47%;
             aspect-ratio: 4 / 3.2;
             background: #ffffff;
             padding: 6px 6px 16px 6px;
             box-shadow: var(--shadow-paper-layered);
             transform: rotate(var(--angle-polaroid-right));
-            z-index: 6;
+            z-index: 5;
             opacity: 0;
         }
         .reveal-content .polaroid-horizontal {
@@ -288,10 +286,10 @@
         /* --- ASSET 5: CENTRAL OVAL STICKER --- */
         .accent-sticker-wrapper {
             position: absolute;
-            top: 29vh; /* Recentered */
-            left: 33%; /* Shifted inward */
-            width: 32%;
-            max-width: 115px;
+            top: 26vh;
+            left: 35%;
+            width: 30%;
+            max-width: 110px;
             aspect-ratio: 1 / 1.35;
             z-index: 10;
             opacity: 0;
@@ -301,7 +299,7 @@
             animation: stickerPop 0.6s cubic-bezier(0.34, 1.5, 0.64, 1) 1.0s forwards;
         }
 
-        /* --- FLORAL ACCENT STYLES & POSITIONING --- */
+        /* --- FLORAL ACCENTS --- */
         .flower-accent {
             position: absolute;
             pointer-events: none;
@@ -309,19 +307,17 @@
             filter: var(--filter-drop-shadow);
         }
 
-        /* Flower 1: Card Top-Right Corner Accent */
         .card-flower {
-            top: -14px;
-            right: -14px;
+            top: -12px;
+            right: -12px;
             width: 42%;
             height: auto;
             z-index: 12;
         }
 
-        /* Flower 2: Lower-Left Vinyl & Left Polaroid Botanical Pin */
         .vinyl-flower {
-            top: 35vh; /* Adjusted up with tightened vinyl */
-            left: 8%; /* Shifted inward */
+            top: 31vh;
+            left: 10%;
             width: 22%;
             height: auto;
             z-index: 11;
