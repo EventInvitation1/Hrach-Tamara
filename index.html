@@ -94,6 +94,8 @@
             z-index: 100;
             pointer-events: auto;
             transition: opacity 0.4s ease, visibility 0.4s ease;
+            /* Shifting intro up slightly to match the new canvas position */
+            padding-bottom: 8vh; 
         }
 
         .instruction-text {
@@ -148,9 +150,10 @@
             position: relative;
             width: 92vw;
             max-width: 400px;
-            /* Taller aspect ratio ensures distinct vertical grouping */
             aspect-ratio: 3 / 5.2; 
             display: none;
+            /* Pushes the entire canvas group higher up the screen */
+            margin-bottom: 10vh; 
         }
 
         .stage-transition #composition-canvas {
@@ -160,9 +163,9 @@
         /* --- BACKGROUND: OPENED ENVELOPE (Group 1 - Top) --- */
         #opened-envelope-container {
             position: absolute;
-            top: 2%; /* Anchored to top */
+            top: 2%; 
             left: 50%;
-            width: 70%; /* Scaled down significantly */
+            width: 70%; 
             z-index: 1;
             transform: translateX(-50%) scale(0.8);
             opacity: 0;
@@ -193,9 +196,9 @@
         /* --- ASSET 1: SAVE THE DATE CARD (Group 2 - Middle) --- */
         .save-the-date-card {
             position: absolute;
-            top: 28%; /* Distinct gap below envelope flap */
-            right: 6%;
-            width: 50%; /* Proportionately larger */
+            top: 28%; 
+            right: 8%; /* Slightly adjusted to accommodate smaller size */
+            width: 45%; /* SCALED DOWN from 50% */
             aspect-ratio: 1 / 1.5;
             z-index: 3;
             opacity: 0;
@@ -211,9 +214,9 @@
         /* --- ASSET 2: ROTATING VINYL DISC (Group 2 - Middle) --- */
         .vinyl-accent-wrapper {
             position: absolute;
-            top: 34%; /* Level with the main card content */
+            top: 34%; 
             left: 6%;
-            width: 40%; /* Proportionately larger */
+            width: 40%; 
             aspect-ratio: 1 / 1;
             border-radius: 50%;
             z-index: 2;
@@ -240,9 +243,9 @@
         /* --- ASSET 3: CENTRAL MONOGRAM OVAL STICKER (Group 2 - Middle) --- */
         .accent-sticker-wrapper {
             position: absolute;
-            top: 50%; /* Centered between upper items and photos */
+            top: 50%; 
             left: 36%;
-            width: 28%; /* Proportionately larger */
+            width: 28%; 
             aspect-ratio: 1 / 1.35;
             z-index: 20;
             opacity: 0;
@@ -255,7 +258,7 @@
         /* --- ASSET 4: LEFT POLAROID PHOTO (Group 3 - Bottom) --- */
         .polaroid-vertical {
             position: absolute;
-            top: 64%; /* Pushed all the way down */
+            top: 64%; 
             left: 5%;
             width: 45%;
             aspect-ratio: 3 / 3.9;
@@ -273,7 +276,7 @@
         /* --- ASSET 5: RIGHT POLAROID PHOTO (Group 3 - Bottom) --- */
         .polaroid-horizontal {
             position: absolute;
-            top: 71%; /* Pushed all the way down to limit overlap */
+            top: 71%; 
             right: 4%;
             width: 52%;
             aspect-ratio: 4 / 3.2;
