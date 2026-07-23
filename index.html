@@ -44,18 +44,24 @@
         body, html {
             width: 100%;
             height: 100%;
+            min-height: 100vh;
+            height: 100dvh; /* Dynamic mobile viewport unit to prevent toolbar shift */
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             overflow: hidden; /* Prevents outer scrollbars */
+            
+            /* Full Viewport Flexbox Centering */
             display: flex;
+            flex-direction: column;
             justify-content: center;
-            align-items: center; /* Creates equal top and bottom screen margins */
+            align-items: center;
         }
 
         body.lock-scroll {
             overflow: hidden;
             height: 100vh;
+            height: 100dvh;
         }
 
         img {
@@ -68,17 +74,18 @@
             backface-visibility: hidden;
         }
 
-        /* Outer Viewport Wrapper to balance layout height */
+        /* Outer Stage Wrapper: Height tightened to force equal top/bottom margins */
         #stage-wrapper {
             position: relative;
             width: 100vw;
-            height: 100vh;
+            height: 80vh;
             max-width: 390px;
-            max-height: 780px;
+            max-height: 680px;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: visible; /* Prevents top flap or bottom polaroid clipping */
+            overflow: visible; /* Prevents envelope flap or polaroid clipping */
+            margin: 0 auto;
         }
 
         /* ---------------------------------------------------------------------
@@ -156,12 +163,12 @@
 
         #opened-envelope-container {
             position: absolute;
-            top: 4vh; /* Adjusted downward to ensure top flap stays clear of top notch/bar */
+            top: 4vh;
             left: 50%;
             transform: translateX(-50%);
             width: 65%; 
             max-width: 280px;
-            height: auto; /* Replaced aspect-ratio to prevent height/flap clipping */
+            height: auto;
             display: none;
             justify-content: center;
             z-index: 1; 
@@ -175,7 +182,7 @@
         #opened-envelope-container img {
             width: 100%;
             height: auto;
-            object-fit: contain; /* Full envelope artwork rendered completely */
+            object-fit: contain;
             filter: var(--filter-envelope-shadow);
         }
 
@@ -197,13 +204,13 @@
             position: relative;
             width: 100%;
             height: 100%;
-            overflow: visible; /* Prevents cutting off surrounding paper layers */
+            overflow: visible;
         }
 
         /* --- ASSET 1: SAVE THE DATE CARD --- */
         .save-the-date-card {
             position: absolute;
-            top: 20vh; /* Tucked cleanly under opened envelope top flap */
+            top: 20vh;
             right: 4%;
             width: 44%;
             aspect-ratio: 1 / 1.45;
@@ -239,7 +246,7 @@
         /* --- ASSET 3: LEFT POLAROID PHOTO --- */
         .polaroid-vertical {
             position: absolute;
-            top: 45vh; /* Shifted lower to balance screen vertical distribution */
+            top: 45vh;
             left: 7%;
             width: 44%;
             aspect-ratio: 3 / 3.9;
@@ -257,7 +264,7 @@
         /* --- ASSET 4: RIGHT POLAROID PHOTO --- */
         .polaroid-horizontal {
             position: absolute;
-            top: 53vh; /* Shifted lower down to mirror envelope top margin */
+            top: 53vh;
             right: 6%;
             width: 48%;
             aspect-ratio: 4 / 3.2;
@@ -275,9 +282,9 @@
         /* --- ASSET 5: CENTRAL OVAL STICKER --- */
         .accent-sticker-wrapper {
             position: absolute;
-            top: 32vh; /* Moved slightly higher up */
+            top: 32vh;
             left: 31%;
-            width: 32%; /* Enlarged ~9% to securely connect the collage elements */
+            width: 32%;
             max-width: 115px;
             aspect-ratio: 1 / 1.35;
             z-index: 10;
