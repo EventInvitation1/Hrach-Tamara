@@ -33,7 +33,7 @@
         }
 
         /* ---------------------------------------------------------------------
-           1. CORE RESETS & PERFECT VERTICAL CENTERING
+           1. CORE RESETS & FULL-SCREEN CENTERING
         --------------------------------------------------------------------- */
         * {
             box-sizing: border-box;
@@ -77,20 +77,6 @@
             backface-visibility: hidden;
         }
 
-        /* Outer Stage Wrapper: Scaled down by ~18% with clean whitespace margins */
-        #stage-wrapper {
-            position: relative;
-            width: 90vw;
-            height: 70vh;
-            max-width: 320px;
-            max-height: 580px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: visible;
-            margin: 0 auto;
-        }
-
         /* ---------------------------------------------------------------------
            2. STATE 1: INITIAL INTRO OVERLAY
         --------------------------------------------------------------------- */
@@ -112,7 +98,7 @@
 
         .instruction-text {
             position: absolute;
-            top: 8vh;
+            top: 10vh;
             left: 50%;
             transform: translateX(-50%);
             font-family: 'UR Dzeragir', cursive, sans-serif;
@@ -145,40 +131,45 @@
         }
 
         @keyframes envelopeSlideIn {
-            0% {
-                transform: translateY(5vh);
-                opacity: 0;
-            }
-            100% {
-                transform: translateY(0);
-                opacity: 1;
-            }
+            0% { transform: translateY(5vh); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
         }
 
-        /* ---------------------------------------------------------------------
-           3. STATE 2: OPENED ENVELOPE BACKDROP
-        --------------------------------------------------------------------- */
         .stage-transition #intro-overlay {
             pointer-events: none;
             opacity: 0;
             visibility: hidden;
         }
 
+        /* ---------------------------------------------------------------------
+           3. THE CANVAS (Fixed Aspect Ratio for Perfect Clustering)
+        --------------------------------------------------------------------- */
+        #composition-canvas {
+            position: relative;
+            width: 88vw;
+            max-width: 380px;
+            aspect-ratio: 3 / 4.4; /* Locks the relative positions of all items */
+            display: none;
+        }
+
+        .stage-transition #composition-canvas {
+            display: block;
+        }
+
+        /* --- BACKGROUND: OPENED ENVELOPE --- */
         #opened-envelope-container {
             position: absolute;
-            top: 0vh;
+            top: 0;
             left: 50%;
-            transform: translateX(-50%);
-            width: 62%;
-            max-width: 260px;
-            height: auto;
-            display: none;
-            justify-content: center;
+            width: 85%;
             z-index: 1;
+            transform: translateX(-50%) scale(0.8);
+            opacity: 0;
+            display: flex;
+            justify-content: center;
         }
 
         .stage-transition #opened-envelope-container {
-            display: flex;
             animation: openAndZoom 0.7s cubic-bezier(0.34, 1.2, 0.64, 1) forwards;
         }
 
@@ -190,50 +181,37 @@
         }
 
         @keyframes openAndZoom {
-            0% {
-                transform: translateX(-50%) scale(0.8);
-                opacity: 0;
-            }
-            100% {
-                transform: translateX(-50%) scale(1);
-                opacity: 1;
-            }
+            0% { transform: translateX(-50%) scale(0.8); opacity: 0; }
+            100% { transform: translateX(-50%) scale(1); opacity: 1; }
         }
 
         /* ---------------------------------------------------------------------
-           4. BALANCED COLLAGE COMPOSITION & ASSET LAYERING
+           4. TIGHT COLLAGE COMPOSITION (Percentage-Based Positioning)
         --------------------------------------------------------------------- */
-        #main-invitation-content {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            overflow: visible;
-        }
-
-        /* --- ASSET 1: SAVE THE DATE CARD (Top Right, Inside Envelope Flap) --- */
+        /* --- ASSET 1: SAVE THE DATE CARD --- */
         .save-the-date-card {
             position: absolute;
-            top: 10vh;
-            right: 10%;
-            width: 42%;
+            top: 24%;
+            right: 8%;
+            width: 43%;
             aspect-ratio: 1 / 1.5;
             z-index: 3;
             opacity: 0;
             background: #ffffff;
             box-shadow: var(--shadow-paper-layered);
             border-radius: 2px;
-            padding: 2px;
+            padding: 3px;
         }
         .reveal-content .save-the-date-card {
             animation: cascadeIn 0.7s cubic-bezier(0.215, 0.610, 0.355, 1) 0.1s forwards;
         }
 
-        /* --- ASSET 2: ROTATING VINYL DISC (Tucked Under Left Envelope Fold) --- */
+        /* --- ASSET 2: ROTATING VINYL DISC --- */
         .vinyl-accent-wrapper {
             position: absolute;
-            top: 15vh;
-            left: 12%;
-            width: 32%;
+            top: 32%;
+            left: 10%;
+            width: 36%;
             aspect-ratio: 1 / 1;
             border-radius: 50%;
             z-index: 2;
@@ -253,7 +231,6 @@
         .reveal-content .vinyl-accent-wrapper {
             animation: cascadeIn 0.7s cubic-bezier(0.215, 0.610, 0.355, 1) 0.3s forwards;
         }
-
         .reveal-content .vinyl-accent-wrapper img {
             animation: continuousRotation 16s linear 1.0s infinite;
         }
@@ -261,10 +238,9 @@
         /* --- ASSET 3: CENTRAL MONOGRAM OVAL STICKER --- */
         .accent-sticker-wrapper {
             position: absolute;
-            top: 24vh;
+            top: 48%;
             left: 36%;
-            width: 28%;
-            max-width: 92px;
+            width: 27%;
             aspect-ratio: 1 / 1.35;
             z-index: 20;
             opacity: 0;
@@ -274,17 +250,17 @@
             animation: stickerPop 0.6s cubic-bezier(0.34, 1.5, 0.64, 1) 0.9s forwards;
         }
 
-        /* --- ASSET 4: LEFT POLAROID PHOTO (Angled -5deg) --- */
+        /* --- ASSET 4: LEFT POLAROID PHOTO --- */
         .polaroid-vertical {
             position: absolute;
-            top: 31vh;
-            left: 8%;
-            width: 42%;
+            top: 56%;
+            left: 6%;
+            width: 44%;
             aspect-ratio: 3 / 3.9;
             background: #ffffff;
             padding: 5px 5px 18px 5px;
             box-shadow: var(--shadow-paper-layered);
-            transform: rotate(var(--angle-polaroid-left));
+            transform: rotate(0deg); /* Handled by keyframe */
             z-index: 10;
             opacity: 0;
         }
@@ -292,17 +268,17 @@
             animation: cascadeInPolaroidLeft 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.12) 0.5s forwards;
         }
 
-        /* --- ASSET 5: RIGHT POLAROID PHOTO (Angled +4deg, Overlaps Left Photo Corner) --- */
+        /* --- ASSET 5: RIGHT POLAROID PHOTO --- */
         .polaroid-horizontal {
             position: absolute;
-            top: 38vh;
-            right: 8%;
+            top: 65%;
+            right: 6%;
             width: 48%;
             aspect-ratio: 4 / 3.2;
             background: #ffffff;
             padding: 5px 5px 14px 5px;
             box-shadow: var(--shadow-paper-layered);
-            transform: rotate(var(--angle-polaroid-right));
+            transform: rotate(0deg); /* Handled by keyframe */
             z-index: 11;
             opacity: 0;
         }
@@ -319,17 +295,17 @@
         }
 
         .card-flower {
-            top: -10px;
-            right: -10px;
-            width: 38%;
+            top: -12px;
+            right: -12px;
+            width: 40%;
             height: auto;
             z-index: 12;
         }
 
         .vinyl-flower {
-            top: 27vh;
+            top: 54%;
             left: 10%;
-            width: 20%;
+            width: 22%;
             height: auto;
             z-index: 15;
         }
@@ -342,58 +318,28 @@
            5. KEYFRAME ANIMATIONS
         --------------------------------------------------------------------- */
         @keyframes cascadeIn {
-            0% {
-                opacity: 0;
-                transform: translateY(16px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            0% { opacity: 0; transform: translateY(16px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes cascadeInPolaroidLeft {
-            0% {
-                opacity: 0;
-                transform: translateY(22px) rotate(0deg);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) rotate(var(--angle-polaroid-left));
-            }
+            0% { opacity: 0; transform: translateY(22px) rotate(0deg); }
+            100% { opacity: 1; transform: translateY(0) rotate(var(--angle-polaroid-left)); }
         }
 
         @keyframes cascadeInPolaroidRight {
-            0% {
-                opacity: 0;
-                transform: translateY(22px) rotate(0deg);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) rotate(var(--angle-polaroid-right));
-            }
+            0% { opacity: 0; transform: translateY(22px) rotate(0deg); }
+            100% { opacity: 1; transform: translateY(0) rotate(var(--angle-polaroid-right)); }
         }
 
         @keyframes stickerPop {
-            0% {
-                opacity: 0;
-                transform: scale(0.4);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
+            0% { opacity: 0; transform: scale(0.4); }
+            100% { opacity: 1; transform: scale(1); }
         }
 
         @keyframes flowerPop {
-            0% {
-                opacity: 0;
-                transform: scale(0.6);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
+            0% { opacity: 0; transform: scale(0.6); }
+            100% { opacity: 1; transform: scale(1); }
         }
 
         @keyframes continuousRotation {
@@ -404,56 +350,52 @@
 </head>
 <body class="lock-scroll">
 
-    <!-- MAIN CENTERING VIEWPORT STAGE -->
-    <div id="stage-wrapper">
-
-        <!-- STATE 1: INITIAL INTRO OVERLAY -->
-        <div id="intro-overlay">
-            <h2 class="instruction-text">Սեղմեք՝ բացելու համար</h2>
-            
-            <div class="envelope-closed-wrapper" id="envelopeBtn" role="button" aria-label="Բացել հրավիրատոմսը">
-                <img src="front.png" alt="Closed Envelope">
-            </div>
+    <!-- STATE 1: INITIAL INTRO OVERLAY -->
+    <div id="intro-overlay">
+        <h2 class="instruction-text">Սեղմեք՝ բացելու համար</h2>
+        
+        <div class="envelope-closed-wrapper" id="envelopeBtn" role="button" aria-label="Բացել հրավիրատոմսը">
+            <img src="front.png" alt="Closed Envelope">
         </div>
+    </div>
+
+    <!-- MAIN CENTERING VIEWPORT STAGE: Fixed Proportions Canvas -->
+    <div id="composition-canvas">
 
         <!-- STATE 2: OPENED ENVELOPE BACKDROP -->
         <div id="opened-envelope-container">
             <img src="opened2.png" alt="Open Envelope">
         </div>
-
-        <!-- STATE 3: INVITATION MAIN INNER CONTENT -->
-        <main id="main-invitation-content">
             
-            <!-- STEP 1: Save the Date Card -->
-            <div class="save-the-date-card">
-                <img src="Save-the-date.png" alt="Hrach & Tamara - Save the Date Details">
-                <img src="flower.png" alt="Floral Accent Top Right" class="flower-accent card-flower">
-            </div>
+        <!-- STEP 1: Save the Date Card -->
+        <div class="save-the-date-card">
+            <img src="Save-the-date.png" alt="Hrach & Tamara - Save the Date Details">
+            <img src="flower.png" alt="Floral Accent Top Right" class="flower-accent card-flower">
+        </div>
 
-            <!-- STEP 2: Rotating Decorative Vinyl -->
-            <div class="vinyl-accent-wrapper">
-                <img src="vinyl.png" alt="Rotating Decorative Vinyl">
-            </div>
+        <!-- STEP 2: Rotating Decorative Vinyl -->
+        <div class="vinyl-accent-wrapper">
+            <img src="vinyl.png" alt="Rotating Decorative Vinyl">
+        </div>
 
-            <!-- STEP 3: Vinyl Botanical Pin -->
-            <img src="flower.png" alt="Floral Accent Vinyl Pin" class="flower-accent vinyl-flower">
+        <!-- STEP 3: Vinyl Botanical Pin (Overlaps Polaroid & Vinyl) -->
+        <img src="flower.png" alt="Floral Accent Vinyl Pin" class="flower-accent vinyl-flower">
 
-            <!-- STEP 4: Vertical Photo (Left Polaroid) -->
-            <div class="polaroid-vertical">
-                <img src="vertical.jpeg" alt="Couple Moment Vertical">
-            </div>
+        <!-- STEP 4: Vertical Photo (Left Polaroid) -->
+        <div class="polaroid-vertical">
+            <img src="vertical.jpeg" alt="Couple Moment Vertical">
+        </div>
 
-            <!-- STEP 5: Horizontal Photo (Right Polaroid) -->
-            <div class="polaroid-horizontal">
-                <img src="horizontal.jpeg" alt="Hrach and Tamara Profile Picture">
-            </div>
+        <!-- STEP 5: Horizontal Photo (Right Polaroid) -->
+        <div class="polaroid-horizontal">
+            <img src="horizontal.jpeg" alt="Hrach and Tamara Profile Picture">
+        </div>
 
-            <!-- STEP 6: Central Oval Monogram Seal -->
-            <div class="accent-sticker-wrapper">
-                <img src="sticker.png" alt="Floral Initials Monogram Seal">
-            </div>
+        <!-- STEP 6: Central Oval Monogram Seal -->
+        <div class="accent-sticker-wrapper">
+            <img src="sticker.png" alt="Floral Initials Monogram Seal">
+        </div>
 
-        </main>
     </div>
 
     <!-- INTERACTION LOGIC -->
