@@ -1,462 +1,158 @@
-<!DOCTYPE html>
-<html lang="hy">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Հրաչ & Թամարա — Save the Date</title>
+/* ---------------------------------------------------------------------
+   1. SLIGHT UPWARD SHIFT & CONTAINER RE-BALANCING
+--------------------------------------------------------------------- */
+/* Body font smoothing added for delicate cursive rendering */
+body, html {
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    height: 100dvh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    overflow: hidden;
     
-    <style>
-        /* ---------------------------------------------------------------------
-           0. FONTS & ROOT CSS VARIABLES
-        --------------------------------------------------------------------- */
-        @font-face {
-            font-family: 'UR Dzeragir';
-            src: url('Dzeragir-Handdrawn.otf') format('opentype');
-            font-weight: normal;
-            font-style: normal;
-        }
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-        :root {
-            /* Palette */
-            --bg-color: #EAE7DC;
-            --text-color: #554F43;
-            
-            /* Depth & Photorealistic Shadows */
-            --shadow-paper-layered: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 4px 10px -2px rgba(0, 0, 0, 0.08);
-            --shadow-vinyl: 0 8px 20px rgba(0, 0, 0, 0.25);
-            --filter-drop-shadow: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.18));
-            --filter-envelope-shadow: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.12));
+    /* Delicate, thin font rendering adjustments */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
 
-            /* Rotations */
-            --angle-polaroid-left: -5deg;
-            --angle-polaroid-right: 4deg;
-        }
+/* Reduced height & negative margin shifts the stage wrapper ~4vh upward */
+#stage-wrapper {
+    position: relative;
+    width: 100vw;
+    height: 74vh; /* Adjusted from 80vh to bring the entire block higher */
+    max-width: 390px;
+    max-height: 640px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
+    margin: -4vh auto 0 auto; /* Pushes composition ~4vh higher up the screen */
+}
 
-        /* ---------------------------------------------------------------------
-           1. CORE RESETS & PERFECT VERTICAL CENTERING
-        --------------------------------------------------------------------- */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+/* ---------------------------------------------------------------------
+   2. CLOSED/OPEN ENVELOPE SCALE (+11% INCREASE)
+--------------------------------------------------------------------- */
+#opened-envelope-container {
+    position: absolute;
+    top: 1vh; /* Adjusted slightly up to accommodate scaled asset */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 73%; /* Scaled up by ~12% from 65% */
+    max-width: 315px; /* Scaled up from 280px */
+    height: auto;
+    display: none;
+    justify-content: center;
+    z-index: 1; 
+}
 
-        body, html {
-            width: 100%;
-            height: 100%;
-            min-height: 100vh;
-            height: 100dvh; /* Dynamic mobile viewport unit to prevent toolbar shift */
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            overflow: hidden; /* Prevents outer scrollbars */
-            
-            /* Full Viewport Flexbox Centering */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
+/* ---------------------------------------------------------------------
+   3. TIGHTENED ELEMENT SPACING (COZY COLLAGE LAYOUT)
+--------------------------------------------------------------------- */
+/* --- ASSET 1: SAVE THE DATE CARD --- */
+.save-the-date-card {
+    position: absolute;
+    top: 17vh; /* Pulled up closer to top flap */
+    right: 8%; /* Shifted inward from 4% */
+    width: 44%;
+    aspect-ratio: 1 / 1.45;
+    z-index: 2;
+    opacity: 0;
+    background: #ffffff;
+    box-shadow: var(--shadow-paper-layered);
+    border-radius: 2px;
+    padding: 3px;
+}
 
-        body.lock-scroll {
-            overflow: hidden;
-            height: 100vh;
-            height: 100dvh;
-        }
+/* --- ASSET 2: ROTATING VINYL DISC --- */
+.vinyl-accent-wrapper {
+    position: absolute;
+    top: 20vh; /* Pulled up closer to top flap */
+    left: 12%; /* Shifted inward from 8% */
+    width: 34%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    z-index: 3;
+    opacity: 0;
+    box-shadow: var(--shadow-vinyl);
+    background: #111111;
+}
 
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            image-rendering: -webkit-optimize-contrast;
-            transform: translateZ(0);
-            backface-visibility: hidden;
-        }
+/* --- ASSET 3: LEFT POLAROID PHOTO --- */
+.polaroid-vertical {
+    position: absolute;
+    top: 40vh; /* Shifted 5vh higher towards center */
+    left: 11%; /* Shifted inward from 7% */
+    width: 44%;
+    aspect-ratio: 3 / 3.9;
+    background: #ffffff;
+    padding: 6px 6px 20px 6px; 
+    box-shadow: var(--shadow-paper-layered);
+    transform: rotate(var(--angle-polaroid-left));
+    z-index: 5;
+    opacity: 0;
+}
 
-        /* Outer Stage Wrapper: Height tightened to force equal top/bottom margins */
-        #stage-wrapper {
-            position: relative;
-            width: 100vw;
-            height: 80vh;
-            max-width: 390px;
-            max-height: 680px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: visible; /* Prevents envelope flap or polaroid clipping */
-            margin: 0 auto;
-        }
+/* --- ASSET 4: RIGHT POLAROID PHOTO --- */
+.polaroid-horizontal {
+    position: absolute;
+    top: 47vh; /* Shifted 6vh higher towards center */
+    right: 10%; /* Shifted inward from 6% */
+    width: 48%;
+    aspect-ratio: 4 / 3.2;
+    background: #ffffff;
+    padding: 6px 6px 16px 6px;
+    box-shadow: var(--shadow-paper-layered);
+    transform: rotate(var(--angle-polaroid-right));
+    z-index: 6;
+    opacity: 0;
+}
 
-        /* ---------------------------------------------------------------------
-           2. STATE 1: INITIAL INTRO OVERLAY
-        --------------------------------------------------------------------- */
-        #intro-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--bg-color);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-            pointer-events: auto;
-            transition: opacity 0.4s ease, visibility 0.4s ease;
-        }
+/* --- ASSET 5: CENTRAL OVAL STICKER --- */
+.accent-sticker-wrapper {
+    position: absolute;
+    top: 29vh; /* Recentered over tightened assets */
+    left: 33%; /* Shifted inward from 31% */
+    width: 32%;
+    max-width: 115px;
+    aspect-ratio: 1 / 1.35;
+    z-index: 10;
+    opacity: 0;
+    filter: var(--filter-drop-shadow);
+}
 
-        .instruction-text {
-            position: absolute;
-            top: 8vh; 
-            left: 50%;
-            transform: translateX(-50%);
-            font-family: 'UR Dzeragir', cursive, sans-serif;
-            font-size: 1.35rem; 
-            font-weight: 500;
-            color: var(--text-color);
-            text-align: center;
-            width: 90%;
-            white-space: nowrap; 
-            user-select: none;
-            letter-spacing: 0.5px;
-        }
+/* --- FLORAL ACCENTS RE-ALIGNED TO COLLAGE --- */
+.vinyl-flower {
+    top: 35vh; /* Adjusted up with vinyl pin */
+    left: 8%; /* Shifted inward from 5% */
+    width: 22%;
+    height: auto;
+    z-index: 11;
+}
 
-        .envelope-closed-wrapper {
-            cursor: pointer;
-            width: 50%;
-            max-width: 160px;
-            aspect-ratio: 5 / 3.6;
-            -webkit-tap-highlight-color: transparent;
-            animation: envelopeSlideIn 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-        }
-
-        .envelope-closed-wrapper img {
-            filter: var(--filter-envelope-shadow);
-            transition: transform 0.2s ease;
-        }
-
-        .envelope-closed-wrapper:active img {
-            transform: scale(0.96);
-        }
-
-        @keyframes envelopeSlideIn {
-            0% {
-                transform: translateY(6vh);
-                opacity: 0;
-            }
-            100% {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        /* ---------------------------------------------------------------------
-           3. STATE 2: OPENED ENVELOPE (Full Top Flap Visible)
-        --------------------------------------------------------------------- */
-        .stage-transition #intro-overlay {
-            pointer-events: none;
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        #opened-envelope-container {
-            position: absolute;
-            top: 4vh;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 65%; 
-            max-width: 280px;
-            height: auto;
-            display: none;
-            justify-content: center;
-            z-index: 1; 
-        }
-
-        .stage-transition #opened-envelope-container {
-            display: flex;
-            animation: openAndZoom 0.7s cubic-bezier(0.34, 1.2, 0.64, 1) forwards;
-        }
-
-        #opened-envelope-container img {
-            width: 100%;
-            height: auto;
-            object-fit: contain;
-            filter: var(--filter-envelope-shadow);
-        }
-
-        @keyframes openAndZoom {
-            0% {
-                transform: translateX(-50%) scale(0.75);
-                opacity: 0;
-            }
-            100% {
-                transform: translateX(-50%) scale(1);
-                opacity: 1;
-            }
-        }
-
-        /* ---------------------------------------------------------------------
-           4. GLOBAL STAGE WRAPPER
-        --------------------------------------------------------------------- */
-        #main-invitation-content {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            overflow: visible;
-        }
-
-        /* --- ASSET 1: SAVE THE DATE CARD --- */
-        .save-the-date-card {
-            position: absolute;
-            top: 20vh;
-            right: 4%;
-            width: 44%;
-            aspect-ratio: 1 / 1.45;
-            z-index: 2;
-            opacity: 0;
-            background: #ffffff;
-            box-shadow: var(--shadow-paper-layered);
-            border-radius: 2px;
-            padding: 3px;
-        }
-        .reveal-content .save-the-date-card {
-            animation: cascadeIn 0.7s cubic-bezier(0.215, 0.610, 0.355, 1) 0.1s forwards;
-        }
-
-        /* --- ASSET 2: ROTATING VINYL DISC --- */
-        .vinyl-accent-wrapper {
-            position: absolute;
-            top: 23vh;
-            left: 8%;
-            width: 34%;
-            aspect-ratio: 1 / 1;
-            border-radius: 50%;
-            z-index: 3;
-            opacity: 0;
-            box-shadow: var(--shadow-vinyl);
-            background: #111111;
-        }
-        .reveal-content .vinyl-accent-wrapper {
-            animation: cascadeIn 0.7s cubic-bezier(0.215, 0.610, 0.355, 1) 0.3s forwards,
-                       continuousRotation 16s linear 1.0s infinite;
-        }
-
-        /* --- ASSET 3: LEFT POLAROID PHOTO --- */
-        .polaroid-vertical {
-            position: absolute;
-            top: 45vh;
-            left: 7%;
-            width: 44%;
-            aspect-ratio: 3 / 3.9;
-            background: #ffffff;
-            padding: 6px 6px 20px 6px; 
-            box-shadow: var(--shadow-paper-layered);
-            transform: rotate(var(--angle-polaroid-left));
-            z-index: 5;
-            opacity: 0;
-        }
-        .reveal-content .polaroid-vertical {
-            animation: cascadeInPolaroidLeft 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.12) 0.6s forwards;
-        }
-
-        /* --- ASSET 4: RIGHT POLAROID PHOTO --- */
-        .polaroid-horizontal {
-            position: absolute;
-            top: 53vh;
-            right: 6%;
-            width: 48%;
-            aspect-ratio: 4 / 3.2;
-            background: #ffffff;
-            padding: 6px 6px 16px 6px;
-            box-shadow: var(--shadow-paper-layered);
-            transform: rotate(var(--angle-polaroid-right));
-            z-index: 6;
-            opacity: 0;
-        }
-        .reveal-content .polaroid-horizontal {
-            animation: cascadeInPolaroidRight 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.12) 0.8s forwards;
-        }
-
-        /* --- ASSET 5: CENTRAL OVAL STICKER --- */
-        .accent-sticker-wrapper {
-            position: absolute;
-            top: 32vh;
-            left: 31%;
-            width: 32%;
-            max-width: 115px;
-            aspect-ratio: 1 / 1.35;
-            z-index: 10;
-            opacity: 0;
-            filter: var(--filter-drop-shadow);
-        }
-        .reveal-content .accent-sticker-wrapper {
-            animation: stickerPop 0.6s cubic-bezier(0.34, 1.5, 0.64, 1) 1.0s forwards;
-        }
-
-        /* --- FLORAL ACCENT STYLES & POSITIONING --- */
-        .flower-accent {
-            position: absolute;
-            pointer-events: none;
-            opacity: 0;
-            filter: var(--filter-drop-shadow);
-        }
-
-        /* Flower 1: Card Top-Right Corner Accent */
-        .card-flower {
-            top: -14px;
-            right: -14px;
-            width: 42%;
-            height: auto;
-            z-index: 12;
-        }
-
-        /* Flower 2: Lower-Left Vinyl & Left Polaroid Botanical Pin */
-        .vinyl-flower {
-            top: 39vh;
-            left: 5%;
-            width: 22%;
-            height: auto;
-            z-index: 11;
-        }
-
-        .reveal-content .flower-accent {
-            animation: flowerPop 0.6s cubic-bezier(0.34, 1.5, 0.64, 1) 1.2s forwards;
-        }
-
-        /* ---------------------------------------------------------------------
-           5. KEYFRAME ANIMATIONS
-        --------------------------------------------------------------------- */
-        @keyframes cascadeIn {
-            0% {
-                opacity: 0;
-                transform: translateY(18px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes cascadeInPolaroidLeft {
-            0% {
-                opacity: 0;
-                transform: translateY(26px) rotate(0deg);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) rotate(var(--angle-polaroid-left));
-            }
-        }
-
-        @keyframes cascadeInPolaroidRight {
-            0% {
-                opacity: 0;
-                transform: translateY(26px) rotate(0deg);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) rotate(var(--angle-polaroid-right));
-            }
-        }
-
-        @keyframes stickerPop {
-            0% {
-                opacity: 0;
-                transform: scale(0.4);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @keyframes flowerPop {
-            0% {
-                opacity: 0;
-                transform: scale(0.6);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @keyframes continuousRotation {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
-</head>
-<body class="lock-scroll">
-
-    <!-- MAIN CENTERING VIEWPORT STAGE -->
-    <div id="stage-wrapper">
-
-        <!-- STATE 1: INITIAL SCREEN -->
-        <div id="intro-overlay">
-            <h2 class="instruction-text">Սեղմեք՝ բացելու համար</h2>
-            
-            <div class="envelope-closed-wrapper" id="envelopeBtn" role="button" aria-label="Բացել հրավիրատոմսը">
-                <img src="front.png" alt="Closed Envelope">
-            </div>
-        </div>
-
-        <!-- STATE 2: OPEN & ZOOM CONTAINER -->
-        <div id="opened-envelope-container">
-            <img src="opened2.png" alt="Open Envelope">
-        </div>
-
-        <!-- STATE 3: INVITATION MAIN INNER CONTENT -->
-        <main id="main-invitation-content">
-            
-            <!-- STEP 1: Save the Date Card -->
-            <div class="save-the-date-card">
-                <img src="Save-the-date.png" alt="Hrach & Tamara - Save the Date Details">
-                <img src="flower.png" alt="Floral Accent Top Right" class="flower-accent card-flower">
-            </div>
-
-            <!-- STEP 2: Rotating Decorative Vinyl -->
-            <div class="vinyl-accent-wrapper">
-                <img src="vinyl.png" alt="Rotating Decorative Vinyl">
-            </div>
-
-            <!-- STEP 3: Vinyl Botanical Pin -->
-            <img src="flower.png" alt="Floral Accent Vinyl Pin" class="flower-accent vinyl-flower">
-
-            <!-- STEP 4: Vertical Photo (Left Polaroid) -->
-            <div class="polaroid-vertical">
-                <img src="vertical.jpeg" alt="Couple Moment Vertical">
-            </div>
-
-            <!-- STEP 5: Horizontal Photo (Right Polaroid) -->
-            <div class="polaroid-horizontal">
-                <img src="horizontal.jpeg" alt="Hrach and Tamara Profile Picture">
-            </div>
-
-            <!-- STEP 6: Central Oval Monogram Seal -->
-            <div class="accent-sticker-wrapper">
-                <img src="sticker.png" alt="Floral Initials Monogram Seal">
-            </div>
-
-        </main>
-    </div>
-
-    <!-- INTERACTION LOGIC -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const envelopeBtn = document.getElementById('envelopeBtn');
-            const body = document.body;
-
-            envelopeBtn.addEventListener('click', () => {
-                body.classList.add('stage-transition');
-                
-                setTimeout(() => {
-                    body.classList.add('reveal-content');
-                }, 350); 
-            });
-        });
-    </script>
-</body>
-</html>
+/* ---------------------------------------------------------------------
+   4. ELEGANT HANDWRITTEN TYPOGRAPHY REFINEMENTS
+--------------------------------------------------------------------- */
+.instruction-text {
+    position: absolute;
+    top: 8vh; 
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'UR Dzeragir', cursive, sans-serif;
+    font-size: 1.35rem; 
+    font-weight: 300; /* Lightened from 500 for a thinner, delicate look */
+    letter-spacing: 0.3px;
+    color: var(--text-color);
+    text-align: center;
+    width: 90%;
+    white-space: nowrap; 
+    user-select: none;
+    -webkit-font-smoothing: antialiased;
+}
