@@ -28,7 +28,7 @@
             --filter-envelope-shadow: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.14));
 
             /* Rotations */
-            --angle-polaroid-left: -5deg;
+            --angle-polaroid-left: -6deg;
             --angle-polaroid-right: 4deg;
         }
 
@@ -142,13 +142,14 @@
         }
 
         /* ---------------------------------------------------------------------
-           3. THE CANVAS (Fixed Aspect Ratio for Perfect Clustering)
+           3. THE CANVAS (Fixed Aspect Ratio for Perfect Group Spacing)
         --------------------------------------------------------------------- */
         #composition-canvas {
             position: relative;
-            width: 88vw;
-            max-width: 380px;
-            aspect-ratio: 3 / 4.4; /* Locks the relative positions of all items */
+            width: 92vw;
+            max-width: 400px;
+            /* Taller aspect ratio ensures distinct vertical grouping */
+            aspect-ratio: 3 / 5.2; 
             display: none;
         }
 
@@ -156,12 +157,12 @@
             display: block;
         }
 
-        /* --- BACKGROUND: OPENED ENVELOPE --- */
+        /* --- BACKGROUND: OPENED ENVELOPE (Group 1 - Top) --- */
         #opened-envelope-container {
             position: absolute;
-            top: 0;
+            top: 2%; /* Anchored to top */
             left: 50%;
-            width: 85%;
+            width: 70%; /* Scaled down significantly */
             z-index: 1;
             transform: translateX(-50%) scale(0.8);
             opacity: 0;
@@ -188,12 +189,13 @@
         /* ---------------------------------------------------------------------
            4. TIGHT COLLAGE COMPOSITION (Percentage-Based Positioning)
         --------------------------------------------------------------------- */
-        /* --- ASSET 1: SAVE THE DATE CARD --- */
+        
+        /* --- ASSET 1: SAVE THE DATE CARD (Group 2 - Middle) --- */
         .save-the-date-card {
             position: absolute;
-            top: 24%;
-            right: 8%;
-            width: 43%;
+            top: 28%; /* Distinct gap below envelope flap */
+            right: 6%;
+            width: 50%; /* Proportionately larger */
             aspect-ratio: 1 / 1.5;
             z-index: 3;
             opacity: 0;
@@ -206,12 +208,12 @@
             animation: cascadeIn 0.7s cubic-bezier(0.215, 0.610, 0.355, 1) 0.1s forwards;
         }
 
-        /* --- ASSET 2: ROTATING VINYL DISC --- */
+        /* --- ASSET 2: ROTATING VINYL DISC (Group 2 - Middle) --- */
         .vinyl-accent-wrapper {
             position: absolute;
-            top: 32%;
-            left: 10%;
-            width: 36%;
+            top: 34%; /* Level with the main card content */
+            left: 6%;
+            width: 40%; /* Proportionately larger */
             aspect-ratio: 1 / 1;
             border-radius: 50%;
             z-index: 2;
@@ -235,12 +237,12 @@
             animation: continuousRotation 16s linear 1.0s infinite;
         }
 
-        /* --- ASSET 3: CENTRAL MONOGRAM OVAL STICKER --- */
+        /* --- ASSET 3: CENTRAL MONOGRAM OVAL STICKER (Group 2 - Middle) --- */
         .accent-sticker-wrapper {
             position: absolute;
-            top: 48%;
+            top: 50%; /* Centered between upper items and photos */
             left: 36%;
-            width: 27%;
+            width: 28%; /* Proportionately larger */
             aspect-ratio: 1 / 1.35;
             z-index: 20;
             opacity: 0;
@@ -250,17 +252,17 @@
             animation: stickerPop 0.6s cubic-bezier(0.34, 1.5, 0.64, 1) 0.9s forwards;
         }
 
-        /* --- ASSET 4: LEFT POLAROID PHOTO --- */
+        /* --- ASSET 4: LEFT POLAROID PHOTO (Group 3 - Bottom) --- */
         .polaroid-vertical {
             position: absolute;
-            top: 56%;
-            left: 6%;
-            width: 44%;
+            top: 64%; /* Pushed all the way down */
+            left: 5%;
+            width: 45%;
             aspect-ratio: 3 / 3.9;
             background: #ffffff;
             padding: 5px 5px 18px 5px;
             box-shadow: var(--shadow-paper-layered);
-            transform: rotate(0deg); /* Handled by keyframe */
+            transform: rotate(0deg); 
             z-index: 10;
             opacity: 0;
         }
@@ -268,17 +270,17 @@
             animation: cascadeInPolaroidLeft 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.12) 0.5s forwards;
         }
 
-        /* --- ASSET 5: RIGHT POLAROID PHOTO --- */
+        /* --- ASSET 5: RIGHT POLAROID PHOTO (Group 3 - Bottom) --- */
         .polaroid-horizontal {
             position: absolute;
-            top: 65%;
-            right: 6%;
-            width: 48%;
+            top: 71%; /* Pushed all the way down to limit overlap */
+            right: 4%;
+            width: 52%;
             aspect-ratio: 4 / 3.2;
             background: #ffffff;
             padding: 5px 5px 14px 5px;
             box-shadow: var(--shadow-paper-layered);
-            transform: rotate(0deg); /* Handled by keyframe */
+            transform: rotate(0deg);
             z-index: 11;
             opacity: 0;
         }
@@ -297,14 +299,14 @@
         .card-flower {
             top: -12px;
             right: -12px;
-            width: 40%;
+            width: 35%;
             height: auto;
             z-index: 12;
         }
 
         .vinyl-flower {
-            top: 54%;
-            left: 10%;
+            top: 59%; 
+            left: 8%;
             width: 22%;
             height: auto;
             z-index: 15;
@@ -378,7 +380,7 @@
             <img src="vinyl.png" alt="Rotating Decorative Vinyl">
         </div>
 
-        <!-- STEP 3: Vinyl Botanical Pin (Overlaps Polaroid & Vinyl) -->
+        <!-- STEP 3: Vinyl Botanical Pin -->
         <img src="flower.png" alt="Floral Accent Vinyl Pin" class="flower-accent vinyl-flower">
 
         <!-- STEP 4: Vertical Photo (Left Polaroid) -->
