@@ -21,7 +21,7 @@
             --bg-color: #EAE7DC;
             --text-color: #554F43;
             
-            /* Realistic Depth & Photorealistic Shadows */
+            /* Depth & Photorealistic Shadows */
             --shadow-paper-layered: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 4px 10px -2px rgba(0, 0, 0, 0.08);
             --shadow-vinyl: 0 8px 20px rgba(0, 0, 0, 0.25);
             --filter-drop-shadow: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.18));
@@ -47,11 +47,10 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            /* Allows overflow without clip masks cutting off the top envelope flap */
-            overflow: hidden; 
+            overflow: hidden; /* Prevents outer scrollbars */
             display: flex;
             justify-content: center;
-            align-items: center; /* Ensures equal top and bottom margins */
+            align-items: center; /* Creates equal top and bottom screen margins */
         }
 
         body.lock-scroll {
@@ -67,6 +66,19 @@
             image-rendering: -webkit-optimize-contrast;
             transform: translateZ(0);
             backface-visibility: hidden;
+        }
+
+        /* Outer Viewport Wrapper to balance layout height */
+        #stage-wrapper {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            max-width: 390px;
+            max-height: 780px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: visible; /* Prevents top flap or bottom polaroid clipping */
         }
 
         /* ---------------------------------------------------------------------
@@ -134,7 +146,7 @@
         }
 
         /* ---------------------------------------------------------------------
-           3. STATE 2: OPENED ENVELOPE (Unclipped & Natural Proportions)
+           3. STATE 2: OPENED ENVELOPE (Full Top Flap Visible)
         --------------------------------------------------------------------- */
         .stage-transition #intro-overlay {
             pointer-events: none;
@@ -144,12 +156,12 @@
 
         #opened-envelope-container {
             position: absolute;
-            top: 2vh; /* Shifted down slightly to leave generous top clearance */
+            top: 4vh; /* Adjusted downward to ensure top flap stays clear of top notch/bar */
             left: 50%;
             transform: translateX(-50%);
             width: 65%; 
             max-width: 280px;
-            height: auto; /* Natural height scaling stops image slicing */
+            height: auto; /* Replaced aspect-ratio to prevent height/flap clipping */
             display: none;
             justify-content: center;
             z-index: 1; 
@@ -163,7 +175,7 @@
         #opened-envelope-container img {
             width: 100%;
             height: auto;
-            object-fit: contain; /* Keeps full top flap completely visible */
+            object-fit: contain; /* Full envelope artwork rendered completely */
             filter: var(--filter-envelope-shadow);
         }
 
@@ -179,23 +191,19 @@
         }
 
         /* ---------------------------------------------------------------------
-           4. GLOBAL STAGE WRAPPER (Visually Balanced Stage)
+           4. GLOBAL STAGE WRAPPER
         --------------------------------------------------------------------- */
         #main-invitation-content {
             position: relative;
-            width: 100vw;
-            height: 88vh; /* Adjusted from 100vh to ensure balance top & bottom */
-            max-width: 380px;
-            max-height: 720px;
-            margin: auto;
-            padding: 10px;
-            overflow: visible; /* Prevents edge-clipping of overlapping assets */
+            width: 100%;
+            height: 100%;
+            overflow: visible; /* Prevents cutting off surrounding paper layers */
         }
 
         /* --- ASSET 1: SAVE THE DATE CARD --- */
         .save-the-date-card {
             position: absolute;
-            top: 18vh; /* Recalibrated top placement */
+            top: 20vh; /* Tucked cleanly under opened envelope top flap */
             right: 4%;
             width: 44%;
             aspect-ratio: 1 / 1.45;
@@ -213,7 +221,7 @@
         /* --- ASSET 2: ROTATING VINYL DISC --- */
         .vinyl-accent-wrapper {
             position: absolute;
-            top: 21vh; /* Recalibrated top placement */
+            top: 23vh;
             left: 8%;
             width: 34%;
             aspect-ratio: 1 / 1;
@@ -231,7 +239,7 @@
         /* --- ASSET 3: LEFT POLAROID PHOTO --- */
         .polaroid-vertical {
             position: absolute;
-            top: 42vh; /* Shifts down uniformly to balance vertical center */
+            top: 45vh; /* Shifted lower to balance screen vertical distribution */
             left: 7%;
             width: 44%;
             aspect-ratio: 3 / 3.9;
@@ -249,7 +257,7 @@
         /* --- ASSET 4: RIGHT POLAROID PHOTO --- */
         .polaroid-horizontal {
             position: absolute;
-            top: 50vh; /* Shifts down uniformly to balance bottom margin */
+            top: 53vh; /* Shifted lower down to mirror envelope top margin */
             right: 6%;
             width: 48%;
             aspect-ratio: 4 / 3.2;
@@ -264,13 +272,13 @@
             animation: cascadeInPolaroidRight 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.12) 0.8s forwards;
         }
 
-        /* --- ASSET 5: CENTRAL OVAL STICKER (Slightly Larger & Raised) --- */
+        /* --- ASSET 5: CENTRAL OVAL STICKER --- */
         .accent-sticker-wrapper {
             position: absolute;
-            top: 31vh; /* Raised up slightly to sit on junction */
+            top: 32vh; /* Moved slightly higher up */
             left: 31%;
-            width: 31%; /* Increased size ~10% to bridge all 3 elements */
-            max-width: 118px;
+            width: 32%; /* Enlarged ~9% to securely connect the collage elements */
+            max-width: 115px;
             aspect-ratio: 1 / 1.35;
             z-index: 10;
             opacity: 0;
@@ -288,7 +296,7 @@
             filter: var(--filter-drop-shadow);
         }
 
-        /* Flower 1: Card Top-Right Accent */
+        /* Flower 1: Card Top-Right Corner Accent */
         .card-flower {
             top: -14px;
             right: -14px;
@@ -297,9 +305,9 @@
             z-index: 12;
         }
 
-        /* Flower 2: Vinyl / Left Polaroid Botanical Pin */
+        /* Flower 2: Lower-Left Vinyl & Left Polaroid Botanical Pin */
         .vinyl-flower {
-            top: 37vh;
+            top: 39vh;
             left: 5%;
             width: 22%;
             height: auto;
@@ -376,53 +384,57 @@
 </head>
 <body class="lock-scroll">
 
-    <!-- STATE 1: INITIAL SCREEN -->
-    <div id="intro-overlay">
-        <h2 class="instruction-text">Սեղմեք՝ բացելու համար</h2>
-        
-        <div class="envelope-closed-wrapper" id="envelopeBtn" role="button" aria-label="Բացել հրավիրատոմսը">
-            <img src="front.png" alt="Closed Envelope">
+    <!-- MAIN CENTERING VIEWPORT STAGE -->
+    <div id="stage-wrapper">
+
+        <!-- STATE 1: INITIAL SCREEN -->
+        <div id="intro-overlay">
+            <h2 class="instruction-text">Սեղմեք՝ բացելու համար</h2>
+            
+            <div class="envelope-closed-wrapper" id="envelopeBtn" role="button" aria-label="Բացել հրավիրատոմսը">
+                <img src="front.png" alt="Closed Envelope">
+            </div>
         </div>
+
+        <!-- STATE 2: OPEN & ZOOM CONTAINER -->
+        <div id="opened-envelope-container">
+            <img src="opened2.png" alt="Open Envelope">
+        </div>
+
+        <!-- STATE 3: INVITATION MAIN INNER CONTENT -->
+        <main id="main-invitation-content">
+            
+            <!-- STEP 1: Save the Date Card -->
+            <div class="save-the-date-card">
+                <img src="Save-the-date.png" alt="Hrach & Tamara - Save the Date Details">
+                <img src="flower.png" alt="Floral Accent Top Right" class="flower-accent card-flower">
+            </div>
+
+            <!-- STEP 2: Rotating Decorative Vinyl -->
+            <div class="vinyl-accent-wrapper">
+                <img src="vinyl.png" alt="Rotating Decorative Vinyl">
+            </div>
+
+            <!-- STEP 3: Vinyl Botanical Pin -->
+            <img src="flower.png" alt="Floral Accent Vinyl Pin" class="flower-accent vinyl-flower">
+
+            <!-- STEP 4: Vertical Photo (Left Polaroid) -->
+            <div class="polaroid-vertical">
+                <img src="vertical.jpeg" alt="Couple Moment Vertical">
+            </div>
+
+            <!-- STEP 5: Horizontal Photo (Right Polaroid) -->
+            <div class="polaroid-horizontal">
+                <img src="horizontal.jpeg" alt="Hrach and Tamara Profile Picture">
+            </div>
+
+            <!-- STEP 6: Central Oval Monogram Seal -->
+            <div class="accent-sticker-wrapper">
+                <img src="sticker.png" alt="Floral Initials Monogram Seal">
+            </div>
+
+        </main>
     </div>
-
-    <!-- STATE 2: OPEN & ZOOM CONTAINER -->
-    <div id="opened-envelope-container">
-        <img src="opened2.png" alt="Open Envelope">
-    </div>
-
-    <!-- STATE 3: INVITATION MAIN INNER CONTENT -->
-    <main id="main-invitation-content">
-        
-        <!-- STEP 1: Save the Date Card -->
-        <div class="save-the-date-card">
-            <img src="Save-the-date.png" alt="Hrach & Tamara - Save the Date Details">
-            <img src="flower.png" alt="Floral Accent Top Right" class="flower-accent card-flower">
-        </div>
-
-        <!-- STEP 2: Rotating Decorative Vinyl -->
-        <div class="vinyl-accent-wrapper">
-            <img src="vinyl.png" alt="Rotating Decorative Vinyl">
-        </div>
-
-        <!-- STEP 3: Vinyl Botanical Pin -->
-        <img src="flower.png" alt="Floral Accent Vinyl Pin" class="flower-accent vinyl-flower">
-
-        <!-- STEP 4: Vertical Photo (Left Polaroid) -->
-        <div class="polaroid-vertical">
-            <img src="vertical.jpeg" alt="Couple Moment Vertical">
-        </div>
-
-        <!-- STEP 5: Horizontal Photo (Right Polaroid) -->
-        <div class="polaroid-horizontal">
-            <img src="horizontal.jpeg" alt="Hrach and Tamara Profile Picture">
-        </div>
-
-        <!-- STEP 6: Central Oval Monogram Seal -->
-        <div class="accent-sticker-wrapper">
-            <img src="sticker.png" alt="Floral Initials Monogram Seal">
-        </div>
-
-    </main>
 
     <!-- INTERACTION LOGIC -->
     <script>
