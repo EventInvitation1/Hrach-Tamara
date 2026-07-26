@@ -16,6 +16,14 @@
             font-style: normal;
         }
 
+        /* NEW CUSTOM FONT FOR BOTTOM SECTION */
+        @font-face {
+            font-family: 'Poqrik';
+            src: url('poqrik.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         :root {
             /* Palette */
             --bg-color: #EAE7DC;
@@ -152,7 +160,6 @@
         /* ---------------------------------------------------------------------
            3. THE CANVAS (Top Hero Section)
         --------------------------------------------------------------------- */
-        /* Wrapper to keep the original visual centered after unlock */
         #top-hero-wrapper {
             width: 100%;
             height: 100vh;
@@ -177,7 +184,6 @@
             display: block;
         }
 
-        /* --- BACKGROUND: OPENED ENVELOPE (Group 1 - Top) --- */
         #opened-envelope-container {
             position: absolute;
             top: 2%; 
@@ -209,7 +215,6 @@
         /* ---------------------------------------------------------------------
            4. TIGHT COLLAGE COMPOSITION 
         --------------------------------------------------------------------- */
-        
         .save-the-date-card {
             position: absolute;
             top: 28%; 
@@ -356,28 +361,28 @@
         
         .wedding-details-section {
             width: 100%;
-            display: none; /* Hidden until envelope is opened */
+            display: none; 
             flex-direction: column;
         }
 
-        /* Show the new section once envelope is clicked */
         .reveal-content .wedding-details-section {
             display: flex;
         }
 
-        /* Thin, elegant, refined typography matching the top */
+        /* Custom Font Application */
         .elegant-font {
-            font-family: 'UR Dzeragir', cursive, serif;
-            font-weight: 300; 
-            letter-spacing: 1px;
+            font-family: 'Poqrik', sans-serif;
+            font-weight: 300; /* Thinned out */
+            letter-spacing: 0.5px;
             text-align: center;
             margin: 0;
+            text-transform: none; /* Strictly remove uppercase */
         }
 
-        /* Top Beige Container */
+        /* Top Beige Container - Compact Spacing */
         .invitation-container {
             background-color: var(--bg-color);
-            padding: 80px 25px;
+            padding: 35px 20px; /* Drastically reduced vertical padding */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -385,22 +390,22 @@
         }
 
         .invitation-container h2 {
-            font-size: 2.2rem;
+            font-size: 1.6rem; /* Reduced size */
             color: var(--text-color);
-            margin-bottom: 25px;
+            margin-bottom: 12px; /* Tighter gap */
         }
 
         .invitation-container p {
-            font-size: 1.15rem;
+            font-size: 0.95rem; /* Reduced size */
             color: var(--text-color);
-            line-height: 1.9;
-            max-width: 600px;
+            line-height: 1.4; /* Tighter line-height */
+            max-width: 90%;
         }
 
-        /* Bottom Olive Green Container */
+        /* Bottom Olive Green Container - Compact Spacing */
         .countdown-container {
             background-color: var(--olive-color); 
-            padding: 70px 20px 90px 20px;
+            padding: 30px 15px 40px 15px; /* Drastically reduced padding */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -409,23 +414,26 @@
 
         .countdown-container h2 {
             color: var(--bg-color);
-            font-size: 2rem;
-            margin-bottom: 40px;
+            font-size: 1.4rem; /* Reduced size */
+            margin-bottom: 20px; /* Tighter gap */
         }
 
-        /* Countdown UI */
+        /* Countdown UI - Single Row Fix */
         .timer-wrapper {
             display: flex;
-            gap: 15px; 
+            gap: 8px; /* Tighter spacing */
             justify-content: center;
-            flex-wrap: wrap;
+            flex-wrap: nowrap; /* Forces a single row, strictly no wrapping */
+            width: 100%;
+            max-width: 360px; /* Caps the maximum width to keep it compact */
         }
 
         .timer-box {
             background-color: #ffffff;
-            border-radius: 8px;
-            width: 75px;
-            height: 85px;
+            border-radius: 6px;
+            flex: 1; /* Allows boxes to share available space equally */
+            height: 60px; /* Shorter box */
+            max-width: 65px; /* Ensures they don't get too wide on larger screens */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -434,14 +442,15 @@
         }
 
         .timer-number {
-            font-size: 1.8rem;
+            font-size: 1.25rem; /* Smaller numbers to fit */
             color: var(--olive-color); 
-            font-weight: normal; 
-            margin-bottom: 2px;
+            font-weight: 300; 
+            margin-bottom: 0px; 
+            line-height: 1.2;
         }
 
         .timer-label {
-            font-size: 0.85rem;
+            font-size: 0.65rem; /* Smaller text label */
             color: var(--olive-color); 
         }
     </style>
@@ -459,39 +468,32 @@
 
     <!-- WRAPPER to keep original canvas centered 100vh -->
     <div id="top-hero-wrapper">
-        <!-- MAIN CENTERING VIEWPORT STAGE: Fixed Proportions Canvas -->
+        <!-- MAIN CENTERING VIEWPORT STAGE -->
         <div id="composition-canvas">
 
-            <!-- STATE 2: OPENED ENVELOPE BACKDROP -->
             <div id="opened-envelope-container">
                 <img src="opened2.png" alt="Open Envelope">
             </div>
                 
-            <!-- STEP 1: Save the Date Card -->
             <div class="save-the-date-card">
                 <img src="Save-the-date.png" alt="Hrach & Tamara - Save the Date Details">
                 <img src="flower.png" alt="Floral Accent Top Right" class="flower-accent card-flower">
             </div>
 
-            <!-- STEP 2: Rotating Decorative Vinyl -->
             <div class="vinyl-accent-wrapper">
                 <img src="vinyl.png" alt="Rotating Decorative Vinyl">
             </div>
 
-            <!-- STEP 3: Vinyl Botanical Pin -->
             <img src="flower.png" alt="Floral Accent Vinyl Pin" class="flower-accent vinyl-flower">
 
-            <!-- STEP 4: Vertical Photo (Left Polaroid) -->
             <div class="polaroid-vertical">
                 <img src="vertical.jpeg" alt="Couple Moment Vertical">
             </div>
 
-            <!-- STEP 5: Horizontal Photo (Right Polaroid) -->
             <div class="polaroid-horizontal">
                 <img src="horizontal.jpeg" alt="Hrach and Tamara Profile Picture">
             </div>
 
-            <!-- STEP 6: Central Oval Monogram Seal -->
             <div class="accent-sticker-wrapper">
                 <img src="sticker.png" alt="Floral Initials Monogram Seal">
             </div>
