@@ -172,19 +172,18 @@
         .divider-star { margin: 0 15px; color: var(--text-color); font-size: 0.9rem; }
 
         /* ---------------------------------------------------------------------
-           5. SECTION 3: CALENDAR & MASONRY GALLERY
+           5. SECTION 3: CALENDAR & SQUARE IMAGE GALLERY
         --------------------------------------------------------------------- */
-        /* Changed to min-height so it can stretch to fit calendar + slider */
         .calendar-section {
             width: 100%; min-height: 100vh; background-color: var(--bg-color);
             display: none; flex-direction: column; align-items: center; 
-            padding: 40px 20px 60px 20px; flex-shrink: 0;
+            padding: 40px 0px 20px 0px; flex-shrink: 0;
         }
 
         .reveal-content .calendar-section { display: flex; }
         
         .calendar-title { font-size: 2.2rem; color: var(--text-color); margin-bottom: 30px; }
-        .calendar-card { background: #ffffff; border-radius: 14px; padding: 25px 20px; width: 100%; max-width: 340px; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05); margin-bottom: 30px; }
+        .calendar-card { background: #ffffff; border-radius: 14px; padding: 25px 20px; width: 90%; max-width: 340px; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05); margin-bottom: 30px; }
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px 8px; text-align: center; }
         .calendar-days-header { margin-bottom: 15px; }
         .day-name { font-size: 0.85rem; color: #b5b5b5; }
@@ -192,33 +191,101 @@
         .marked-date { font-weight: bold; z-index: 1; }
         .heart-outline { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -46%) scale(1.6); width: 26px; height: 26px; z-index: -1; stroke: var(--olive-color); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; fill: none; }
         
-        .bottom-quote { font-size: 2rem; color: var(--text-color); margin: 25px 0; }
+        .bottom-quote { font-size: 2.2rem; color: var(--text-color); margin: 25px 0; }
 
-        /* --- MASONRY IMAGE CAROUSEL --- */
-        .gallery-carousel { width: 100%; margin-top: 15px; }
+        /* --- SQUARE IMAGE CAROUSEL --- */
+        .gallery-carousel { width: 100%; margin-top: 15px; margin-bottom: 30px; }
         
         .carousel-track {
-            display: flex; gap: 12px; padding: 0 20px;
+            display: flex; gap: 15px; padding: 0 5%;
             overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
             -ms-overflow-style: none; scrollbar-width: none;
         }
         .carousel-track::-webkit-scrollbar { display: none; }
         
-        /* Specific Masonry Slide styling to match screenshot */
-        .masonry-slide {
-            display: flex; gap: 10px; flex: 0 0 90%; 
-            scroll-snap-align: center; height: 360px;
+        /* Square Image Items */
+        .carousel-item {
+            flex: 0 0 85%; /* Shows a peek of the next image */
+            aspect-ratio: 1 / 1; /* Forces a perfect square */
+            scroll-snap-align: center;
+            border-radius: 16px; /* Rounded corners */
+            overflow: hidden;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+            background: #ffffff; /* Fallback */
+        }
+        
+        .carousel-item img {
+            width: 100%; height: 100%; object-fit: cover;
         }
 
-        .masonry-left { display: flex; flex-direction: column; gap: 10px; flex: 1; }
-        .masonry-left img { width: 100%; height: calc(50% - 5px); border-radius: 12px; }
-        .masonry-right { flex: 1.1; }
-        .masonry-right img { width: 100%; height: 100%; border-radius: 12px; }
+        /* ---------------------------------------------------------------------
+           6. SECTION 4: SCHEDULE / TIMELINE
+        --------------------------------------------------------------------- */
+        .schedule-section {
+            width: 100%; background-color: var(--bg-color);
+            display: none; flex-direction: column; align-items: center; 
+            padding: 20px 20px 60px 20px; flex-shrink: 0;
+        }
+
+        .reveal-content .schedule-section { display: flex; }
+
+        .schedule-title { font-size: 2.3rem; color: var(--text-color); margin: 25px 0 45px 0; }
+
+        /* Vertical Timeline Layout */
+        .timeline {
+            position: relative; width: 100%; max-width: 320px; margin-bottom: 40px;
+        }
+
+        /* The Vertical Connecting Line */
+        .timeline::before {
+            content: ''; position: absolute;
+            top: 20px; bottom: 40px; left: 24px; /* Perfectly aligned to center of 48px icons */
+            width: 1px; background-color: rgba(85, 79, 67, 0.3); z-index: 1;
+        }
+
+        .timeline-item {
+            display: flex; align-items: flex-start; margin-bottom: 35px; position: relative; z-index: 2;
+        }
+
+        /* White squircle Icon Box */
+        .timeline-icon {
+            width: 48px; height: 48px; background-color: #ffffff; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); flex-shrink: 0;
+        }
+
+        .timeline-icon svg { width: 22px; height: 22px; stroke: var(--olive-color); fill: none; stroke-width: 1.5; }
+
+        /* Timeline Text */
+        .timeline-content { margin-left: 20px; padding-top: 2px; text-align: left; }
+        
+        .timeline-time { font-size: 1.45rem; color: var(--olive-color); margin-bottom: 0px; text-align: left; }
+        .timeline-location { font-size: 1.45rem; color: var(--text-color); font-weight: bold; margin-bottom: 4px; text-align: left; }
+        .timeline-desc { font-size: 0.95rem; color: #858178; line-height: 1.4; text-align: left; }
+
+        .details-title { font-size: 2.3rem; color: var(--text-color); margin-top: 30px; margin-bottom: 20px; }
+
+        /* Floating Volume Button */
+        .floating-volume {
+            position: fixed; bottom: 30px;
+            left: 50%; transform: translateX(150px); 
+            width: 45px; height: 45px; background-color: var(--olive-color); border-radius: 50%;
+            display: none; align-items: center; justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 100; cursor: pointer;
+        }
+
+        .reveal-content .floating-volume { display: flex; }
+        .floating-volume svg { width: 20px; height: 20px; fill: #ffffff; }
+
+        @media (max-width: 430px) {
+            .floating-volume { left: auto; right: 20px; transform: none; }
+        }
 
     </style>
 </head>
 <body class="lock-scroll">
 
+    <!-- INTRO OVERLAY -->
     <div id="intro-overlay">
         <h2 class="instruction-text">Սեղմեք՝ բացելու համար</h2>
         <div class="envelope-closed-wrapper" id="envelopeBtn" role="button" aria-label="Բացել հրավիրատոմսը">
@@ -226,45 +293,33 @@
         </div>
     </div>
 
+    <!-- MAIN SEAMLESS WRAPPER -->
     <div id="mobile-container">
         
+        <!-- SECTION 1: HERO COLLAGE -->
         <div id="top-hero-wrapper">
             <div id="composition-canvas">
-                <div id="opened-envelope-container">
-                    <img src="opened2.png" alt="Open Envelope">
-                </div>
-                <div class="save-the-date-card">
-                    <img src="Save-the-date.png" alt="Hrach & Tamara - Save the Date Details">
-                    <img src="flower.png" alt="Floral Accent Top Right" class="flower-accent card-flower">
-                </div>
-                <div class="vinyl-accent-wrapper">
-                    <img src="vinyl.png" alt="Rotating Decorative Vinyl">
-                </div>
-                <img src="flower.png" alt="Floral Accent Vinyl Pin" class="flower-accent vinyl-flower">
-                <div class="polaroid-vertical">
-                    <img src="vertical.jpeg" alt="Couple Moment Vertical">
-                </div>
-                <div class="polaroid-horizontal">
-                    <img src="horizontal.jpeg" alt="Hrach and Tamara Profile Picture">
-                </div>
-                <div class="accent-sticker-wrapper">
-                    <img src="sticker.png" alt="Floral Initials Monogram Seal">
-                </div>
+                <div id="opened-envelope-container"><img src="opened2.png" alt="Open Envelope"></div>
+                <div class="save-the-date-card"><img src="Save-the-date.png" alt="Details"><img src="flower.png" class="flower-accent card-flower"></div>
+                <div class="vinyl-accent-wrapper"><img src="vinyl.png" alt="Vinyl"></div>
+                <img src="flower.png" class="flower-accent vinyl-flower">
+                <div class="polaroid-vertical"><img src="vertical.jpeg" alt="Vertical"></div>
+                <div class="polaroid-horizontal"><img src="horizontal.jpeg" alt="Horizontal"></div>
+                <div class="accent-sticker-wrapper"><img src="sticker.png" alt="Seal"></div>
             </div>
-
             <div class="swipe-up-indicator">
                 <div class="swipe-chevron"></div>
                 <span class="swipe-text elegant-font">Թերթեք վերև</span>
             </div>
         </div>
 
+        <!-- SECTION 2: DETAILS & COUNTDOWN -->
         <section class="wedding-details-section">
             <div class="invitation-container">
                 <h2 class="elegant-font">Հարգելի՛ հյուրեր</h2>
                 <p class="elegant-font">Այս տարվա օրերից մեկը մեզ համար առանձնահատուկ է լինելու, և մենք ցանկանում ենք այն անցկացնել մեր հարազատների ու ընկերների շրջապատում: Մեծ սիրով հրավիրում ենք ձեզ ամենահուզիչ տոնին՝ մեր հարսանիքին:</p>
                 <div class="simple-divider"></div>
             </div>
-            
             <div class="countdown-container">
                 <h2 class="elegant-font">Հարսանիքին մնացել է</h2>
                 <div class="timer-wrapper">
@@ -274,81 +329,133 @@
                     <div class="timer-box"><span id="cd-seconds" class="timer-number elegant-font">00</span><span class="timer-label elegant-font">Վայրկյան</span></div>
                 </div>
             </div>
-
-            <div class="transition-container">
-                <div class="decorative-divider"><span class="divider-star">✦</span></div>
-            </div>
+            <div class="transition-container"><div class="decorative-divider"><span class="divider-star">✦</span></div></div>
         </section>
 
-        <!-- SECTION 3 & 4 (CALENDAR + GALLERY) -->
+        <!-- SECTION 3: CALENDAR & SQUARE GALLERY -->
         <section class="calendar-section">
             <h2 class="elegant-font calendar-title">Սեպտեմբեր 13, 2026</h2>
-            
             <div class="calendar-card elegant-font">
                 <div class="calendar-grid calendar-days-header">
                     <div class="day-name">Երկ</div><div class="day-name">Երք</div><div class="day-name">Չրք</div><div class="day-name">Հնգ</div><div class="day-name">Ուր</div><div class="day-name">Շբթ</div><div class="day-name">Կիր</div>
                 </div>
-                
                 <div class="calendar-grid">
                     <div class="calendar-cell empty"></div><div class="calendar-cell">1</div><div class="calendar-cell">2</div><div class="calendar-cell">3</div><div class="calendar-cell">4</div><div class="calendar-cell">5</div><div class="calendar-cell">6</div><div class="calendar-cell">7</div><div class="calendar-cell">8</div><div class="calendar-cell">9</div><div class="calendar-cell">10</div><div class="calendar-cell">11</div><div class="calendar-cell">12</div>
-                    
-                    <div class="calendar-cell marked-date">
-                        13
-                        <svg class="heart-outline" viewBox="0 0 24 24">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                        </svg>
-                    </div>
-                    
+                    <div class="calendar-cell marked-date">13<svg class="heart-outline" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></div>
                     <div class="calendar-cell">14</div><div class="calendar-cell">15</div><div class="calendar-cell">16</div><div class="calendar-cell">17</div><div class="calendar-cell">18</div><div class="calendar-cell">19</div><div class="calendar-cell">20</div><div class="calendar-cell">21</div><div class="calendar-cell">22</div><div class="calendar-cell">23</div><div class="calendar-cell">24</div><div class="calendar-cell">25</div><div class="calendar-cell">26</div><div class="calendar-cell">27</div><div class="calendar-cell">28</div><div class="calendar-cell">29</div><div class="calendar-cell">30</div>
                 </div>
             </div>
 
-            <!-- Pre-Quote Divider -->
+            <!-- Divider & Quote -->
             <div class="decorative-divider"><span class="divider-star">✦</span></div>
-            
             <p class="elegant-font bottom-quote">Ամեն ինչ սկսվում է սիրուց</p>
-
-            <!-- Post-Quote Divider -->
             <div class="decorative-divider"><span class="divider-star">✦</span></div>
 
-            <!-- Auto-Scrolling Masonry Gallery -->
+            <!-- Auto-Scrolling Square Gallery -->
             <div class="gallery-carousel">
                 <div class="carousel-track" id="gallery-track">
-                    
-                    <!-- Slide 1: Images 1, 2, 3 -->
-                    <div class="masonry-slide">
-                        <div class="masonry-left">
-                            <img src="nkar1.jpeg" alt="Gallery Image 1">
-                            <img src="nkar2.jpeg" alt="Gallery Image 2">
-                        </div>
-                        <div class="masonry-right">
-                            <img src="nkar6.jpeg" alt="Gallery Image 3">
-                        </div>
-                    </div>
-                    
-                    <!-- Slide 2: Images 4, 5, 6 -->
-                    <div class="masonry-slide">
-                        <div class="masonry-left">
-                            <img src="nkar4.jpeg" alt="Gallery Image 4">
-                            <img src="nkar5.jpeg" alt="Gallery Image 5">
-                        </div>
-                        <div class="masonry-right">
-                            <img src="nkar3.jpeg" alt="Gallery Image 6">
-                        </div>
-                    </div>
-                    
+                    <div class="carousel-item"><img src="nkar1.jpeg" alt="Gallery Image 1"></div>
+                    <div class="carousel-item"><img src="nkar2.jpeg" alt="Gallery Image 2"></div>
+                    <!-- SWAPPED: nkar6 is now 3rd -->
+                    <div class="carousel-item"><img src="nkar6.jpeg" alt="Gallery Image 6"></div>
+                    <div class="carousel-item"><img src="nkar4.jpeg" alt="Gallery Image 4"></div>
+                    <div class="carousel-item"><img src="nkar5.jpeg" alt="Gallery Image 5"></div>
+                    <!-- SWAPPED: nkar3 is now 6th -->
+                    <div class="carousel-item"><img src="nkar3.jpeg" alt="Gallery Image 3"></div>
                 </div>
             </div>
+        </section>
+
+        <!-- SECTION 4: SCHEDULE (Օրվա ծրագիրը) -->
+        <section class="schedule-section">
+            
+            <div class="decorative-divider"><span class="divider-star">✦</span></div>
+            
+            <h2 class="elegant-font schedule-title">Օրվա ծրագիրը</h2>
+
+            <div class="timeline">
+                
+                <!-- 1. Bride's House -->
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 22C12 22 17 18 17 13C17 9.5 14 7 12 5C10 7 7 9.5 7 13C7 18 12 22 12 22ZM12 5C12 5 15 2 17 2C19 2 20 4 20 6C20 9 17 12 17 13M12 5C12 5 9 2 7 2C5 2 4 4 4 6C4 9 7 12 7 13" />
+                        </svg>
+                    </div>
+                    <div class="timeline-content elegant-font">
+                        <div class="timeline-time">12:00</div>
+                        <div class="timeline-location">Հարսի տուն</div>
+                        <div class="timeline-desc">Օրվա սկիզբը՝ ջերմ հանդիպումներով և օրհնությամբ։</div>
+                    </div>
+                </div>
+
+                <!-- 2. Church -->
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 3v5m-2-2h4M6 10l6-4 6 4v11H6V10zm4 11v-4a2 2 0 014 0v4" />
+                        </svg>
+                    </div>
+                    <div class="timeline-content elegant-font">
+                        <div class="timeline-time">14:00</div>
+                        <div class="timeline-location">Եկեղեցի</div>
+                        <div class="timeline-desc">Պսակադրության սուրբ արարողություն։</div>
+                    </div>
+                </div>
+
+                <!-- 3. Groom's House -->
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M10.5 3h3l.5 3-2 2-2-2 .5-3zM12 8l2.5 13h-5L12 8z" />
+                        </svg>
+                    </div>
+                    <div class="timeline-content elegant-font">
+                        <div class="timeline-time">15:30</div>
+                        <div class="timeline-location">Փեսայի տուն</div>
+                        <div class="timeline-desc">Ուրախության և միասնության պահեր։</div>
+                    </div>
+                </div>
+
+                <!-- 4. Restaurant -->
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M11 2v6c0 1.5-1 3-3 3v11H6V11c-2 0-3-1.5-3-3V2M11 2h-1v5H8V2H7v5H6V2H5M19 2v20h-2V13c-2 0-3-1-3-3V2h5z" />
+                        </svg>
+                    </div>
+                    <div class="timeline-content elegant-font">
+                        <div class="timeline-time">17:30</div>
+                        <div class="timeline-location">Ռեստորան</div>
+                        <div class="timeline-desc">Համեղ ուտեստների, զվարճանքի և շնորհավորանքների ժամանակն է։</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="decorative-divider"><span class="divider-star">✦</span></div>
+            
+            <h2 class="elegant-font details-title">Մանրամասներ</h2>
 
         </section>
+
+        <!-- Floating Volume Button -->
+        <div class="floating-volume">
+            <svg viewBox="0 0 24 24">
+                <path d="M14 3.23v17.54l-6-5H4a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h4l6-5z"></path>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            </svg>
+        </div>
+
     </div>
 
+    <!-- LOGIC -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const envelopeBtn = document.getElementById('envelopeBtn');
             const body = document.body;
-            const mobileContainer = document.getElementById('mobile-container');
 
+            // 1. Envelope Unlock Logic
             envelopeBtn.addEventListener('click', () => {
                 body.classList.remove('lock-scroll');
                 body.classList.add('unlocked');
@@ -358,7 +465,7 @@
                 }, 350); 
             });
 
-            // Countdown Logic
+            // 2. Countdown Logic
             const targetDate = new Date("September 13, 2026 00:00:00").getTime();
             const updateCountdown = setInterval(() => {
                 const now = new Date().getTime();
@@ -384,16 +491,20 @@
                 document.getElementById("cd-seconds").innerText = seconds.toString().padStart(2, '0');
             }, 1000); 
 
-            // Auto-Scrolling Gallery Logic
+            // 3. Auto-Scrolling Square Gallery Logic
             const track = document.getElementById('gallery-track');
             let autoScroll = setInterval(scrollGallery, 3000);
 
             function scrollGallery() {
                 if (!track) return;
-                // Width of one slide + gap
-                const slideWidth = track.querySelector('.masonry-slide').offsetWidth + 12; 
                 
-                // If scrolled to the end, snap back to start. Otherwise scroll next.
+                // Get the first item to determine the width to scroll by (width + gap)
+                const items = track.querySelectorAll('.carousel-item');
+                if (items.length === 0) return;
+                
+                const slideWidth = items[0].offsetWidth + 15; // 15px is the gap
+                
+                // Reset to beginning if at the end, otherwise scroll next
                 if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 10) {
                     track.scrollTo({ left: 0, behavior: 'smooth' });
                 } else {
@@ -401,7 +512,7 @@
                 }
             }
 
-            // Pause auto-scroll if user interacts/swipes manually
+            // Pause auto-scroll if user interacts manually
             track.addEventListener('touchstart', () => clearInterval(autoScroll));
             track.addEventListener('mousedown', () => clearInterval(autoScroll));
         });
