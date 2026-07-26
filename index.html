@@ -16,7 +16,6 @@
             font-style: normal;
         }
 
-        /* CUSTOM FONT */
         @font-face {
             font-family: 'Poqrik';
             src: url('poqrik.ttf') format('truetype');
@@ -25,12 +24,9 @@
         }
 
         :root {
-            /* Palette */
             --bg-color: #EAE7DC;
             --text-color: #554F43;
             --olive-color: #6a774c;
-            
-            /* Depth & Shadows */
             --shadow-paper-layered: 0 12px 24px -6px rgba(0, 0, 0, 0.18), 0 4px 10px -2px rgba(0, 0, 0, 0.10);
             --shadow-vinyl: 0 8px 18px rgba(0, 0, 0, 0.28);
             --filter-drop-shadow: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.16));
@@ -40,205 +36,95 @@
         /* ---------------------------------------------------------------------
            1. CORE RESETS & SEAMLESS SCROLLING
         --------------------------------------------------------------------- */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body, html {
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-color); /* Seamless full-screen background */
+            background-color: var(--bg-color); 
             color: var(--text-color);
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeLegibility;
             
-            /* Hide the main scrollbar but preserve scrolling functionality */
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
+            -ms-overflow-style: none; scrollbar-width: none; 
         }
 
-        body::-webkit-scrollbar, html::-webkit-scrollbar {
-            display: none; /* Chrome, Safari and Opera */
-        }
+        body::-webkit-scrollbar, html::-webkit-scrollbar { display: none; }
+        body.lock-scroll { overflow: hidden; }
+        body.unlocked { overflow-y: auto; overflow-x: hidden; }
 
-        body.lock-scroll {
-            overflow: hidden;
-        }
-
-        body.unlocked {
-            overflow-y: auto;
-            overflow-x: hidden;
-        }
-
-        /* The Centered Mobile Simulator (No borders/shadows, just width constraint) */
         #mobile-container {
-            width: 100%;
-            max-width: 430px; 
-            margin: 0 auto; /* Centers the content seamlessly on desktop */
-            display: flex;
-            flex-direction: column;
-            position: relative;
+            width: 100%; max-width: 430px; 
+            margin: 0 auto; 
+            display: flex; flex-direction: column; position: relative;
         }
 
         img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            image-rendering: -webkit-optimize-contrast;
-            transform: translateZ(0);
-            backface-visibility: hidden;
+            width: 100%; height: 100%; object-fit: cover; display: block;
+            image-rendering: -webkit-optimize-contrast; transform: translateZ(0); backface-visibility: hidden;
         }
 
         /* ---------------------------------------------------------------------
            2. STATE 1: INITIAL INTRO OVERLAY
         --------------------------------------------------------------------- */
         #intro-overlay {
-            position: fixed; /* Fixed to cover the whole screen naturally */
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--bg-color);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-            pointer-events: auto;
-            transition: opacity 0.4s ease, visibility 0.4s ease;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 100; pointer-events: auto; transition: opacity 0.4s ease, visibility 0.4s ease;
             padding-bottom: 8vh; 
         }
 
         .instruction-text {
-            position: absolute;
-            top: 10%;
-            left: 50%;
-            transform: translateX(-50%);
-            font-family: 'Poqrik', sans-serif;
-            font-size: 2rem; 
-            font-weight: 300; 
-            letter-spacing: 1px;
-            color: var(--text-color);
-            text-align: center;
-            width: 100%; 
-            white-space: nowrap; 
-            user-select: none;
+            position: absolute; top: 10%; left: 50%; transform: translateX(-50%);
+            font-family: 'Poqrik', sans-serif; font-size: 2rem; font-weight: 300; letter-spacing: 1px;
+            color: var(--text-color); text-align: center; width: 100%; white-space: nowrap; user-select: none;
         }
 
         .envelope-closed-wrapper {
-            cursor: pointer;
-            width: 65%; 
-            max-width: 220px; 
-            aspect-ratio: 5 / 3.6;
-            -webkit-tap-highlight-color: transparent;
-            animation: envelopeSlideIn 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            cursor: pointer; width: 65%; max-width: 220px; aspect-ratio: 5 / 3.6;
+            -webkit-tap-highlight-color: transparent; animation: envelopeSlideIn 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
-        .envelope-closed-wrapper img {
-            filter: var(--filter-envelope-shadow);
-            transition: transform 0.2s ease;
-        }
+        .envelope-closed-wrapper img { filter: var(--filter-envelope-shadow); transition: transform 0.2s ease; }
+        .envelope-closed-wrapper:active img { transform: scale(0.96); }
 
-        .envelope-closed-wrapper:active img {
-            transform: scale(0.96);
-        }
-
-        @keyframes envelopeSlideIn {
-            0% { transform: translateY(5vh); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
-        }
-
-        .stage-transition #intro-overlay {
-            pointer-events: none;
-            opacity: 0;
-            visibility: hidden;
-        }
+        @keyframes envelopeSlideIn { 0% { transform: translateY(5vh); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
+        .stage-transition #intro-overlay { pointer-events: none; opacity: 0; visibility: hidden; }
 
         /* ---------------------------------------------------------------------
            3. THE CANVAS & SWIPE INDICATOR
         --------------------------------------------------------------------- */
         #top-hero-wrapper {
-            width: 100%;
-            height: 100vh; 
-            height: 100dvh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0; 
-            position: relative;
+            width: 100%; height: 100vh; height: 100dvh;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            flex-shrink: 0; position: relative;
         }
 
-        /* FIXED: Prevents Top/Bottom Clipping on short desktop screens */
         #composition-canvas {
-            position: relative;
-            /* Prioritize fitting the screen height */
-            height: 82vh; 
-            max-height: 650px; 
-            /* Let the width adapt automatically based on the height */
-            width: auto;
-            /* But ensure it never breaks out of the mobile container width */
-            max-width: 92%; 
-            aspect-ratio: 3 / 5.2; 
-            display: none;
+            position: relative; height: 82vh; max-height: 650px; width: auto; max-width: 92%; 
+            aspect-ratio: 3 / 5.2; display: none;
         }
 
-        .stage-transition #composition-canvas {
-            display: block;
-        }
+        .stage-transition #composition-canvas { display: block; }
 
-        /* --- SWIPE UP INDICATOR --- */
         .swipe-up-indicator {
-            position: absolute;
-            bottom: 15px; 
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            z-index: 50;
+            position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; opacity: 0; pointer-events: none; z-index: 50;
         }
 
-        .reveal-content .swipe-up-indicator {
-            animation: swipeAppear 0.5s forwards 1.2s, swipeBounce 2s infinite 1.7s ease-in-out;
-        }
-
-        .swipe-chevron {
-            width: 18px;
-            height: 18px;
-            border-left: 2px solid var(--text-color);
-            border-top: 2px solid var(--text-color);
-            transform: rotate(45deg);
-            margin-bottom: 8px;
-        }
-
-        .swipe-text {
-            font-size: 1rem;
-            color: var(--text-color);
-        }
-
-        @keyframes swipeAppear {
-            to { opacity: 0.8; }
-        }
-
-        @keyframes swipeBounce {
-            0%, 100% { transform: translate(-50%, 0); }
-            50% { transform: translate(-50%, -12px); }
-        }
+        .reveal-content .swipe-up-indicator { animation: swipeAppear 0.5s forwards 1.2s, swipeBounce 2s infinite 1.7s ease-in-out; }
+        .swipe-chevron { width: 18px; height: 18px; border-left: 2px solid var(--text-color); border-top: 2px solid var(--text-color); transform: rotate(45deg); margin-bottom: 8px; }
+        .swipe-text { font-size: 1rem; color: var(--text-color); }
+        @keyframes swipeAppear { to { opacity: 0.8; } }
+        @keyframes swipeBounce { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -12px); } }
 
         /* --- COLLAGE ASSETS --- */
         #opened-envelope-container { position: absolute; top: 2%; left: 50%; width: 70%; z-index: 1; transform: translateX(-50%) scale(0.8); opacity: 0; display: flex; justify-content: center; }
         .stage-transition #opened-envelope-container { animation: openAndZoom 0.7s cubic-bezier(0.34, 1.2, 0.64, 1) forwards; }
         #opened-envelope-container img { width: 100%; height: auto; object-fit: contain; filter: var(--filter-envelope-shadow); }
         @keyframes openAndZoom { 0% { transform: translateX(-50%) scale(0.8); opacity: 0; } 100% { transform: translateX(-50%) scale(1); opacity: 1; } }
-
         .save-the-date-card { position: absolute; top: 28%; right: 8%; width: 45%; aspect-ratio: 1/1.5; z-index: 3; opacity: 0; background: #ffffff; box-shadow: var(--shadow-paper-layered); border-radius: 2px; padding: 3px; }
         .reveal-content .save-the-date-card { animation: cascadeIn 0.7s cubic-bezier(0.215, 0.610, 0.355, 1) 0.1s forwards; }
         .vinyl-accent-wrapper { position: absolute; top: 34%; left: 6%; width: 40%; aspect-ratio: 1/1; border-radius: 50%; z-index: 2; opacity: 0; box-shadow: var(--shadow-vinyl); background: #111111; overflow: hidden; }
@@ -264,96 +150,39 @@
         /* ---------------------------------------------------------------------
            4. SECTION 2: WEDDING DETAILS & COUNTDOWN
         --------------------------------------------------------------------- */
+        .wedding-details-section { width: 100%; height: 100vh; height: 100dvh; display: none; flex-direction: column; flex-shrink: 0; }
+        .reveal-content .wedding-details-section { display: flex; }
+        .elegant-font { font-family: 'Poqrik', sans-serif; font-weight: 300; letter-spacing: 0.5px; text-align: center; margin: 0; text-transform: none; }
         
-        .wedding-details-section {
-            width: 100%;
-            height: 100vh; 
-            height: 100dvh; 
-            display: none; 
-            flex-direction: column;
-            flex-shrink: 0;
-        }
-
-        .reveal-content .wedding-details-section {
-            display: flex;
-        }
-
-        .elegant-font {
-            font-family: 'Poqrik', sans-serif;
-            font-weight: 300; 
-            letter-spacing: 0.5px;
-            text-align: center;
-            margin: 0;
-            text-transform: none; 
-        }
-
-        .invitation-container {
-            background-color: var(--bg-color);
-            height: 55%;
-            padding: 20px 25px; 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
+        .invitation-container { background-color: var(--bg-color); height: 55%; padding: 20px 25px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .invitation-container h2 { font-size: 2.1rem; color: var(--text-color); margin-bottom: 20px; }
         .invitation-container p { font-size: 1.15rem; color: var(--text-color); line-height: 1.5; max-width: 95%; }
-        
         .simple-divider { width: 100px; height: 1.5px; background-color: rgba(85, 79, 67, 0.6); margin-top: 35px; }
 
-        .countdown-container {
-            background-color: var(--olive-color); 
-            height: 40%;
-            padding: 15px; 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .countdown-container h2 { 
-            color: var(--bg-color); 
-            font-size: 2.1rem; 
-            margin-bottom: 25px; 
-            white-space: nowrap; 
-        }
-
+        .countdown-container { background-color: var(--olive-color); height: 40%; padding: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .countdown-container h2 { color: var(--bg-color); font-size: 2.1rem; margin-bottom: 25px; white-space: nowrap; }
         .timer-wrapper { display: flex; gap: 10px; justify-content: center; flex-wrap: nowrap; width: 100%; max-width: 380px; }
         .timer-box { background-color: #ffffff; border-radius: 6px; flex: 1; height: 70px; max-width: 75px; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18); }
         .timer-number { font-size: 1.45rem; color: var(--olive-color); font-weight: 300; margin-bottom: 0px; line-height: 1.2; }
         .timer-label { font-size: 0.75rem; color: var(--olive-color); }
 
-        .transition-container {
-            background-color: var(--bg-color);
-            height: 5%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding-bottom: 5px;
-        }
-
-        .decorative-divider { display: flex; align-items: center; justify-content: center; width: 70%; max-width: 250px; }
+        .transition-container { background-color: var(--bg-color); height: 5%; display: flex; align-items: center; justify-content: center; padding-bottom: 5px; }
+        .decorative-divider { display: flex; align-items: center; justify-content: center; width: 70%; max-width: 250px; margin: 0 auto; }
         .decorative-divider::before, .decorative-divider::after { content: ''; flex: 1; height: 1px; background-color: rgba(85, 79, 67, 0.3); }
         .divider-star { margin: 0 15px; color: var(--text-color); font-size: 0.9rem; }
 
         /* ---------------------------------------------------------------------
-           5. SECTION 3: CALENDAR & QUOTE
+           5. SECTION 3: CALENDAR & MASONRY GALLERY
         --------------------------------------------------------------------- */
+        /* Changed to min-height so it can stretch to fit calendar + slider */
         .calendar-section {
-            width: 100%;
-            height: 100vh;
-            height: 100dvh;
-            background-color: var(--bg-color);
-            display: none; 
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            flex-shrink: 0;
+            width: 100%; min-height: 100vh; background-color: var(--bg-color);
+            display: none; flex-direction: column; align-items: center; 
+            padding: 40px 20px 60px 20px; flex-shrink: 0;
         }
 
         .reveal-content .calendar-section { display: flex; }
+        
         .calendar-title { font-size: 2.2rem; color: var(--text-color); margin-bottom: 30px; }
         .calendar-card { background: #ffffff; border-radius: 14px; padding: 25px 20px; width: 100%; max-width: 340px; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05); margin-bottom: 30px; }
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px 8px; text-align: center; }
@@ -362,14 +191,34 @@
         .calendar-cell { font-size: 1.05rem; color: var(--text-color); position: relative; height: 32px; display: flex; align-items: center; justify-content: center; }
         .marked-date { font-weight: bold; z-index: 1; }
         .heart-outline { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -46%) scale(1.6); width: 26px; height: 26px; z-index: -1; stroke: var(--olive-color); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; fill: none; }
-        .calendar-section .decorative-divider { margin: 10px 0 25px 0; }
-        .bottom-quote { font-size: 1.8rem; color: var(--text-color); }
+        
+        .bottom-quote { font-size: 2rem; color: var(--text-color); margin: 25px 0; }
+
+        /* --- MASONRY IMAGE CAROUSEL --- */
+        .gallery-carousel { width: 100%; margin-top: 15px; }
+        
+        .carousel-track {
+            display: flex; gap: 12px; padding: 0 20px;
+            overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+            -ms-overflow-style: none; scrollbar-width: none;
+        }
+        .carousel-track::-webkit-scrollbar { display: none; }
+        
+        /* Specific Masonry Slide styling to match screenshot */
+        .masonry-slide {
+            display: flex; gap: 10px; flex: 0 0 90%; 
+            scroll-snap-align: center; height: 360px;
+        }
+
+        .masonry-left { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+        .masonry-left img { width: 100%; height: calc(50% - 5px); border-radius: 12px; }
+        .masonry-right { flex: 1.1; }
+        .masonry-right img { width: 100%; height: 100%; border-radius: 12px; }
 
     </style>
 </head>
 <body class="lock-scroll">
 
-    <!-- STATE 1: INITIAL INTRO OVERLAY (Fixed above everything) -->
     <div id="intro-overlay">
         <h2 class="instruction-text">Սեղմեք՝ բացելու համար</h2>
         <div class="envelope-closed-wrapper" id="envelopeBtn" role="button" aria-label="Բացել հրավիրատոմսը">
@@ -377,7 +226,6 @@
         </div>
     </div>
 
-    <!-- MAIN SEAMLESS WRAPPER (Centers everything on desktop automatically) -->
     <div id="mobile-container">
         
         <div id="top-hero-wrapper">
@@ -404,7 +252,6 @@
                 </div>
             </div>
 
-            <!-- SWIPE UP INDICATOR -->
             <div class="swipe-up-indicator">
                 <div class="swipe-chevron"></div>
                 <span class="swipe-text elegant-font">Թերթեք վերև</span>
@@ -421,60 +268,29 @@
             <div class="countdown-container">
                 <h2 class="elegant-font">Հարսանիքին մնացել է</h2>
                 <div class="timer-wrapper">
-                    <div class="timer-box">
-                        <span id="cd-days" class="timer-number elegant-font">00</span>
-                        <span class="timer-label elegant-font">Օր</span>
-                    </div>
-                    <div class="timer-box">
-                        <span id="cd-hours" class="timer-number elegant-font">00</span>
-                        <span class="timer-label elegant-font">Ժամ</span>
-                    </div>
-                    <div class="timer-box">
-                        <span id="cd-minutes" class="timer-number elegant-font">00</span>
-                        <span class="timer-label elegant-font">Րոպե</span>
-                    </div>
-                    <div class="timer-box">
-                        <span id="cd-seconds" class="timer-number elegant-font">00</span>
-                        <span class="timer-label elegant-font">Վայրկյան</span>
-                    </div>
+                    <div class="timer-box"><span id="cd-days" class="timer-number elegant-font">00</span><span class="timer-label elegant-font">Օր</span></div>
+                    <div class="timer-box"><span id="cd-hours" class="timer-number elegant-font">00</span><span class="timer-label elegant-font">Ժամ</span></div>
+                    <div class="timer-box"><span id="cd-minutes" class="timer-number elegant-font">00</span><span class="timer-label elegant-font">Րոպե</span></div>
+                    <div class="timer-box"><span id="cd-seconds" class="timer-number elegant-font">00</span><span class="timer-label elegant-font">Վայրկյան</span></div>
                 </div>
             </div>
 
             <div class="transition-container">
-                <div class="decorative-divider">
-                    <span class="divider-star">✦</span>
-                </div>
+                <div class="decorative-divider"><span class="divider-star">✦</span></div>
             </div>
         </section>
 
+        <!-- SECTION 3 & 4 (CALENDAR + GALLERY) -->
         <section class="calendar-section">
             <h2 class="elegant-font calendar-title">Սեպտեմբեր 13, 2026</h2>
             
             <div class="calendar-card elegant-font">
                 <div class="calendar-grid calendar-days-header">
-                    <div class="day-name">Երկ</div>
-                    <div class="day-name">Երք</div>
-                    <div class="day-name">Չրք</div>
-                    <div class="day-name">Հնգ</div>
-                    <div class="day-name">Ուր</div>
-                    <div class="day-name">Շբթ</div>
-                    <div class="day-name">Կիր</div>
+                    <div class="day-name">Երկ</div><div class="day-name">Երք</div><div class="day-name">Չրք</div><div class="day-name">Հնգ</div><div class="day-name">Ուր</div><div class="day-name">Շբթ</div><div class="day-name">Կիր</div>
                 </div>
                 
                 <div class="calendar-grid">
-                    <div class="calendar-cell empty"></div>
-                    <div class="calendar-cell">1</div>
-                    <div class="calendar-cell">2</div>
-                    <div class="calendar-cell">3</div>
-                    <div class="calendar-cell">4</div>
-                    <div class="calendar-cell">5</div>
-                    <div class="calendar-cell">6</div>
-                    <div class="calendar-cell">7</div>
-                    <div class="calendar-cell">8</div>
-                    <div class="calendar-cell">9</div>
-                    <div class="calendar-cell">10</div>
-                    <div class="calendar-cell">11</div>
-                    <div class="calendar-cell">12</div>
+                    <div class="calendar-cell empty"></div><div class="calendar-cell">1</div><div class="calendar-cell">2</div><div class="calendar-cell">3</div><div class="calendar-cell">4</div><div class="calendar-cell">5</div><div class="calendar-cell">6</div><div class="calendar-cell">7</div><div class="calendar-cell">8</div><div class="calendar-cell">9</div><div class="calendar-cell">10</div><div class="calendar-cell">11</div><div class="calendar-cell">12</div>
                     
                     <div class="calendar-cell marked-date">
                         13
@@ -483,55 +299,67 @@
                         </svg>
                     </div>
                     
-                    <div class="calendar-cell">14</div>
-                    <div class="calendar-cell">15</div>
-                    <div class="calendar-cell">16</div>
-                    <div class="calendar-cell">17</div>
-                    <div class="calendar-cell">18</div>
-                    <div class="calendar-cell">19</div>
-                    <div class="calendar-cell">20</div>
-                    <div class="calendar-cell">21</div>
-                    <div class="calendar-cell">22</div>
-                    <div class="calendar-cell">23</div>
-                    <div class="calendar-cell">24</div>
-                    <div class="calendar-cell">25</div>
-                    <div class="calendar-cell">26</div>
-                    <div class="calendar-cell">27</div>
-                    <div class="calendar-cell">28</div>
-                    <div class="calendar-cell">29</div>
-                    <div class="calendar-cell">30</div>
+                    <div class="calendar-cell">14</div><div class="calendar-cell">15</div><div class="calendar-cell">16</div><div class="calendar-cell">17</div><div class="calendar-cell">18</div><div class="calendar-cell">19</div><div class="calendar-cell">20</div><div class="calendar-cell">21</div><div class="calendar-cell">22</div><div class="calendar-cell">23</div><div class="calendar-cell">24</div><div class="calendar-cell">25</div><div class="calendar-cell">26</div><div class="calendar-cell">27</div><div class="calendar-cell">28</div><div class="calendar-cell">29</div><div class="calendar-cell">30</div>
                 </div>
             </div>
 
-            <div class="decorative-divider">
-                <span class="divider-star">✦</span>
+            <!-- Pre-Quote Divider -->
+            <div class="decorative-divider"><span class="divider-star">✦</span></div>
+            
+            <p class="elegant-font bottom-quote">Ամեն ինչ սկսվում է սիրուց</p>
+
+            <!-- Post-Quote Divider -->
+            <div class="decorative-divider"><span class="divider-star">✦</span></div>
+
+            <!-- Auto-Scrolling Masonry Gallery -->
+            <div class="gallery-carousel">
+                <div class="carousel-track" id="gallery-track">
+                    
+                    <!-- Slide 1: Images 1, 2, 3 -->
+                    <div class="masonry-slide">
+                        <div class="masonry-left">
+                            <img src="nkar1.jpeg" alt="Gallery Image 1">
+                            <img src="nkar2.jpeg" alt="Gallery Image 2">
+                        </div>
+                        <div class="masonry-right">
+                            <img src="nkar3.jpeg" alt="Gallery Image 3">
+                        </div>
+                    </div>
+                    
+                    <!-- Slide 2: Images 4, 5, 6 -->
+                    <div class="masonry-slide">
+                        <div class="masonry-left">
+                            <img src="nkar4.jpeg" alt="Gallery Image 4">
+                            <img src="nkar5.jpeg" alt="Gallery Image 5">
+                        </div>
+                        <div class="masonry-right">
+                            <img src="nkar6.jpeg" alt="Gallery Image 6">
+                        </div>
+                    </div>
+                    
+                </div>
             </div>
 
-            <p class="elegant-font bottom-quote">Ամեն ինչ սկսվում է սիրուց</p>
         </section>
-        
     </div>
 
-    <!-- LOGIC -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const envelopeBtn = document.getElementById('envelopeBtn');
             const body = document.body;
+            const mobileContainer = document.getElementById('mobile-container');
 
             envelopeBtn.addEventListener('click', () => {
-                // Unlock body scrolling
                 body.classList.remove('lock-scroll');
                 body.classList.add('unlocked');
-                
-                // Trigger transitions ON THE BODY to ensure intro-overlay gets animated
                 body.classList.add('stage-transition');
                 setTimeout(() => {
                     body.classList.add('reveal-content');
                 }, 350); 
             });
 
+            // Countdown Logic
             const targetDate = new Date("September 13, 2026 00:00:00").getTime();
-
             const updateCountdown = setInterval(() => {
                 const now = new Date().getTime();
                 const timeRemaining = targetDate - now;
@@ -554,8 +382,28 @@
                 document.getElementById("cd-hours").innerText = hours.toString().padStart(2, '0');
                 document.getElementById("cd-minutes").innerText = minutes.toString().padStart(2, '0');
                 document.getElementById("cd-seconds").innerText = seconds.toString().padStart(2, '0');
-                
             }, 1000); 
+
+            // Auto-Scrolling Gallery Logic
+            const track = document.getElementById('gallery-track');
+            let autoScroll = setInterval(scrollGallery, 3000);
+
+            function scrollGallery() {
+                if (!track) return;
+                // Width of one slide + gap
+                const slideWidth = track.querySelector('.masonry-slide').offsetWidth + 12; 
+                
+                // If scrolled to the end, snap back to start. Otherwise scroll next.
+                if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 10) {
+                    track.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    track.scrollBy({ left: slideWidth, behavior: 'smooth' });
+                }
+            }
+
+            // Pause auto-scroll if user interacts/swipes manually
+            track.addEventListener('touchstart', () => clearInterval(autoScroll));
+            track.addEventListener('mousedown', () => clearInterval(autoScroll));
         });
     </script>
 </body>
