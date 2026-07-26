@@ -517,17 +517,16 @@
         document.addEventListener('DOMContentLoaded', () => {
             const envelopeBtn = document.getElementById('envelopeBtn');
             const body = document.body;
-            const mobileContainer = document.getElementById('mobile-container');
 
             envelopeBtn.addEventListener('click', () => {
                 // Unlock body scrolling
                 body.classList.remove('lock-scroll');
                 body.classList.add('unlocked');
                 
-                // Trigger transitions
-                mobileContainer.classList.add('stage-transition');
+                // Trigger transitions ON THE BODY to ensure intro-overlay gets animated
+                body.classList.add('stage-transition');
                 setTimeout(() => {
-                    mobileContainer.classList.add('reveal-content');
+                    body.classList.add('reveal-content');
                 }, 350); 
             });
 
