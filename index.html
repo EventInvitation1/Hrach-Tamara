@@ -38,7 +38,7 @@
         }
 
         /* ---------------------------------------------------------------------
-           1. CORE RESETS & DESKTOP CENTERING
+           1. CORE RESETS & SEAMLESS SCROLLING
         --------------------------------------------------------------------- */
         * {
             box-sizing: border-box;
@@ -50,42 +50,38 @@
             width: 100%;
             height: 100%;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-color); /* Seamless background for desktop */
+            background-color: var(--bg-color); /* Seamless full-screen background */
             color: var(--text-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeLegibility;
-            overflow: hidden; /* Prevents body scrolling */
+            
+            /* Hide the main scrollbar but preserve scrolling functionality */
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
         }
 
+        body::-webkit-scrollbar, html::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
+        }
+
+        body.lock-scroll {
+            overflow: hidden;
+        }
+
+        body.unlocked {
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        /* The Centered Mobile Simulator (No borders/shadows, just width constraint) */
         #mobile-container {
             width: 100%;
             max-width: 430px; 
-            height: 100vh;
-            height: 100dvh;
-            background-color: var(--bg-color);
-            position: relative;
+            margin: 0 auto; /* Centers the content seamlessly on desktop */
             display: flex;
             flex-direction: column;
-            overflow: hidden; 
-            
-            /* Hide scrollbar for IE, Edge and Firefox */
-            -ms-overflow-style: none;  
-            scrollbar-width: none;  
-        }
-
-        /* Hide scrollbar for Chrome, Safari and Opera */
-        #mobile-container::-webkit-scrollbar {
-            display: none;
-        }
-
-        #mobile-container.unlocked {
-            overflow-y: auto;
-            overflow-x: hidden;
-            justify-content: flex-start; 
+            position: relative;
         }
 
         img {
@@ -102,7 +98,7 @@
            2. STATE 1: INITIAL INTRO OVERLAY
         --------------------------------------------------------------------- */
         #intro-overlay {
-            position: absolute; 
+            position: fixed; /* Fixed to cover the whole screen naturally */
             top: 0;
             left: 0;
             width: 100%;
@@ -124,13 +120,13 @@
             left: 50%;
             transform: translateX(-50%);
             font-family: 'Poqrik', sans-serif;
-            font-size: 2rem; /* Increased font size */
+            font-size: 2rem; 
             font-weight: 300; 
             letter-spacing: 1px;
             color: var(--text-color);
             text-align: center;
-            width: 100%; /* Ensures it doesn't wrap prematurely */
-            white-space: nowrap; /* Forces text to stay on one line */
+            width: 100%; 
+            white-space: nowrap; 
             user-select: none;
         }
 
@@ -168,9 +164,8 @@
         --------------------------------------------------------------------- */
         #top-hero-wrapper {
             width: 100%;
-            height: 100%; 
-            min-height: 100vh; 
-            min-height: 100dvh;
+            height: 100vh; 
+            height: 100dvh;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -179,13 +174,18 @@
             position: relative;
         }
 
+        /* FIXED: Prevents Top/Bottom Clipping on short desktop screens */
         #composition-canvas {
             position: relative;
-            width: 92%; 
-            max-width: 400px;
+            /* Prioritize fitting the screen height */
+            height: 82vh; 
+            max-height: 650px; 
+            /* Let the width adapt automatically based on the height */
+            width: auto;
+            /* But ensure it never breaks out of the mobile container width */
+            max-width: 92%; 
             aspect-ratio: 3 / 5.2; 
             display: none;
-            margin-bottom: 10%; 
         }
 
         .stage-transition #composition-canvas {
@@ -195,7 +195,7 @@
         /* --- SWIPE UP INDICATOR --- */
         .swipe-up-indicator {
             position: absolute;
-            bottom: 12px; /* Moved further down so it doesn't touch the images */
+            bottom: 15px; 
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -207,7 +207,6 @@
         }
 
         .reveal-content .swipe-up-indicator {
-            /* Fades in after collage reveals, then starts bouncing */
             animation: swipeAppear 0.5s forwards 1.2s, swipeBounce 2s infinite 1.7s ease-in-out;
         }
 
@@ -235,10 +234,7 @@
         }
 
         /* --- COLLAGE ASSETS --- */
-        #opened-envelope-container {
-            position: absolute; top: 2%; left: 50%; width: 70%; z-index: 1;
-            transform: translateX(-50%) scale(0.8); opacity: 0; display: flex; justify-content: center;
-        }
+        #opened-envelope-container { position: absolute; top: 2%; left: 50%; width: 70%; z-index: 1; transform: translateX(-50%) scale(0.8); opacity: 0; display: flex; justify-content: center; }
         .stage-transition #opened-envelope-container { animation: openAndZoom 0.7s cubic-bezier(0.34, 1.2, 0.64, 1) forwards; }
         #opened-envelope-container img { width: 100%; height: auto; object-fit: contain; filter: var(--filter-envelope-shadow); }
         @keyframes openAndZoom { 0% { transform: translateX(-50%) scale(0.8); opacity: 0; } 100% { transform: translateX(-50%) scale(1); opacity: 1; } }
@@ -266,7 +262,7 @@
         @keyframes continuousRotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* ---------------------------------------------------------------------
-           4. SECTION 2: WEDDING DETAILS & COUNTDOWN (Re-proportioned)
+           4. SECTION 2: WEDDING DETAILS & COUNTDOWN
         --------------------------------------------------------------------- */
         
         .wedding-details-section {
@@ -291,7 +287,6 @@
             text-transform: none; 
         }
 
-        /* Top Beige Container - 55% Height */
         .invitation-container {
             background-color: var(--bg-color);
             height: 55%;
@@ -305,14 +300,8 @@
         .invitation-container h2 { font-size: 2.1rem; color: var(--text-color); margin-bottom: 20px; }
         .invitation-container p { font-size: 1.15rem; color: var(--text-color); line-height: 1.5; max-width: 95%; }
         
-        .simple-divider {
-            width: 100px;
-            height: 1.5px;
-            background-color: rgba(85, 79, 67, 0.6); 
-            margin-top: 35px;
-        }
+        .simple-divider { width: 100px; height: 1.5px; background-color: rgba(85, 79, 67, 0.6); margin-top: 35px; }
 
-        /* Middle Olive Green Container - 40% Height */
         .countdown-container {
             background-color: var(--olive-color); 
             height: 40%;
@@ -323,7 +312,6 @@
             justify-content: center;
         }
 
-        /* Increased font-size and added white-space to force one line */
         .countdown-container h2 { 
             color: var(--bg-color); 
             font-size: 2.1rem; 
@@ -331,32 +319,11 @@
             white-space: nowrap; 
         }
 
-        .timer-wrapper {
-            display: flex;
-            gap: 10px; 
-            justify-content: center;
-            flex-wrap: nowrap; 
-            width: 100%;
-            max-width: 380px; 
-        }
-
-        .timer-box {
-            background-color: #ffffff;
-            border-radius: 6px;
-            flex: 1; 
-            height: 70px; 
-            max-width: 75px; 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18); 
-        }
-
+        .timer-wrapper { display: flex; gap: 10px; justify-content: center; flex-wrap: nowrap; width: 100%; max-width: 380px; }
+        .timer-box { background-color: #ffffff; border-radius: 6px; flex: 1; height: 70px; max-width: 75px; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18); }
         .timer-number { font-size: 1.45rem; color: var(--olive-color); font-weight: 300; margin-bottom: 0px; line-height: 1.2; }
         .timer-label { font-size: 0.75rem; color: var(--olive-color); }
 
-        /* Bottom Beige Transition Container - 5% Height */
         .transition-container {
             background-color: var(--bg-color);
             height: 5%;
@@ -366,27 +333,9 @@
             padding-bottom: 5px;
         }
 
-        .decorative-divider {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 70%;
-            max-width: 250px;
-        }
-
-        .decorative-divider::before, 
-        .decorative-divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background-color: rgba(85, 79, 67, 0.3);
-        }
-
-        .divider-star {
-            margin: 0 15px;
-            color: var(--text-color);
-            font-size: 0.9rem;
-        }
+        .decorative-divider { display: flex; align-items: center; justify-content: center; width: 70%; max-width: 250px; }
+        .decorative-divider::before, .decorative-divider::after { content: ''; flex: 1; height: 1px; background-color: rgba(85, 79, 67, 0.3); }
+        .divider-star { margin: 0 15px; color: var(--text-color); font-size: 0.9rem; }
 
         /* ---------------------------------------------------------------------
            5. SECTION 3: CALENDAR & QUOTE
@@ -418,19 +367,19 @@
 
     </style>
 </head>
-<body>
+<body class="lock-scroll">
 
+    <!-- STATE 1: INITIAL INTRO OVERLAY (Fixed above everything) -->
+    <div id="intro-overlay">
+        <h2 class="instruction-text">Սեղմեք՝ բացելու համար</h2>
+        <div class="envelope-closed-wrapper" id="envelopeBtn" role="button" aria-label="Բացել հրավիրատոմսը">
+            <img src="front.png" alt="Closed Envelope">
+        </div>
+    </div>
+
+    <!-- MAIN SEAMLESS WRAPPER (Centers everything on desktop automatically) -->
     <div id="mobile-container">
         
-        <!-- STATE 1: INITIAL INTRO OVERLAY -->
-        <div id="intro-overlay">
-            <h2 class="instruction-text">Սեղմեք՝ բացելու համար</h2>
-            <div class="envelope-closed-wrapper" id="envelopeBtn" role="button" aria-label="Բացել հրավիրատոմսը">
-                <img src="front.png" alt="Closed Envelope">
-            </div>
-        </div>
-
-        <!-- WRAPPER to keep original canvas centered -->
         <div id="top-hero-wrapper">
             <div id="composition-canvas">
                 <div id="opened-envelope-container">
@@ -462,17 +411,13 @@
             </div>
         </div>
 
-        <!-- SECTION 2: Wedding Details & Countdown -->
         <section class="wedding-details-section">
-            
-            <!-- Top Half (55%) -->
             <div class="invitation-container">
                 <h2 class="elegant-font">Հարգելի՛ հյուրեր</h2>
                 <p class="elegant-font">Այս տարվա օրերից մեկը մեզ համար առանձնահատուկ է լինելու, և մենք ցանկանում ենք այն անցկացնել մեր հարազատների ու ընկերների շրջապատում: Մեծ սիրով հրավիրում ենք ձեզ ամենահուզիչ տոնին՝ մեր հարսանիքին:</p>
                 <div class="simple-divider"></div>
             </div>
             
-            <!-- Countdown Container (40%) -->
             <div class="countdown-container">
                 <h2 class="elegant-font">Հարսանիքին մնացել է</h2>
                 <div class="timer-wrapper">
@@ -495,7 +440,6 @@
                 </div>
             </div>
 
-            <!-- Bottom Blend Container (5%) -->
             <div class="transition-container">
                 <div class="decorative-divider">
                     <span class="divider-star">✦</span>
@@ -503,7 +447,6 @@
             </div>
         </section>
 
-        <!-- SECTION 3: Calendar & Quote -->
         <section class="calendar-section">
             <h2 class="elegant-font calendar-title">Սեպտեմբեր 13, 2026</h2>
             
@@ -573,12 +516,16 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const envelopeBtn = document.getElementById('envelopeBtn');
+            const body = document.body;
             const mobileContainer = document.getElementById('mobile-container');
 
             envelopeBtn.addEventListener('click', () => {
-                mobileContainer.classList.add('stage-transition');
-                mobileContainer.classList.add('unlocked');
+                // Unlock body scrolling
+                body.classList.remove('lock-scroll');
+                body.classList.add('unlocked');
                 
+                // Trigger transitions
+                mobileContainer.classList.add('stage-transition');
                 setTimeout(() => {
                     mobileContainer.classList.add('reveal-content');
                 }, 350); 
