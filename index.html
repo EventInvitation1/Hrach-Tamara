@@ -409,6 +409,9 @@
 </head>
 <body class="lock-scroll">
 
+    <!-- AUDIO PLAYER -->
+    <audio id="bgMusic" src="Hayko - Yerani Srtis.mp3" loop preload="auto"></audio>
+
     <!-- INTRO OVERLAY -->
     <div id="intro-overlay">
         <h2 class="instruction-text">Սեղմեք՝ բացելու համար</h2>
@@ -620,12 +623,12 @@
                 <p class="elegant-font">Խնդրում ենք հաստատել ձեր մասնակցությունը<br>մինչև սեպտեմբերի 1-ը:</p>
             </div>
 
-            <form class="rsvp-form" id="rsvpForm" onsubmit="event.preventDefault();">
+            <form class="rsvp-form" id="rsvpForm">
                 
                 <!-- Field: Name & Surname -->
                 <div class="form-group">
                     <label class="elegant-font form-label">Անուն և Ազգանուն</label>
-                    <input type="text" class="form-input" required>
+                    <input type="text" id="rsvpName" name="name" class="form-input" required>
                 </div>
 
                 <!-- Field: Side invited by -->
@@ -635,8 +638,7 @@
                         <div class="elegant-font toggle-btn active" data-value="groom">փեսայի կողմից</div>
                         <div class="elegant-font toggle-btn" data-value="bride">հարսի կողմից</div>
                     </div>
-                    <!-- Hidden input to store value -->
-                    <input type="hidden" id="invitedSide" value="groom">
+                    <input type="hidden" id="invitedSide" name="side" value="groom">
                 </div>
 
                 <!-- Field: Attendance -->
@@ -646,20 +648,19 @@
                         <div class="elegant-font toggle-btn active" data-value="yes">Այո, անպայման կգամ</div>
                         <div class="elegant-font toggle-btn" data-value="no">Ցավոք, չեմ կարող</div>
                     </div>
-                    <!-- Hidden input to store value -->
-                    <input type="hidden" id="attendanceStatus" value="yes">
+                    <input type="hidden" id="attendanceStatus" name="attendance" value="yes">
                 </div>
 
                 <!-- Field: Number of guests -->
                 <div class="form-group" style="margin-top: 10px;">
                     <label class="elegant-font form-label">Հյուրերի քանակ</label>
-                    <input type="number" class="form-input" value="1" min="1" max="10" required>
+                    <input type="number" id="rsvpGuests" name="guests" class="form-input" value="1" min="1" max="10" required>
                 </div>
 
                 <!-- Field: Message (Optional) -->
                 <div class="form-group" style="margin-top: 10px;">
                     <label class="elegant-font form-label">Հաղորդագրություն (ըստ ցանկության)</label>
-                    <textarea class="form-input form-textarea"></textarea>
+                    <textarea id="rsvpMessage" name="message" class="form-input form-textarea"></textarea>
                 </div>
 
                 <!-- Submit Button -->
@@ -677,10 +678,10 @@
         </footer>
 
         <!-- Floating Volume Button -->
-        <div class="floating-volume">
-            <svg viewBox="0 0 24 24">
-                <path d="M14 3.23v17.54l-6-5H4a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h4l6-5z"></path>
-                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+        <div class="floating-volume" id="volumeBtn">
+            <svg id="volumeIcon" viewBox="0 0 24 24">
+                <path id="volumePath1" d="M14 3.23v17.54l-6-5H4a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h4l6-5z"></path>
+                <path id="volumePath2" d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
             </svg>
         </div>
 
@@ -691,18 +692,44 @@
         document.addEventListener('DOMContentLoaded', () => {
             const envelopeBtn = document.getElementById('envelopeBtn');
             const body = document.body;
+            const bgMusic = document.getElementById('bgMusic');
+            const volumeBtn = document.getElementById('volumeBtn');
+            const volumePath2 = document.getElementById('volumePath2');
 
-            // 1. Envelope Unlock
+            // SVG Icons for Volume Button
+            const playSoundSVG = "M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07";
+            const muteSoundSVG = "M23 9l-6 6m0-6l6 6"; // X icon for muted state
+
+            // 1. Envelope Unlock & Music Play
             envelopeBtn.addEventListener('click', () => {
                 body.classList.remove('lock-scroll');
                 body.classList.add('unlocked');
                 body.classList.add('stage-transition');
+                
+                // Play Music on envelope click
+                if (bgMusic) {
+                    bgMusic.play().catch(error => {
+                        console.log("Autoplay restriction prevented music:", error);
+                    });
+                }
+
                 setTimeout(() => {
                     body.classList.add('reveal-content');
                 }, 350); 
             });
 
-            // 2. Countdown Logic
+            // 2. Music Toggle (Play/Pause Button)
+            volumeBtn.addEventListener('click', () => {
+                if (bgMusic.paused) {
+                    bgMusic.play();
+                    volumePath2.setAttribute('d', playSoundSVG);
+                } else {
+                    bgMusic.pause();
+                    volumePath2.setAttribute('d', muteSoundSVG);
+                }
+            });
+
+            // 3. Countdown Logic
             const targetDate = new Date("September 13, 2026 00:00:00").getTime();
             const updateCountdown = setInterval(() => {
                 const now = new Date().getTime();
@@ -728,7 +755,7 @@
                 document.getElementById("cd-seconds").innerText = seconds.toString().padStart(2, '0');
             }, 1000); 
 
-            // 3. Auto-Scrolling Square Gallery
+            // 4. Auto-Scrolling Square Gallery
             const track = document.getElementById('gallery-track');
             let autoScroll = setInterval(scrollGallery, 3000);
 
@@ -748,7 +775,7 @@
             track.addEventListener('touchstart', () => clearInterval(autoScroll));
             track.addEventListener('mousedown', () => clearInterval(autoScroll));
 
-            // 4. Lightbox Viewer Logic
+            // 5. Lightbox Viewer Logic
             const lightbox = document.getElementById('image-lightbox');
             const lightboxImg = document.getElementById('lightboxImg');
             const lightboxClose = document.getElementById('lightboxClose');
@@ -769,7 +796,7 @@
             function openLightbox() {
                 lightboxImg.src = imageUrls[currentImageIndex];
                 lightbox.classList.add('active');
-                clearInterval(autoScroll); // Pause auto-scrolling while viewing
+                clearInterval(autoScroll);
             }
 
             function closeLightbox() {
@@ -798,7 +825,7 @@
                 }
             });
 
-            // 5. Form Toggle Buttons Logic
+            // 6. Form Toggle Buttons Logic
             function setupToggles(groupId, hiddenInputId) {
                 const group = document.getElementById(groupId);
                 const hiddenInput = document.getElementById(hiddenInputId);
@@ -815,6 +842,40 @@
 
             setupToggles('sideToggle', 'invitedSide');
             setupToggles('attendanceToggle', 'attendanceStatus');
+
+            // 7. GOOGLE SHEETS FORM SUBMISSION LOGIC
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbz5I_HW0pfyPD35Zq4grICO5vaASgKRC9VezOzZ1w_w26K-s2k7YzrxNCuApKo89EuyZA/exec';
+            const rsvpForm = document.getElementById('rsvpForm');
+
+            rsvpForm.addEventListener('submit', e => {
+                e.preventDefault();
+                
+                const submitBtn = rsvpForm.querySelector('.submit-btn');
+                const originalText = submitBtn.innerText;
+                
+                submitBtn.innerText = 'Ուղարկվում է...';
+                submitBtn.disabled = true;
+
+                let requestBody = new FormData();
+                requestBody.append('name', document.getElementById('rsvpName').value);
+                requestBody.append('side', document.getElementById('invitedSide').value);
+                requestBody.append('attendance', document.getElementById('attendanceStatus').value);
+                requestBody.append('guests', document.getElementById('rsvpGuests').value);
+                requestBody.append('message', document.getElementById('rsvpMessage').value);
+
+                fetch(scriptURL, { method: 'POST', body: requestBody })
+                    .then(response => {
+                        alert('Շնորհակալություն! Ձեր մասնակցությունը հաստատված է:');
+                        submitBtn.innerText = originalText;
+                        submitBtn.disabled = false;
+                        rsvpForm.reset();
+                    })
+                    .catch(error => {
+                        alert('Սխալ տեղի ունեցավ: Խնդրում ենք փորձել կրկին:');
+                        submitBtn.innerText = originalText;
+                        submitBtn.disabled = false;
+                    });
+            });
         });
     </script>
 </body>
