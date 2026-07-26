@@ -843,7 +843,7 @@
             setupToggles('sideToggle', 'invitedSide');
             setupToggles('attendanceToggle', 'attendanceStatus');
 
-            // 7. GOOGLE SHEETS FORM SUBMISSION LOGIC
+            // 7. GOOGLE SHEETS FORM SUBMISSION LOGIC (WITH CORS FIX)
             const scriptURL = 'https://script.google.com/macros/s/AKfycbz5I_HW0pfyPD35Zq4grICO5vaASgKRC9VezOzZ1w_w26K-s2k7YzrxNCuApKo89EuyZA/exec';
             const rsvpForm = document.getElementById('rsvpForm');
 
@@ -863,14 +863,16 @@
                 requestBody.append('guests', document.getElementById('rsvpGuests').value);
                 requestBody.append('message', document.getElementById('rsvpMessage').value);
 
-                fetch(scriptURL, { method: 'POST', body: requestBody })
-                    .then(response => {
+                // Added mode: 'no-cors' to fix CORS security policy blocks
+                fetch(scriptURL, { method: 'POST', body: requestBody, mode: 'no-cors' })
+                    .then(() => {
                         alert('Շնորհակալություն! Ձեր մասնակցությունը հաստատված է:');
                         submitBtn.innerText = originalText;
                         submitBtn.disabled = false;
                         rsvpForm.reset();
                     })
                     .catch(error => {
+                        console.error('Error:', error);
                         alert('Սխալ տեղի ունեցավ: Խնդրում ենք փորձել կրկին:');
                         submitBtn.innerText = originalText;
                         submitBtn.disabled = false;
