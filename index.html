@@ -211,7 +211,7 @@
             overflow: hidden;
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
             background: #ffffff;
-            cursor: pointer; /* Indicates it can be clicked */
+            cursor: pointer;
         }
         
         .carousel-item img {
@@ -308,6 +308,74 @@
 
         @media (max-width: 430px) { .floating-volume { left: auto; right: 20px; transform: none; } }
 
+        /* ---------------------------------------------------------------------
+           8. DETAILS SECTION CARDS (Մանրամասներ)
+        --------------------------------------------------------------------- */
+        .details-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            gap: 25px;
+        }
+        .detail-card {
+            background-color: #F8F7F2;
+            width: 90%;
+            max-width: 350px;
+            border-radius: 16px;
+            padding: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .detail-img-wrapper {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .detail-img-wrapper img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+        }
+        .detail-icon {
+            width: 28px;
+            height: 28px;
+            margin: 15px 0 10px 0;
+            stroke: var(--text-color);
+            fill: none;
+            stroke-width: 1.5;
+        }
+        .detail-title {
+            font-size: 1.8rem;
+            color: var(--text-color);
+            margin-bottom: 5px;
+            line-height: 1.2;
+        }
+        .detail-address {
+            font-size: 1.1rem;
+            color: #858178;
+            margin-bottom: 20px;
+            line-height: 1.4;
+            padding: 0 10px;
+        }
+        .detail-btn {
+            background-color: var(--olive-color);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 0;
+            width: 85%;
+            border-radius: 25px;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        .detail-btn:active {
+            transform: scale(0.96);
+            background-color: #556239;
+        }
     </style>
 </head>
 <body class="lock-scroll">
@@ -443,6 +511,7 @@
                     </div>
                 </div>
 
+                <!-- ԺԱՄԸ ՓՈԽՎԵԼ Է 16:00 ԻՆՉՊԵՍ ԽՆԴՐԵԼ ԷԻՔ -->
                 <div class="timeline-item">
                     <div class="timeline-icon">
                         <svg viewBox="0 0 24 24">
@@ -453,7 +522,7 @@
                         </svg>
                     </div>
                     <div class="timeline-content elegant-font">
-                        <div class="timeline-time">15:30</div>
+                        <div class="timeline-time">16:00</div> 
                         <div class="timeline-location">Փեսայի տուն</div>
                         <div class="timeline-desc">Ուրախության և միասնության պահեր։</div>
                     </div>
@@ -479,6 +548,68 @@
             <div class="decorative-divider"><span class="divider-star">✦</span></div>
             
             <h2 class="elegant-font details-title">Մանրամասներ</h2>
+
+            <!-- ՆՈՐ ԱՎԵԼԱՑՎԱԾ ՔԱՐՏԱՅԻՆ ԲԱԺԻՆ (ՄԱՆՐԱՄԱՍՆԵՐ) -->
+            <div class="details-container elegant-font">
+                
+                <!-- Հարսի տուն -->
+                <div class="detail-card">
+                    <div class="detail-img-wrapper">
+                        <img src="house.png" alt="Հարսի տուն">
+                    </div>
+                    <!-- Գեղեցիկ icon քարտի մեջ -->
+                    <svg class="detail-icon" viewBox="0 0 24 24">
+                        <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z" />
+                        <circle cx="12" cy="10" r="3" />
+                    </svg>
+                    <h3 class="detail-title">Հարսի տուն</h3>
+                    <p class="detail-address">ք․ Երևան, փ․ Պարիս Հերունի 37</p>
+                    <a href="https://yandex.com/maps/10262/yerevan/house/paris_herunu_poghots_37/YE0Ycg9iSk0GQFpqfX5wdHVjZg==/?ll=44.482381%2C40.213215&z=16" target="_blank" class="detail-btn">Ինչպես հասնել</a>
+                </div>
+
+                <!-- Եկեղեցի -->
+                <div class="detail-card">
+                    <div class="detail-img-wrapper">
+                        <img src="church.png" alt="Պսակադրություն">
+                    </div>
+                    <svg class="detail-icon" viewBox="0 0 24 24">
+                        <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z" />
+                        <circle cx="12" cy="10" r="3" />
+                    </svg>
+                    <h3 class="detail-title">Պսակադրություն</h3>
+                    <p class="detail-address">Լոռու մարզ, Հաղպատ գյուղ</p>
+                    <a href="https://yandex.com/maps/org/haghpat/90213594528/?ll=44.723372%2C41.103874&z=14.01" target="_blank" class="detail-btn">Ինչպես հասնել</a>
+                </div>
+
+                <!-- Փեսայի տուն -->
+                <div class="detail-card">
+                    <div class="detail-img-wrapper">
+                        <img src="house.png" alt="Փեսայի տուն">
+                    </div>
+                    <svg class="detail-icon" viewBox="0 0 24 24">
+                        <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z" />
+                        <circle cx="12" cy="10" r="3" />
+                    </svg>
+                    <h3 class="detail-title">Փեսայի տուն</h3>
+                    <p class="detail-address">ք․ Երևան, Դավթաշեն 4 փ․ 18/1</p>
+                    <a href="https://yandex.com/maps/105789/aragatsotn/house/4_rd_poghots_18_1/YEoYfwJlSEwBQFpqfX93cnRhbQ==/?ll=43.955196%2C40.363829&z=16.35" target="_blank" class="detail-btn">Ինչպես հասնել</a>
+                </div>
+
+                <!-- Ռեստորան -->
+                <div class="detail-card">
+                    <div class="detail-img-wrapper">
+                        <img src="restaurant.png" alt="Հարսնաքար Ռեստորանային Համալիր">
+                    </div>
+                    <svg class="detail-icon" viewBox="0 0 24 24">
+                        <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z" />
+                        <circle cx="12" cy="10" r="3" />
+                    </svg>
+                    <h3 class="detail-title">Հարսնաքար Ռեստորանային Համալիր</h3>
+                    <p class="detail-address">ք․ Երևան, փ․ Աճարյան 35</p>
+                    <a href="https://yandex.com/maps/org/harsnakar/105482218918/?ll=44.560884%2C40.220123&z=16.3" target="_blank" class="detail-btn">Ինչպես հասնել</a>
+                </div>
+
+            </div>
 
         </section>
 
