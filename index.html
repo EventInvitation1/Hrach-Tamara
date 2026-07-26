@@ -27,6 +27,7 @@
             --bg-color: #EAE7DC;
             --text-color: #554F43;
             --olive-color: #6a774c;
+            --footer-bg: #4a5435;
             --shadow-paper-layered: 0 12px 24px -6px rgba(0, 0, 0, 0.18), 0 4px 10px -2px rgba(0, 0, 0, 0.10);
             --shadow-vinyl: 0 8px 18px rgba(0, 0, 0, 0.28);
             --filter-drop-shadow: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.16));
@@ -312,70 +313,98 @@
            8. DETAILS SECTION CARDS (Մանրամասներ)
         --------------------------------------------------------------------- */
         .details-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            gap: 25px;
+            display: flex; flex-direction: column; align-items: center; width: 100%; gap: 25px;
         }
         .detail-card {
-            background-color: #F8F7F2;
-            width: 90%;
-            max-width: 350px;
-            border-radius: 16px;
-            padding: 10px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
+            background-color: #F8F7F2; width: 90%; max-width: 350px; border-radius: 16px; padding: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); display: flex; flex-direction: column; align-items: center; text-align: center;
         }
-        .detail-img-wrapper {
-            width: 100%;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-        .detail-img-wrapper img {
-            width: 100%;
-            aspect-ratio: 4/3;
-            object-fit: cover;
-        }
-        .detail-icon {
-            width: 28px;
-            height: 28px;
-            margin: 15px 0 10px 0;
-            stroke: var(--text-color);
-            fill: none;
-            stroke-width: 1.5;
-        }
-        .detail-title {
-            font-size: 1.8rem;
-            color: var(--text-color);
-            margin-bottom: 5px;
-            line-height: 1.2;
-        }
-        .detail-address {
-            font-size: 1.1rem;
-            color: #858178;
-            margin-bottom: 20px;
-            line-height: 1.4;
-            padding: 0 10px;
-        }
+        .detail-img-wrapper { width: 100%; border-radius: 12px; overflow: hidden; }
+        .detail-img-wrapper img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+        .detail-icon { width: 28px; height: 28px; margin: 15px 0 10px 0; stroke: var(--text-color); fill: none; stroke-width: 1.5; }
+        .detail-title { font-size: 1.8rem; color: var(--text-color); margin-bottom: 5px; line-height: 1.2; }
+        .detail-address { font-size: 1.1rem; color: #858178; margin-bottom: 20px; line-height: 1.4; padding: 0 10px; }
         .detail-btn {
-            background-color: var(--olive-color);
-            color: #ffffff;
-            text-decoration: none;
-            padding: 12px 0;
-            width: 85%;
-            border-radius: 25px;
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-            transition: transform 0.2s, background-color 0.2s;
+            background-color: var(--olive-color); color: #ffffff; text-decoration: none; padding: 12px 0;
+            width: 85%; border-radius: 25px; font-size: 1.3rem; margin-bottom: 15px; transition: transform 0.2s, background-color 0.2s;
         }
-        .detail-btn:active {
-            transform: scale(0.96);
-            background-color: #556239;
+        .detail-btn:active { transform: scale(0.96); background-color: #556239; }
+
+        /* ---------------------------------------------------------------------
+           9. SECTION 5: RSVP FORM & FOOTER
+        --------------------------------------------------------------------- */
+        .rsvp-section {
+            width: 100%; background-color: var(--olive-color);
+            display: none; flex-direction: column; align-items: center;
+            padding: 40px 20px 40px 20px; flex-shrink: 0;
         }
+
+        .reveal-content .rsvp-section { display: flex; }
+
+        .rsvp-title {
+            font-size: 2.2rem; color: var(--bg-color); margin-bottom: 25px; text-align: center; line-height: 1.2;
+        }
+
+        .rsvp-info-box {
+            background-color: rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px;
+            width: 100%; max-width: 380px; margin-bottom: 30px; text-align: center;
+        }
+        
+        .rsvp-info-box p {
+            font-size: 1.3rem; color: var(--bg-color); line-height: 1.5; margin: 0;
+        }
+
+        .rsvp-form { width: 100%; max-width: 380px; display: flex; flex-direction: column; gap: 20px; }
+        
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        
+        .form-label { font-size: 1.2rem; color: var(--bg-color); text-align: left; }
+        
+        .form-input {
+            width: 100%; background-color: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px; padding: 12px 15px; font-family: -apple-system, sans-serif; font-size: 1rem; color: #ffffff; outline: none;
+        }
+        .form-input::placeholder { color: rgba(255, 255, 255, 0.6); }
+        .form-input:focus { border-color: var(--bg-color); }
+        
+        .form-textarea { resize: vertical; min-height: 80px; }
+
+        .toggle-group { display: flex; gap: 10px; width: 100%; }
+        
+        .toggle-btn {
+            flex: 1; padding: 12px 5px; border-radius: 10px; font-size: 1.2rem; cursor: pointer; text-align: center;
+            transition: all 0.2s ease; border: 1px solid rgba(255, 255, 255, 0.4);
+            background-color: transparent; color: var(--bg-color);
+            -webkit-tap-highlight-color: transparent; user-select: none;
+        }
+        
+        .toggle-btn.active { background-color: var(--bg-color); color: var(--text-color); border-color: var(--bg-color); }
+        
+        .submit-btn {
+            background-color: var(--bg-color); color: var(--text-color); font-size: 1.5rem;
+            border: none; border-radius: 25px; padding: 15px; margin-top: 15px; cursor: pointer;
+            transition: transform 0.2s; width: 100%;
+        }
+        .submit-btn:active { transform: scale(0.96); }
+
+        /* Footer */
+        .footer-section {
+            width: 100%; background-color: var(--footer-bg);
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            padding: 50px 20px 40px 20px; flex-shrink: 0; text-align: center;
+        }
+        .reveal-content .footer-section { display: flex; }
+
+        .footer-divider { display: flex; align-items: center; justify-content: center; width: 70%; max-width: 200px; margin-bottom: 25px; }
+        .footer-divider::before, .footer-divider::after { content: ''; flex: 1; height: 1px; background-color: rgba(255, 255, 255, 0.3); }
+        .footer-heart { margin: 0 15px; color: var(--bg-color); font-size: 1rem; }
+
+        .footer-names { font-size: 2.5rem; color: var(--bg-color); margin-bottom: 10px; }
+        .footer-date { font-size: 1rem; font-family: -apple-system, sans-serif; letter-spacing: 2px; color: rgba(255,255,255,0.7); margin-bottom: 40px; }
+        
+        .footer-credits { font-size: 0.7rem; font-family: -apple-system, sans-serif; letter-spacing: 1px; color: rgba(255,255,255,0.5); text-transform: uppercase; }
+        .footer-credits span { color: #d9534f; } /* Red heart */
+
     </style>
 </head>
 <body class="lock-scroll">
@@ -468,7 +497,7 @@
             </div>
         </section>
 
-        <!-- SECTION 4: SCHEDULE (Օրվա ծրագիրը) -->
+        <!-- SECTION 4: SCHEDULE & DETAILS -->
         <section class="schedule-section">
             
             <div class="decorative-divider"><span class="divider-star">✦</span></div>
@@ -476,7 +505,6 @@
             <h2 class="elegant-font schedule-title">Օրվա ծրագիրը</h2>
 
             <div class="timeline">
-                
                 <div class="timeline-item">
                     <div class="timeline-icon">
                         <svg viewBox="0 0 24 24">
@@ -511,7 +539,6 @@
                     </div>
                 </div>
 
-                <!-- ԺԱՄԸ ՓՈԽՎԵԼ Է 16:00 ԻՆՉՊԵՍ ԽՆԴՐԵԼ ԷԻՔ -->
                 <div class="timeline-item">
                     <div class="timeline-icon">
                         <svg viewBox="0 0 24 24">
@@ -542,76 +569,112 @@
                         <div class="timeline-desc">Համեղ ուտեստների, զվարճանքի և շնորհավորանքների ժամանակն է։</div>
                     </div>
                 </div>
-
             </div>
 
             <div class="decorative-divider"><span class="divider-star">✦</span></div>
             
             <h2 class="elegant-font details-title">Մանրամասներ</h2>
 
-            <!-- ՆՈՐ ԱՎԵԼԱՑՎԱԾ ՔԱՐՏԱՅԻՆ ԲԱԺԻՆ (ՄԱՆՐԱՄԱՍՆԵՐ) -->
             <div class="details-container elegant-font">
                 
-                <!-- Հարսի տուն -->
                 <div class="detail-card">
-                    <div class="detail-img-wrapper">
-                        <img src="house.png" alt="Հարսի տուն">
-                    </div>
-                    <!-- Գեղեցիկ icon քարտի մեջ -->
-                    <svg class="detail-icon" viewBox="0 0 24 24">
-                        <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z" />
-                        <circle cx="12" cy="10" r="3" />
-                    </svg>
+                    <div class="detail-img-wrapper"><img src="house.png" alt="Հարսի տուն"></div>
+                    <svg class="detail-icon" viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z" /><circle cx="12" cy="10" r="3" /></svg>
                     <h3 class="detail-title">Հարսի տուն</h3>
                     <p class="detail-address">ք․ Երևան, փ․ Պարիս Հերունի 37</p>
                     <a href="https://yandex.com/maps/10262/yerevan/house/paris_herunu_poghots_37/YE0Ycg9iSk0GQFpqfX5wdHVjZg==/?ll=44.482381%2C40.213215&z=16" target="_blank" class="detail-btn">Ինչպես հասնել</a>
                 </div>
 
-                <!-- Եկեղեցի -->
                 <div class="detail-card">
-                    <div class="detail-img-wrapper">
-                        <img src="church.png" alt="Պսակադրություն">
-                    </div>
-                    <svg class="detail-icon" viewBox="0 0 24 24">
-                        <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z" />
-                        <circle cx="12" cy="10" r="3" />
-                    </svg>
+                    <div class="detail-img-wrapper"><img src="church.png" alt="Պսակադրություն"></div>
+                    <svg class="detail-icon" viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z" /><circle cx="12" cy="10" r="3" /></svg>
                     <h3 class="detail-title">Պսակադրություն</h3>
                     <p class="detail-address">Լոռու մարզ, Հաղպատ գյուղ</p>
                     <a href="https://yandex.com/maps/org/haghpat/90213594528/?ll=44.723372%2C41.103874&z=14.01" target="_blank" class="detail-btn">Ինչպես հասնել</a>
                 </div>
 
-                <!-- Փեսայի տուն -->
                 <div class="detail-card">
-                    <div class="detail-img-wrapper">
-                        <img src="house.png" alt="Փեսայի տուն">
-                    </div>
-                    <svg class="detail-icon" viewBox="0 0 24 24">
-                        <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z" />
-                        <circle cx="12" cy="10" r="3" />
-                    </svg>
+                    <div class="detail-img-wrapper"><img src="house.png" alt="Փեսայի տուն"></div>
+                    <svg class="detail-icon" viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z" /><circle cx="12" cy="10" r="3" /></svg>
                     <h3 class="detail-title">Փեսայի տուն</h3>
                     <p class="detail-address">ք․ Երևան, Դավթաշեն 4 փ․ 18/1</p>
                     <a href="https://yandex.com/maps/105789/aragatsotn/house/4_rd_poghots_18_1/YEoYfwJlSEwBQFpqfX93cnRhbQ==/?ll=43.955196%2C40.363829&z=16.35" target="_blank" class="detail-btn">Ինչպես հասնել</a>
                 </div>
 
-                <!-- Ռեստորան -->
                 <div class="detail-card">
-                    <div class="detail-img-wrapper">
-                        <img src="restaurant.png" alt="Հարսնաքար Ռեստորանային Համալիր">
-                    </div>
-                    <svg class="detail-icon" viewBox="0 0 24 24">
-                        <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z" />
-                        <circle cx="12" cy="10" r="3" />
-                    </svg>
+                    <div class="detail-img-wrapper"><img src="restaurant.png" alt="Հարսնաքար Ռեստորանային Համալիր"></div>
+                    <svg class="detail-icon" viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z" /><circle cx="12" cy="10" r="3" /></svg>
                     <h3 class="detail-title">Հարսնաքար Ռեստորանային Համալիր</h3>
                     <p class="detail-address">ք․ Երևան, փ․ Աճարյան 35</p>
                     <a href="https://yandex.com/maps/org/harsnakar/105482218918/?ll=44.560884%2C40.220123&z=16.3" target="_blank" class="detail-btn">Ինչպես հասնել</a>
                 </div>
 
             </div>
-
         </section>
+
+        <!-- SECTION 5: RSVP FORM -->
+        <section class="rsvp-section">
+            <h2 class="elegant-font rsvp-title">Հաստատել մասնակցությունը</h2>
+            
+            <div class="rsvp-info-box">
+                <p class="elegant-font">Խնդրում ենք հաստատել ձեր մասնակցությունը<br>մինչև սեպտեմբերի 1-ը:</p>
+            </div>
+
+            <form class="rsvp-form" id="rsvpForm" onsubmit="event.preventDefault();">
+                
+                <!-- Field: Name & Surname -->
+                <div class="form-group">
+                    <label class="elegant-font form-label">Անուն և Ազգանուն</label>
+                    <input type="text" class="form-input" required>
+                </div>
+
+                <!-- Field: Side invited by -->
+                <div class="form-group" style="margin-top: 10px;">
+                    <label class="elegant-font form-label">Դուք հրավիրված եք</label>
+                    <div class="toggle-group" id="sideToggle">
+                        <div class="elegant-font toggle-btn active" data-value="groom">փեսայի կողմից</div>
+                        <div class="elegant-font toggle-btn" data-value="bride">հարսի կողմից</div>
+                    </div>
+                    <!-- Hidden input to store value -->
+                    <input type="hidden" id="invitedSide" value="groom">
+                </div>
+
+                <!-- Field: Attendance -->
+                <div class="form-group" style="margin-top: 10px;">
+                    <label class="elegant-font form-label">Կկարողանա՞ք ներկա գտնվել տոնակատարությանը:</label>
+                    <div class="toggle-group" id="attendanceToggle">
+                        <div class="elegant-font toggle-btn active" data-value="yes">Այո, անպայման կգամ</div>
+                        <div class="elegant-font toggle-btn" data-value="no">Ցավոք, չեմ կարող</div>
+                    </div>
+                    <!-- Hidden input to store value -->
+                    <input type="hidden" id="attendanceStatus" value="yes">
+                </div>
+
+                <!-- Field: Number of guests -->
+                <div class="form-group" style="margin-top: 10px;">
+                    <label class="elegant-font form-label">Հյուրերի քանակ</label>
+                    <input type="number" class="form-input" value="1" min="1" max="10" required>
+                </div>
+
+                <!-- Field: Message (Optional) -->
+                <div class="form-group" style="margin-top: 10px;">
+                    <label class="elegant-font form-label">Հաղորդագրություն (ըստ ցանկության)</label>
+                    <textarea class="form-input form-textarea"></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="elegant-font submit-btn">Հաստատել</button>
+
+            </form>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="footer-section">
+            <div class="footer-divider"><span class="footer-heart">♥</span></div>
+            <h2 class="elegant-font footer-names">Հրաչ & Թամարա</h2>
+            <div class="footer-date">13 . 09 . 2026</div>
+            <div class="footer-credits">MADE WITH <span>♥</span> FOR OUR WEDDING DAY</div>
+        </footer>
 
         <!-- Floating Volume Button -->
         <div class="floating-volume">
@@ -711,7 +774,6 @@
 
             function closeLightbox() {
                 lightbox.classList.remove('active');
-                // Restart auto scroll
                 clearInterval(autoScroll);
                 autoScroll = setInterval(scrollGallery, 3000);
             }
@@ -730,12 +792,29 @@
             lightboxNext.addEventListener('click', showNextImage);
             lightboxPrev.addEventListener('click', showPrevImage);
 
-            // Close on background click
             lightbox.addEventListener('click', (e) => {
                 if (e.target === lightbox || e.target.classList.contains('lightbox-content')) {
                     closeLightbox();
                 }
             });
+
+            // 5. Form Toggle Buttons Logic
+            function setupToggles(groupId, hiddenInputId) {
+                const group = document.getElementById(groupId);
+                const hiddenInput = document.getElementById(hiddenInputId);
+                const buttons = group.querySelectorAll('.toggle-btn');
+
+                buttons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        buttons.forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        hiddenInput.value = btn.getAttribute('data-value');
+                    });
+                });
+            }
+
+            setupToggles('sideToggle', 'invitedSide');
+            setupToggles('attendanceToggle', 'attendanceStatus');
         });
     </script>
 </body>
