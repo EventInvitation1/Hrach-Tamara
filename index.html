@@ -29,7 +29,6 @@
             --bg-color: #EAE7DC;
             --text-color: #554F43;
             --olive-color: #6a774c;
-            --desktop-bg: #d1cfc7; 
             
             /* Depth & Shadows */
             --shadow-paper-layered: 0 12px 24px -6px rgba(0, 0, 0, 0.18), 0 4px 10px -2px rgba(0, 0, 0, 0.10);
@@ -51,7 +50,7 @@
             width: 100%;
             height: 100%;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--desktop-bg);
+            background-color: var(--bg-color); /* Seamless background for desktop */
             color: var(--text-color);
             display: flex;
             justify-content: center;
@@ -59,6 +58,7 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeLegibility;
+            overflow: hidden; /* Prevents body scrolling */
         }
 
         #mobile-container {
@@ -71,7 +71,15 @@
             display: flex;
             flex-direction: column;
             overflow: hidden; 
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.15); 
+            
+            /* Hide scrollbar for IE, Edge and Firefox */
+            -ms-overflow-style: none;  
+            scrollbar-width: none;  
+        }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        #mobile-container::-webkit-scrollbar {
+            display: none;
         }
 
         #mobile-container.unlocked {
@@ -116,13 +124,13 @@
             left: 50%;
             transform: translateX(-50%);
             font-family: 'Poqrik', sans-serif;
-            font-size: 1.6rem;
+            font-size: 2rem; /* Increased font size */
             font-weight: 300; 
             letter-spacing: 1px;
             color: var(--text-color);
             text-align: center;
-            width: 90%;
-            white-space: nowrap;
+            width: 100%; /* Ensures it doesn't wrap prematurely */
+            white-space: nowrap; /* Forces text to stay on one line */
             user-select: none;
         }
 
@@ -187,7 +195,7 @@
         /* --- SWIPE UP INDICATOR --- */
         .swipe-up-indicator {
             position: absolute;
-            bottom: 30px;
+            bottom: 12px; /* Moved further down so it doesn't touch the images */
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -283,7 +291,7 @@
             text-transform: none; 
         }
 
-        /* Top Beige Container - Increased to 55% Height */
+        /* Top Beige Container - 55% Height */
         .invitation-container {
             background-color: var(--bg-color);
             height: 55%;
@@ -294,11 +302,9 @@
             justify-content: center;
         }
 
-        /* Text sizes made slightly bigger as requested */
         .invitation-container h2 { font-size: 2.1rem; color: var(--text-color); margin-bottom: 20px; }
         .invitation-container p { font-size: 1.15rem; color: var(--text-color); line-height: 1.5; max-width: 95%; }
         
-        /* The separating line under the text - made more prominent */
         .simple-divider {
             width: 100px;
             height: 1.5px;
@@ -306,7 +312,7 @@
             margin-top: 35px;
         }
 
-        /* Middle Olive Green Container - Increased to 40% Height */
+        /* Middle Olive Green Container - 40% Height */
         .countdown-container {
             background-color: var(--olive-color); 
             height: 40%;
@@ -317,7 +323,13 @@
             justify-content: center;
         }
 
-        .countdown-container h2 { color: var(--bg-color); font-size: 1.7rem; margin-bottom: 25px; }
+        /* Increased font-size and added white-space to force one line */
+        .countdown-container h2 { 
+            color: var(--bg-color); 
+            font-size: 2.1rem; 
+            margin-bottom: 25px; 
+            white-space: nowrap; 
+        }
 
         .timer-wrapper {
             display: flex;
@@ -344,7 +356,7 @@
         .timer-number { font-size: 1.45rem; color: var(--olive-color); font-weight: 300; margin-bottom: 0px; line-height: 1.2; }
         .timer-label { font-size: 0.75rem; color: var(--olive-color); }
 
-        /* Bottom Beige Transition Container - Reduced to 5% Height */
+        /* Bottom Beige Transition Container - 5% Height */
         .transition-container {
             background-color: var(--bg-color);
             height: 5%;
@@ -443,14 +455,14 @@
                 </div>
             </div>
 
-            <!-- NEW SWIPE UP INDICATOR (Bounces to prompt scrolling) -->
+            <!-- SWIPE UP INDICATOR -->
             <div class="swipe-up-indicator">
                 <div class="swipe-chevron"></div>
                 <span class="swipe-text elegant-font">Թերթեք վերև</span>
             </div>
         </div>
 
-        <!-- SECTION 2: Wedding Details & Countdown (Text and Green Box take up 95% of screen) -->
+        <!-- SECTION 2: Wedding Details & Countdown -->
         <section class="wedding-details-section">
             
             <!-- Top Half (55%) -->
