@@ -203,23 +203,63 @@
         }
         .carousel-track::-webkit-scrollbar { display: none; }
         
-        /* Square Image Items */
         .carousel-item {
-            flex: 0 0 85%; /* Shows a peek of the next image */
-            aspect-ratio: 1 / 1; /* Forces a perfect square */
+            flex: 0 0 85%;
+            aspect-ratio: 1 / 1; 
             scroll-snap-align: center;
-            border-radius: 16px; /* Rounded corners */
+            border-radius: 16px; 
             overflow: hidden;
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-            background: #ffffff; /* Fallback */
+            background: #ffffff;
+            cursor: pointer; /* Indicates it can be clicked */
         }
         
         .carousel-item img {
-            width: 100%; height: 100%; object-fit: cover;
+            width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;
         }
+        
+        .carousel-item:active img { transform: scale(0.98); }
 
         /* ---------------------------------------------------------------------
-           6. SECTION 4: SCHEDULE / TIMELINE
+           6. LIGHTBOX OVERLAY (IMAGE VIEWER)
+        --------------------------------------------------------------------- */
+        .lightbox-overlay {
+            display: none; position: fixed; z-index: 9999;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.3s ease;
+        }
+
+        .lightbox-overlay.active { display: flex; opacity: 1; }
+
+        .lightbox-content {
+            position: relative; width: 100%; max-width: 500px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .lightbox-content img {
+            max-width: 90%; max-height: 85vh; object-fit: contain; border-radius: 8px;
+        }
+
+        .lightbox-close {
+            position: absolute; top: -40px; right: 20px;
+            color: #ffffff; font-size: 35px; font-weight: 300; cursor: pointer; user-select: none;
+        }
+
+        .lightbox-prev, .lightbox-next {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            color: #ffffff; font-size: 24px; padding: 15px; cursor: pointer;
+            background-color: rgba(0,0,0,0.5); border-radius: 50%; user-select: none;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .lightbox-prev { left: 10px; }
+        .lightbox-next { right: 10px; }
+        .lightbox-prev:active, .lightbox-next:active { background-color: rgba(0,0,0,0.8); }
+
+        /* ---------------------------------------------------------------------
+           7. SECTION 4: SCHEDULE / TIMELINE
         --------------------------------------------------------------------- */
         .schedule-section {
             width: 100%; background-color: var(--bg-color);
@@ -231,24 +271,15 @@
 
         .schedule-title { font-size: 2.3rem; color: var(--text-color); margin: 25px 0 45px 0; }
 
-        /* Vertical Timeline Layout */
-        .timeline {
-            position: relative; width: 100%; max-width: 320px; margin-bottom: 40px;
-        }
+        .timeline { position: relative; width: 100%; max-width: 320px; margin-bottom: 40px; }
 
-        /* The Vertical Connecting Line */
         .timeline::before {
-            content: ''; position: absolute;
-            top: 40px; bottom: 40px; left: 24px; /* Perfectly aligned behind the 48px icons */
+            content: ''; position: absolute; top: 40px; bottom: 40px; left: 24px; 
             width: 1px; background-color: rgba(85, 79, 67, 0.3); z-index: 1;
         }
 
-        /* CHANGED: align-items to center so the box sits exactly in the middle of the text */
-        .timeline-item {
-            display: flex; align-items: center; margin-bottom: 35px; position: relative; z-index: 2;
-        }
+        .timeline-item { display: flex; align-items: center; margin-bottom: 35px; position: relative; z-index: 2; }
 
-        /* White squircle Icon Box */
         .timeline-icon {
             width: 48px; height: 48px; background-color: #ffffff; border-radius: 12px;
             display: flex; align-items: center; justify-content: center;
@@ -257,9 +288,7 @@
 
         .timeline-icon svg { width: 22px; height: 22px; stroke: var(--olive-color); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 
-        /* Timeline Text */
         .timeline-content { margin-left: 20px; text-align: left; }
-        
         .timeline-time { font-size: 1.45rem; color: var(--olive-color); margin-bottom: 0px; text-align: left; }
         .timeline-location { font-size: 1.45rem; color: var(--text-color); font-weight: bold; margin-bottom: 4px; text-align: left; }
         .timeline-desc { font-size: 0.95rem; color: #858178; line-height: 1.4; text-align: left; }
@@ -268,8 +297,7 @@
 
         /* Floating Volume Button */
         .floating-volume {
-            position: fixed; bottom: 30px;
-            left: 50%; transform: translateX(150px); 
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(150px); 
             width: 45px; height: 45px; background-color: var(--olive-color); border-radius: 50%;
             display: none; align-items: center; justify-content: center;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 100; cursor: pointer;
@@ -278,9 +306,7 @@
         .reveal-content .floating-volume { display: flex; }
         .floating-volume svg { width: 20px; height: 20px; fill: #ffffff; stroke: none; }
 
-        @media (max-width: 430px) {
-            .floating-volume { left: auto; right: 20px; transform: none; }
-        }
+        @media (max-width: 430px) { .floating-volume { left: auto; right: 20px; transform: none; } }
 
     </style>
 </head>
@@ -291,6 +317,16 @@
         <h2 class="instruction-text">Սեղմեք՝ բացելու համար</h2>
         <div class="envelope-closed-wrapper" id="envelopeBtn" role="button" aria-label="Բացել հրավիրատոմսը">
             <img src="front.png" alt="Closed Envelope">
+        </div>
+    </div>
+
+    <!-- LIGHTBOX OVERLAY -->
+    <div id="image-lightbox" class="lightbox-overlay">
+        <div class="lightbox-content">
+            <span class="lightbox-close" id="lightboxClose">&times;</span>
+            <span class="lightbox-prev" id="lightboxPrev">&#10094;</span>
+            <img id="lightboxImg" src="" alt="Enlarged Image">
+            <span class="lightbox-next" id="lightboxNext">&#10095;</span>
         </div>
     </div>
 
@@ -347,7 +383,6 @@
                 </div>
             </div>
 
-            <!-- Divider & Quote -->
             <div class="decorative-divider"><span class="divider-star">✦</span></div>
             <p class="elegant-font bottom-quote">Ամեն ինչ սկսվում է սիրուց</p>
             <div class="decorative-divider"><span class="divider-star">✦</span></div>
@@ -355,14 +390,12 @@
             <!-- Auto-Scrolling Square Gallery -->
             <div class="gallery-carousel">
                 <div class="carousel-track" id="gallery-track">
-                    <div class="carousel-item"><img src="nkar1.jpeg" alt="Gallery Image 1"></div>
-                    <div class="carousel-item"><img src="nkar2.jpeg" alt="Gallery Image 2"></div>
-                    <!-- SWAPPED: nkar6 is now 3rd -->
-                    <div class="carousel-item"><img src="nkar6.jpeg" alt="Gallery Image 6"></div>
-                    <div class="carousel-item"><img src="nkar4.jpeg" alt="Gallery Image 4"></div>
-                    <div class="carousel-item"><img src="nkar5.jpeg" alt="Gallery Image 5"></div>
-                    <!-- SWAPPED: nkar3 is now 6th -->
-                    <div class="carousel-item"><img src="nkar3.jpeg" alt="Gallery Image 3"></div>
+                    <div class="carousel-item"><img src="nkar1.jpeg" alt="Gallery Image 1" class="gallery-img"></div>
+                    <div class="carousel-item"><img src="nkar2.jpeg" alt="Gallery Image 2" class="gallery-img"></div>
+                    <div class="carousel-item"><img src="nkar6.jpeg" alt="Gallery Image 6" class="gallery-img"></div>
+                    <div class="carousel-item"><img src="nkar4.jpeg" alt="Gallery Image 4" class="gallery-img"></div>
+                    <div class="carousel-item"><img src="nkar5.jpeg" alt="Gallery Image 5" class="gallery-img"></div>
+                    <div class="carousel-item"><img src="nkar3.jpeg" alt="Gallery Image 3" class="gallery-img"></div>
                 </div>
             </div>
         </section>
@@ -376,10 +409,8 @@
 
             <div class="timeline">
                 
-                <!-- 1. Bride's House -->
                 <div class="timeline-item">
                     <div class="timeline-icon">
-                        <!-- Custom Elegant Flower SVG -->
                         <svg viewBox="0 0 24 24">
                             <path d="M12 22v-9" />
                             <path d="M12 13a3 3 0 0 1-3-3V6c0-1.5 1.5-3 3-3s3 1.5 3 3v4a3 3 0 0 1-3 3z" />
@@ -396,10 +427,8 @@
                     </div>
                 </div>
 
-                <!-- 2. Church -->
                 <div class="timeline-item">
                     <div class="timeline-icon">
-                        <!-- Custom Church SVG -->
                         <svg viewBox="0 0 24 24">
                             <path d="M12 2v5" />
                             <path d="M10 4h4" />
@@ -414,10 +443,8 @@
                     </div>
                 </div>
 
-                <!-- 3. Groom's House -->
                 <div class="timeline-item">
                     <div class="timeline-icon">
-                        <!-- Custom Realistic Tie SVG -->
                         <svg viewBox="0 0 24 24">
                             <path d="M9 3h6l-1 4h-4z" />
                             <path d="M10 7l-2 12 4 3 4-3-2-12" />
@@ -432,10 +459,8 @@
                     </div>
                 </div>
 
-                <!-- 4. Restaurant -->
                 <div class="timeline-item">
                     <div class="timeline-icon">
-                        <!-- Custom Refined Fork & Knife SVG -->
                         <svg viewBox="0 0 24 24">
                             <path d="M7 2v20" />
                             <path d="M4 2v5a3 3 0 0 0 6 0V2" />
@@ -473,7 +498,7 @@
             const envelopeBtn = document.getElementById('envelopeBtn');
             const body = document.body;
 
-            // 1. Envelope Unlock Logic
+            // 1. Envelope Unlock
             envelopeBtn.addEventListener('click', () => {
                 body.classList.remove('lock-scroll');
                 body.classList.add('unlocked');
@@ -509,20 +534,16 @@
                 document.getElementById("cd-seconds").innerText = seconds.toString().padStart(2, '0');
             }, 1000); 
 
-            // 3. Auto-Scrolling Square Gallery Logic
+            // 3. Auto-Scrolling Square Gallery
             const track = document.getElementById('gallery-track');
             let autoScroll = setInterval(scrollGallery, 3000);
 
             function scrollGallery() {
                 if (!track) return;
-                
-                // Get the first item to determine the width to scroll by (width + gap)
                 const items = track.querySelectorAll('.carousel-item');
                 if (items.length === 0) return;
+                const slideWidth = items[0].offsetWidth + 15; 
                 
-                const slideWidth = items[0].offsetWidth + 15; // 15px is the gap
-                
-                // Reset to beginning if at the end, otherwise scroll next
                 if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 10) {
                     track.scrollTo({ left: 0, behavior: 'smooth' });
                 } else {
@@ -530,9 +551,60 @@
                 }
             }
 
-            // Pause auto-scroll if user interacts manually
             track.addEventListener('touchstart', () => clearInterval(autoScroll));
             track.addEventListener('mousedown', () => clearInterval(autoScroll));
+
+            // 4. Lightbox Viewer Logic
+            const lightbox = document.getElementById('image-lightbox');
+            const lightboxImg = document.getElementById('lightboxImg');
+            const lightboxClose = document.getElementById('lightboxClose');
+            const lightboxPrev = document.getElementById('lightboxPrev');
+            const lightboxNext = document.getElementById('lightboxNext');
+            
+            const galleryImages = document.querySelectorAll('.gallery-img');
+            const imageUrls = Array.from(galleryImages).map(img => img.src);
+            let currentImageIndex = 0;
+
+            galleryImages.forEach((img, index) => {
+                img.addEventListener('click', () => {
+                    currentImageIndex = index;
+                    openLightbox();
+                });
+            });
+
+            function openLightbox() {
+                lightboxImg.src = imageUrls[currentImageIndex];
+                lightbox.classList.add('active');
+                clearInterval(autoScroll); // Pause auto-scrolling while viewing
+            }
+
+            function closeLightbox() {
+                lightbox.classList.remove('active');
+                // Restart auto scroll
+                clearInterval(autoScroll);
+                autoScroll = setInterval(scrollGallery, 3000);
+            }
+
+            function showNextImage() {
+                currentImageIndex = (currentImageIndex + 1) % imageUrls.length;
+                lightboxImg.src = imageUrls[currentImageIndex];
+            }
+
+            function showPrevImage() {
+                currentImageIndex = (currentImageIndex - 1 + imageUrls.length) % imageUrls.length;
+                lightboxImg.src = imageUrls[currentImageIndex];
+            }
+
+            lightboxClose.addEventListener('click', closeLightbox);
+            lightboxNext.addEventListener('click', showNextImage);
+            lightboxPrev.addEventListener('click', showPrevImage);
+
+            // Close on background click
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox || e.target.classList.contains('lightbox-content')) {
+                    closeLightbox();
+                }
+            });
         });
     </script>
 </body>
