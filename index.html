@@ -79,7 +79,7 @@
         body.unlocked {
             overflow-y: auto;
             overflow-x: hidden;
-            justify-content: flex-start; /* Aligns content to top so we can scroll down */
+            justify-content: flex-start; 
         }
 
         img {
@@ -117,7 +117,6 @@
             top: 10vh;
             left: 50%;
             transform: translateX(-50%);
-            /* Apply custom font here too */
             font-family: 'Poqrik', sans-serif;
             font-size: 1.6rem;
             font-weight: 300; 
@@ -357,13 +356,13 @@
         }
 
         /* ---------------------------------------------------------------------
-           5. NEW WEDDING DETAILS & COUNTDOWN SECTION (Full Screen Setup)
+           5. SECTION 2: WEDDING DETAILS & COUNTDOWN (3-Part Layout)
         --------------------------------------------------------------------- */
         
         .wedding-details-section {
             width: 100%;
-            height: 100vh; /* Takes full viewport height */
-            height: 100dvh; /* Adapts to mobile dynamic viewport */
+            height: 100vh; 
+            height: 100dvh; 
             display: none; 
             flex-direction: column;
         }
@@ -372,7 +371,6 @@
             display: flex;
         }
 
-        /* Custom Font Application */
         .elegant-font {
             font-family: 'Poqrik', sans-serif;
             font-weight: 300; 
@@ -382,10 +380,10 @@
             text-transform: none; 
         }
 
-        /* Top Beige Container - Proportional Sizing */
+        /* Top Beige Container - Exactly 50% Height */
         .invitation-container {
             background-color: var(--bg-color);
-            flex: 1.25; /* Takes up about ~55-60% of the screen height */
+            height: 50%;
             padding: 20px; 
             display: flex;
             flex-direction: column;
@@ -393,50 +391,43 @@
             justify-content: center;
         }
 
-        .invitation-container h2 {
-            font-size: 1.8rem; 
-            color: var(--text-color);
-            margin-bottom: 15px; 
+        .invitation-container h2 { font-size: 1.8rem; color: var(--text-color); margin-bottom: 15px; }
+        .invitation-container p { font-size: 1.05rem; color: var(--text-color); line-height: 1.45; max-width: 90%; }
+        
+        /* Thin horizontal divider below text */
+        .simple-divider {
+            width: 60px;
+            height: 1px;
+            background-color: rgba(85, 79, 67, 0.4); /* Faded earthy color */
+            margin-top: 30px;
         }
 
-        .invitation-container p {
-            font-size: 1.05rem; 
-            color: var(--text-color);
-            line-height: 1.45; 
-            max-width: 90%;
-        }
-
-        /* Bottom Olive Green Container - Proportional Sizing */
+        /* Middle Olive Green Container - Exactly 30% Height */
         .countdown-container {
             background-color: var(--olive-color); 
-            flex: 1; /* Takes up the remaining ~40-45% of the screen height */
-            padding: 20px 15px; 
+            height: 30%;
+            padding: 15px; 
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
         }
 
-        .countdown-container h2 {
-            color: var(--bg-color);
-            font-size: 1.6rem; 
-            margin-bottom: 25px; 
-        }
+        .countdown-container h2 { color: var(--bg-color); font-size: 1.6rem; margin-bottom: 25px; }
 
-        /* Countdown UI - Single Row Fix */
         .timer-wrapper {
             display: flex;
             gap: 8px; 
             justify-content: center;
-            flex-wrap: nowrap; /* Forces a single row, strictly no wrapping */
+            flex-wrap: nowrap; 
             width: 100%;
-            max-width: 360px; /* Caps the maximum width to keep it compact */
+            max-width: 360px; 
         }
 
         .timer-box {
             background-color: #ffffff;
             border-radius: 6px;
-            flex: 1; /* Allows boxes to share available space equally */
+            flex: 1; 
             height: 65px; 
             max-width: 70px; 
             display: flex;
@@ -446,27 +437,142 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); 
         }
 
-        .timer-number {
-            font-size: 1.35rem; 
-            color: var(--olive-color); 
-            font-weight: 300; 
-            margin-bottom: 0px; 
-            line-height: 1.2;
+        .timer-number { font-size: 1.35rem; color: var(--olive-color); font-weight: 300; margin-bottom: 0px; line-height: 1.2; }
+        .timer-label { font-size: 0.7rem; color: var(--olive-color); }
+
+        /* Bottom Beige Transition Container - Exactly 20% Height */
+        .transition-container {
+            background-color: var(--bg-color);
+            height: 20%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .timer-label {
-            font-size: 0.7rem; 
-            color: var(--olive-color); 
+        /* Common Decorative Line & Star */
+        .decorative-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 70%;
+            max-width: 250px;
         }
+
+        .decorative-divider::before, 
+        .decorative-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background-color: rgba(85, 79, 67, 0.3);
+        }
+
+        .divider-star {
+            margin: 0 15px;
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+
+        /* ---------------------------------------------------------------------
+           6. SECTION 3: CALENDAR & QUOTE
+        --------------------------------------------------------------------- */
+        .calendar-section {
+            width: 100%;
+            height: 100vh;
+            height: 100dvh;
+            background-color: var(--bg-color);
+            display: none; 
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .reveal-content .calendar-section {
+            display: flex;
+        }
+
+        .calendar-title {
+            font-size: 2.2rem;
+            color: var(--text-color);
+            margin-bottom: 30px;
+        }
+
+        .calendar-card {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 25px 20px;
+            width: 100%;
+            max-width: 340px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 12px 8px;
+            text-align: center;
+        }
+
+        .calendar-days-header {
+            margin-bottom: 15px;
+        }
+
+        .day-name {
+            font-size: 0.85rem;
+            color: #b5b5b5;
+        }
+
+        .calendar-cell {
+            font-size: 1.05rem;
+            color: var(--text-color);
+            position: relative;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Marker for Sept 13 */
+        .marked-date {
+            font-weight: bold;
+            z-index: 1;
+        }
+
+        .heart-outline {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -46%) scale(1.6);
+            width: 26px;
+            height: 26px;
+            z-index: -1;
+            /* Using a thick, organic-looking green line */
+            stroke: var(--olive-color);
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+        }
+
+        /* Modifier for Calendar divider margins */
+        .calendar-section .decorative-divider {
+            margin: 10px 0 25px 0;
+        }
+
+        /* Bottom Quote */
+        .bottom-quote {
+            font-size: 1.8rem;
+            color: var(--text-color);
+        }
+
     </style>
 </head>
 <body class="lock-scroll">
 
     <!-- STATE 1: INITIAL INTRO OVERLAY -->
     <div id="intro-overlay">
-        <!-- Text is now matching the custom Poqrik font -->
         <h2 class="instruction-text">Սեղմեք՝ բացելու համար</h2>
-        
         <div class="envelope-closed-wrapper" id="envelopeBtn" role="button" aria-label="Բացել հրավիրատոմսը">
             <img src="front.png" alt="Closed Envelope">
         </div>
@@ -474,52 +580,43 @@
 
     <!-- WRAPPER to keep original canvas centered 100vh -->
     <div id="top-hero-wrapper">
-        <!-- MAIN CENTERING VIEWPORT STAGE -->
         <div id="composition-canvas">
-
             <div id="opened-envelope-container">
                 <img src="opened2.png" alt="Open Envelope">
             </div>
-                
             <div class="save-the-date-card">
                 <img src="Save-the-date.png" alt="Hrach & Tamara - Save the Date Details">
                 <img src="flower.png" alt="Floral Accent Top Right" class="flower-accent card-flower">
             </div>
-
             <div class="vinyl-accent-wrapper">
                 <img src="vinyl.png" alt="Rotating Decorative Vinyl">
             </div>
-
             <img src="flower.png" alt="Floral Accent Vinyl Pin" class="flower-accent vinyl-flower">
-
             <div class="polaroid-vertical">
                 <img src="vertical.jpeg" alt="Couple Moment Vertical">
             </div>
-
             <div class="polaroid-horizontal">
                 <img src="horizontal.jpeg" alt="Hrach and Tamara Profile Picture">
             </div>
-
             <div class="accent-sticker-wrapper">
                 <img src="sticker.png" alt="Floral Initials Monogram Seal">
             </div>
-
         </div>
     </div>
 
-    <!-- NEW SECTION: Wedding Details & Countdown (Takes exactly 100vh) -->
+    <!-- SECTION 2: Wedding Details & Countdown -->
     <section class="wedding-details-section">
-      
-        <!-- Top Beige Container (Dynamically fills ~55% of the screen) -->
+        
+        <!-- Top Half (50%) -->
         <div class="invitation-container">
             <h2 class="elegant-font">Հարգելի՛ հյուրեր</h2>
             <p class="elegant-font">Այս տարվա օրերից մեկը մեզ համար առանձնահատուկ է լինելու, և մենք ցանկանում ենք այն անցկացնել մեր հարազատների ու ընկերների շրջապատում: Մեծ սիրով հրավիրում ենք ձեզ ամենահուզիչ տոնին՝ մեր հարսանիքին:</p>
+            <div class="simple-divider"></div>
         </div>
-      
-        <!-- Bottom Olive Green Container (Dynamically fills ~45% of the screen) -->
+        
+        <!-- Countdown Container (30%) -->
         <div class="countdown-container">
             <h2 class="elegant-font">Հարսանիքին մնացել է</h2>
-            
             <div class="timer-wrapper">
                 <div class="timer-box">
                     <span id="cd-days" class="timer-number elegant-font">00</span>
@@ -539,7 +636,87 @@
                 </div>
             </div>
         </div>
+
+        <!-- Bottom Blend Container (20%) -->
+        <div class="transition-container">
+            <div class="decorative-divider">
+                <span class="divider-star">✦</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW SECTION 3: Calendar & Quote -->
+    <section class="calendar-section">
+        <!-- Title -->
+        <h2 class="elegant-font calendar-title">Սեպտեմբեր 13, 2026</h2>
         
+        <!-- White Calendar Card -->
+        <div class="calendar-card elegant-font">
+            <!-- Days of the week header -->
+            <div class="calendar-grid calendar-days-header">
+                <div class="day-name">Երկ</div>
+                <div class="day-name">Երք</div>
+                <div class="day-name">Չրք</div>
+                <div class="day-name">Հնգ</div>
+                <div class="day-name">Ուր</div>
+                <div class="day-name">Շբթ</div>
+                <div class="day-name">Կիր</div>
+            </div>
+            
+            <!-- Dates for September 2026 (Starts on a Tuesday) -->
+            <div class="calendar-grid">
+                <!-- Blank offset for Monday -->
+                <div class="calendar-cell empty"></div>
+                <div class="calendar-cell">1</div>
+                <div class="calendar-cell">2</div>
+                <div class="calendar-cell">3</div>
+                <div class="calendar-cell">4</div>
+                <div class="calendar-cell">5</div>
+                <div class="calendar-cell">6</div>
+                <div class="calendar-cell">7</div>
+                <div class="calendar-cell">8</div>
+                <div class="calendar-cell">9</div>
+                <div class="calendar-cell">10</div>
+                <div class="calendar-cell">11</div>
+                <div class="calendar-cell">12</div>
+                
+                <!-- MARKED DATE: 13 -->
+                <div class="calendar-cell marked-date">
+                    13
+                    <!-- Olive Green SVG Heart Outline behind the number -->
+                    <svg class="heart-outline" viewBox="0 0 24 24">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                </div>
+                
+                <div class="calendar-cell">14</div>
+                <div class="calendar-cell">15</div>
+                <div class="calendar-cell">16</div>
+                <div class="calendar-cell">17</div>
+                <div class="calendar-cell">18</div>
+                <div class="calendar-cell">19</div>
+                <div class="calendar-cell">20</div>
+                <div class="calendar-cell">21</div>
+                <div class="calendar-cell">22</div>
+                <div class="calendar-cell">23</div>
+                <div class="calendar-cell">24</div>
+                <div class="calendar-cell">25</div>
+                <div class="calendar-cell">26</div>
+                <div class="calendar-cell">27</div>
+                <div class="calendar-cell">28</div>
+                <div class="calendar-cell">29</div>
+                <div class="calendar-cell">30</div>
+            </div>
+        </div>
+
+        <!-- Decorative Divider -->
+        <div class="decorative-divider">
+            <span class="divider-star">✦</span>
+        </div>
+
+        <!-- Bottom Quote -->
+        <p class="elegant-font bottom-quote">Ամեն ինչ սկսվում է սիրուց</p>
+
     </section>
 
     <!-- INTERACTION & COUNTDOWN LOGIC -->
