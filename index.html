@@ -11,12 +11,12 @@
         --------------------------------------------------------------------- */
         @font-face {
             font-family: 'UR Dzeragir';
-            src: url('poqrik.ttf') format('opentype');
+            src: url('Dzeragir-Handdrawn.otf') format('opentype');
             font-weight: normal;
             font-style: normal;
         }
 
-        /* NEW CUSTOM FONT FOR BOTTOM SECTION */
+        /* CUSTOM FONT */
         @font-face {
             font-family: 'Poqrik';
             src: url('poqrik.ttf') format('truetype');
@@ -117,10 +117,11 @@
             top: 10vh;
             left: 50%;
             transform: translateX(-50%);
-            font-family: "Didot", "Playfair Display", "Optima", "Helvetica Neue", sans-serif;
-            font-size: 1.2rem;
+            /* Apply custom font here too */
+            font-family: 'Poqrik', sans-serif;
+            font-size: 1.6rem;
             font-weight: 300; 
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             color: var(--text-color);
             text-align: center;
             width: 90%;
@@ -356,11 +357,13 @@
         }
 
         /* ---------------------------------------------------------------------
-           5. NEW WEDDING DETAILS & COUNTDOWN SECTION
+           5. NEW WEDDING DETAILS & COUNTDOWN SECTION (Full Screen Setup)
         --------------------------------------------------------------------- */
         
         .wedding-details-section {
             width: 100%;
+            height: 100vh; /* Takes full viewport height */
+            height: 100dvh; /* Adapts to mobile dynamic viewport */
             display: none; 
             flex-direction: column;
         }
@@ -372,17 +375,18 @@
         /* Custom Font Application */
         .elegant-font {
             font-family: 'Poqrik', sans-serif;
-            font-weight: 300; /* Thinned out */
+            font-weight: 300; 
             letter-spacing: 0.5px;
             text-align: center;
             margin: 0;
-            text-transform: none; /* Strictly remove uppercase */
+            text-transform: none; 
         }
 
-        /* Top Beige Container - Compact Spacing */
+        /* Top Beige Container - Proportional Sizing */
         .invitation-container {
             background-color: var(--bg-color);
-            padding: 35px 20px; /* Drastically reduced vertical padding */
+            flex: 1.25; /* Takes up about ~55-60% of the screen height */
+            padding: 20px; 
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -390,22 +394,23 @@
         }
 
         .invitation-container h2 {
-            font-size: 1.6rem; /* Reduced size */
+            font-size: 1.8rem; 
             color: var(--text-color);
-            margin-bottom: 12px; /* Tighter gap */
+            margin-bottom: 15px; 
         }
 
         .invitation-container p {
-            font-size: 0.95rem; /* Reduced size */
+            font-size: 1.05rem; 
             color: var(--text-color);
-            line-height: 1.4; /* Tighter line-height */
+            line-height: 1.45; 
             max-width: 90%;
         }
 
-        /* Bottom Olive Green Container - Compact Spacing */
+        /* Bottom Olive Green Container - Proportional Sizing */
         .countdown-container {
             background-color: var(--olive-color); 
-            padding: 30px 15px 40px 15px; /* Drastically reduced padding */
+            flex: 1; /* Takes up the remaining ~40-45% of the screen height */
+            padding: 20px 15px; 
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -414,14 +419,14 @@
 
         .countdown-container h2 {
             color: var(--bg-color);
-            font-size: 1.4rem; /* Reduced size */
-            margin-bottom: 20px; /* Tighter gap */
+            font-size: 1.6rem; 
+            margin-bottom: 25px; 
         }
 
         /* Countdown UI - Single Row Fix */
         .timer-wrapper {
             display: flex;
-            gap: 8px; /* Tighter spacing */
+            gap: 8px; 
             justify-content: center;
             flex-wrap: nowrap; /* Forces a single row, strictly no wrapping */
             width: 100%;
@@ -432,8 +437,8 @@
             background-color: #ffffff;
             border-radius: 6px;
             flex: 1; /* Allows boxes to share available space equally */
-            height: 60px; /* Shorter box */
-            max-width: 65px; /* Ensures they don't get too wide on larger screens */
+            height: 65px; 
+            max-width: 70px; 
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -442,7 +447,7 @@
         }
 
         .timer-number {
-            font-size: 1.25rem; /* Smaller numbers to fit */
+            font-size: 1.35rem; 
             color: var(--olive-color); 
             font-weight: 300; 
             margin-bottom: 0px; 
@@ -450,7 +455,7 @@
         }
 
         .timer-label {
-            font-size: 0.65rem; /* Smaller text label */
+            font-size: 0.7rem; 
             color: var(--olive-color); 
         }
     </style>
@@ -459,6 +464,7 @@
 
     <!-- STATE 1: INITIAL INTRO OVERLAY -->
     <div id="intro-overlay">
+        <!-- Text is now matching the custom Poqrik font -->
         <h2 class="instruction-text">Սեղմեք՝ բացելու համար</h2>
         
         <div class="envelope-closed-wrapper" id="envelopeBtn" role="button" aria-label="Բացել հրավիրատոմսը">
@@ -501,16 +507,16 @@
         </div>
     </div>
 
-    <!-- NEW SECTION: Wedding Details & Countdown -->
+    <!-- NEW SECTION: Wedding Details & Countdown (Takes exactly 100vh) -->
     <section class="wedding-details-section">
       
-        <!-- Top Beige Container -->
+        <!-- Top Beige Container (Dynamically fills ~55% of the screen) -->
         <div class="invitation-container">
             <h2 class="elegant-font">Հարգելի՛ հյուրեր</h2>
             <p class="elegant-font">Այս տարվա օրերից մեկը մեզ համար առանձնահատուկ է լինելու, և մենք ցանկանում ենք այն անցկացնել մեր հարազատների ու ընկերների շրջապատում: Մեծ սիրով հրավիրում ենք ձեզ ամենահուզիչ տոնին՝ մեր հարսանիքին:</p>
         </div>
       
-        <!-- Bottom Olive Green Container -->
+        <!-- Bottom Olive Green Container (Dynamically fills ~45% of the screen) -->
         <div class="countdown-container">
             <h2 class="elegant-font">Հարսանիքին մնացել է</h2>
             
