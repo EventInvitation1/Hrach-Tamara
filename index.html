@@ -843,8 +843,8 @@
             setupToggles('sideToggle', 'invitedSide');
             setupToggles('attendanceToggle', 'attendanceStatus');
 
-            // 7. GOOGLE SHEETS FORM SUBMISSION LOGIC (WITH CORS FIX)
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbz5I_HW0pfyPD35Zq4grICO5vaASgKRC9VezOzZ1w_w26K-s2k7YzrxNCuApKo89EuyZA/exec';
+            // 7. GOOGLE SHEETS FORM SUBMISSION LOGIC
+            const scriptURL = 'https://script.google.com/macros/s/AKfycby5KZnnd1MvLqg8biHVHJUn3DcfbP1uNoNUojnBnLR4D-7TUPA8wePcJtmkT7f74BcK7g/exec';
             const rsvpForm = document.getElementById('rsvpForm');
 
             rsvpForm.addEventListener('submit', e => {
@@ -856,14 +856,14 @@
                 submitBtn.innerText = 'Ուղարկվում է...';
                 submitBtn.disabled = true;
 
-                let requestBody = new FormData();
+                // URLSearchParams ensures parameters pass to e.parameter in Google Apps Script
+                let requestBody = new URLSearchParams();
                 requestBody.append('name', document.getElementById('rsvpName').value);
                 requestBody.append('side', document.getElementById('invitedSide').value);
                 requestBody.append('attendance', document.getElementById('attendanceStatus').value);
                 requestBody.append('guests', document.getElementById('rsvpGuests').value);
                 requestBody.append('message', document.getElementById('rsvpMessage').value);
 
-                // Added mode: 'no-cors' to fix CORS security policy blocks
                 fetch(scriptURL, { method: 'POST', body: requestBody, mode: 'no-cors' })
                     .then(() => {
                         alert('Շնորհակալություն! Ձեր մասնակցությունը հաստատված է:');
